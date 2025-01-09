@@ -8,10 +8,11 @@ export default defineConfig({
 	publicDir: 'public',
 	build: {
 		outDir: './build',
-		chunkSizeWarningLimit: 1500,
+		chunkSizeWarningLimit: 1000,
 		sourcemap: false,
-		minify: 'terser',
+		minify: false,
 		rollupOptions: {
+			maxParallelFileOps: 1,
 			output: {
 				manualChunks: {
 					vendor: ['react', 'react-dom'], 
