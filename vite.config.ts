@@ -9,9 +9,15 @@ export default defineConfig({
 	build: {
 		outDir: './build',
 		chunkSizeWarningLimit: 1500,
+		sourcemap: false,
+		minify: 'terser',
 		rollupOptions: {
-			maxParallelFileOps: 2,
-		  },
+			output: {
+				manualChunks: {
+					vendor: ['react', 'react-dom'], 
+				},
+			},
+		},
 	},
 	server: {
 		host: true,

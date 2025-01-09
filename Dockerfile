@@ -12,7 +12,8 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 # Compila o aplicativo
-RUN yarn build
+RUN NODE_OPTIONS="--max-old-space-size=2048" yarn build
+
 
 # Etapa de produção com NGINX
 FROM nginx:latest
