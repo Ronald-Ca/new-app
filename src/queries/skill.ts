@@ -1,6 +1,6 @@
 import { DefaultReturnType } from '../lib/base-service'
 import SkillService, { SkillType } from '../services/skill-service'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const skill = new SkillService()
 

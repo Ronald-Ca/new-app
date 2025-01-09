@@ -1,6 +1,6 @@
 import { DefaultReturnType } from '../lib/base-service'
 import CurriculumService, { CurriculumType } from '../services/curriculum-service'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const about = new CurriculumService()
 

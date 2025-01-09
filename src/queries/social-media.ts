@@ -1,6 +1,6 @@
 import { DefaultReturnType } from '../lib/base-service'
 import SocialMediaService, { SocialMediaType } from '../services/social-media-service'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const socialMedia = new SocialMediaService()
 

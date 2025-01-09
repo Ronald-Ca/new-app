@@ -1,6 +1,6 @@
 import { DefaultReturnType } from '../lib/base-service'
 import UserService, { UserLoginResponseType, UserLoginType } from '../services/user-service'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 
 const user = new UserService()
 

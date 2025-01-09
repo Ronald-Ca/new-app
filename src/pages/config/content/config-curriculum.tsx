@@ -3,7 +3,7 @@ import { useAlert } from '../../../contexts/alertContext'
 import { useCreateCurriculumMutation, useGetCurriculumQuery } from '../../../queries/curriculum'
 import { useState, useRef, useEffect } from 'react'
 import { TiUploadOutline } from 'react-icons/ti'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function ConfigCurriculum() {
 	const { setAlert } = useAlert()
@@ -31,7 +31,7 @@ export default function ConfigCurriculum() {
 
 	const createCurriculum = useCreateCurriculumMutation({
 		onSuccess: () => {
-			queryClient.invalidateQueries('get-curriculum')
+			queryClient.invalidateQueries(['get-curriculum'])
 			setAlert({ title: 'Sucesso!', message: 'Currículo criado com sucesso!', type: 'success' })
 			if (localPreviewUrl) {
 				URL.revokeObjectURL(localPreviewUrl)
@@ -45,7 +45,7 @@ export default function ConfigCurriculum() {
 
 	const updateCurriculum = useCreateCurriculumMutation({
 		onSuccess: () => {
-			queryClient.invalidateQueries('get-curriculum')
+			queryClient.invalidateQueries(['get-curriculum'])
 			setAlert({ title: 'Sucesso!', message: 'Currículo atualizado com sucesso!', type: 'success' })
 			if (localPreviewUrl) {
 				URL.revokeObjectURL(localPreviewUrl)

@@ -1,6 +1,6 @@
 import { DefaultReturnType } from '../lib/base-service'
 import HomeService, { HomeType } from '../services/home-service'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const home = new HomeService()
 

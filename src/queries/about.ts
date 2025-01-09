@@ -1,6 +1,6 @@
 import { DefaultReturnType } from '../lib/base-service'
 import AboutService, { AboutType } from '../services/about-service'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const about = new AboutService()
 

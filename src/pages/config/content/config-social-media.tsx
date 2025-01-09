@@ -9,7 +9,7 @@ import { Dialog, DialogClose, DialogContent, DialogTitle } from '@radix-ui/react
 import { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { IoIosAdd, IoIosClose } from 'react-icons/io'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function ConfigSocialMedia() {
 	const { setAlert } = useAlert()
@@ -34,7 +34,7 @@ export default function ConfigSocialMedia() {
 		onSuccess: () => {
 			setIsOpen(false)
 			setLoading(false)
-			queryClient.invalidateQueries('get-social-media')
+			queryClient.invalidateQueries(['get-social-media'])
 			setAlert({ title: 'Sucesso!', message: 'Rede social cadastrada com sucesso!', type: 'success' })
 		},
 		onError: () => {
@@ -47,7 +47,7 @@ export default function ConfigSocialMedia() {
 		onSuccess: () => {
 			setIsOpen(false)
 			setLoading(false)
-			queryClient.invalidateQueries('get-social-media')
+			queryClient.invalidateQueries(['get-social-media'])
 			setAlert({ title: 'Sucesso!', message: 'Rede social atualizada com sucesso!', type: 'success' })
 		},
 		onError: () => {
@@ -68,7 +68,7 @@ export default function ConfigSocialMedia() {
 		<div className='flex flex-col justify-center items-center border-[1px] border-[#00BFFF] pt-[20px] pb-[20px] rounded-[10px] gap-[20px]'>
 			<div className='flex flex-wrap justify-center items-center gap-[20px]'>
 				{socialMedia &&
-					socialMedia.map((media, index) => (
+					socialMedia.map((media: SocialMediaType, index: number) => (
 						<Card
 							key={index}
 							onClick={() => handleEditClick(media)}

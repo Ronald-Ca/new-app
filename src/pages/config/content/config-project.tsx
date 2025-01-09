@@ -9,7 +9,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } fr
 import { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { IoIosAdd, IoIosClose } from 'react-icons/io'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function ConfigProject() {
 	const { setAlert } = useAlert()
@@ -34,7 +34,7 @@ export default function ConfigProject() {
 		onSuccess: () => {
 			setIsOpen(false)
 			setLoading(false)
-			queryClient.invalidateQueries('get-projects')
+			queryClient.invalidateQueries(['get-projects'])
 			setAlert({ title: 'Sucesso!', message: 'Projeto criado com sucesso!', type: 'success' })
 		},
 		onError: () => {
@@ -47,7 +47,7 @@ export default function ConfigProject() {
 		onSuccess: () => {
 			setIsOpen(false)
 			setLoading(false)
-			queryClient.invalidateQueries('get-projects')
+			queryClient.invalidateQueries(['get-projects'])
 			setAlert({ title: 'Sucesso!', message: 'Projeto atualizado com sucesso!', type: 'success' })
 		},
 		onError: () => {
@@ -70,7 +70,7 @@ export default function ConfigProject() {
 		<>
 			<div className='flex flex-wrap justify-center items-center border-[1px] border-[#00BFFF] pt-[20px] pb-[20px] rounded-[10px] gap-[20px]'>
 				{projects &&
-					projects.map((project, index) => (
+					projects.map((project: ProjectType, index: number) => (
 						<Card
 							key={index}
 							onClick={() => handleEditClick(project)}

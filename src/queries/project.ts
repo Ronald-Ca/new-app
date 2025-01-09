@@ -1,6 +1,6 @@
 import { DefaultReturnType } from '../lib/base-service'
 import ProjectsService, { ProjectType } from '../services/project-service'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const project = new ProjectsService()
 

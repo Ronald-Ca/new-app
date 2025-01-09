@@ -1,6 +1,6 @@
 import { DefaultReturnType } from '../lib/base-service'
 import ExperienceService, { ExperienceType } from '../services/experience-service'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const experience = new ExperienceService()
 

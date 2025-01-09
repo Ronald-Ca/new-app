@@ -9,7 +9,7 @@ import { Dialog, DialogClose, DialogContent, DialogTitle } from '@radix-ui/react
 import { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { IoIosAdd, IoIosClose } from 'react-icons/io'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface Skill {
 	name: string
@@ -31,7 +31,7 @@ export default function ConfigSkill() {
 	const createSkill = useCreateSkillMutation({
 		onSuccess: () => {
 			setAlert({ title: 'Sucesso!', message: 'Skill criada com sucesso!', type: 'success' })
-			queryClient.invalidateQueries('get-skill')
+			queryClient.invalidateQueries(['get-skill'])
 		},
 		onError: () => {
 			setAlert({ title: 'Erro ao criar About!', message: 'Erro ao criar Skill!', type: 'error' })
@@ -41,7 +41,7 @@ export default function ConfigSkill() {
 	const updateSkill = useUpdateSkillMutation({
 		onSuccess: () => {
 			setAlert({ title: 'Sucesso!', message: 'Skill atualizada com sucesso!', type: 'success' })
-			queryClient.invalidateQueries('get-skill')
+			queryClient.invalidateQueries(['get-skill'])
 		},
 		onError: () => {
 			setAlert({ title: 'Erro ao atualizar Skill!', message: 'Erro ao atualizar Skill!', type: 'error' })
@@ -77,7 +77,7 @@ export default function ConfigSkill() {
 		<div className='flex flex-col justify-center items-center border-[1px] border-[#00BFFF] pt-[20px] pb-[20px] rounded-[10px] gap-[20px]'>
 			<div className='flex flex-wrap justify-center items-center gap-[20px]'>
 				{skill &&
-					skill.map((skill, index) => (
+					skill.map((skill: SkillType, index: number) => (
 						<Card
 							key={index}
 							onClick={() => handleEditClick(skill)}

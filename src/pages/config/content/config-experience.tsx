@@ -8,7 +8,7 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } fr
 import { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { IoIosAdd, IoIosClose } from 'react-icons/io'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function ConfigExperience() {
 	const { setAlert } = useAlert()
@@ -33,7 +33,7 @@ export default function ConfigExperience() {
 		onSuccess: () => {
 			setIsOpen(false)
 			setLoading(false)
-			queryClient.invalidateQueries('get-experiences')
+			queryClient.invalidateQueries(['get-experiences'])
 			setAlert({ title: 'Sucesso!', message: 'Experiência criada com sucesso!', type: 'success' })
 		},
 		onError: () => {
@@ -46,7 +46,7 @@ export default function ConfigExperience() {
 		onSuccess: () => {
 			setIsOpen(false)
 			setLoading(false)
-			queryClient.invalidateQueries('get-experiences')
+			queryClient.invalidateQueries(['get-experiences'])
 			setAlert({ title: 'Sucesso!', message: 'Experiência atualizada com sucesso!', type: 'success' })
 		},
 		onError: () => {
@@ -68,7 +68,7 @@ export default function ConfigExperience() {
 		<div className='flex flex-col justify-center items-center border-[1px] border-[#00BFFF] pt-[20px] pb-[20px] rounded-[10px] gap-[20px]'>
 			<div className='flex gap-[20px]'>
 				{experiences &&
-					experiences.map((experience, index) => (
+					experiences.map((experience: ExperienceType, index: number) => (
 						<Card
 							key={index}
 							onClick={() => handleEditClick(experience)}
