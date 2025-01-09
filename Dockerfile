@@ -1,5 +1,5 @@
 # Etapa 1: Build da aplicação
-FROM node:18-alpine AS builder
+FROM node:latest AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ COPY . .
 RUN NODE_OPTIONS="--max-old-space-size=2048" yarn build
 
 # Etapa 2: Configuração do servidor
-FROM nginx:alpine
+FROM nginx:latest
 
 # Copia os arquivos compilados para o NGINX
 COPY --from=builder /app/build /usr/share/nginx/html
