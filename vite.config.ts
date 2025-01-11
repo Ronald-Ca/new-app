@@ -7,14 +7,15 @@ export default defineConfig({
 	plugins: [react(), tsconfigPaths()],
 	publicDir: 'public',
 	build: {
+		emptyOutDir: true,
 		outDir: './build',
 		chunkSizeWarningLimit: 1000,
 		sourcemap: false,
 		minify: 'terser',
 		terserOptions: {
 			compress: {
-			  drop_console: true, // Remove console.logs
-			  drop_debugger: true, // Remove debugger statements
+			  drop_console: true, 
+			  drop_debugger: true, 
 			},
 		},
 		rollupOptions: {
