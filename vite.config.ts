@@ -10,6 +10,13 @@ export default defineConfig({
 		outDir: './build',
 		chunkSizeWarningLimit: 1000,
 		sourcemap: false,
+		minify: 'terser',
+		terserOptions: {
+			compress: {
+			  drop_console: true, // Remove console.logs
+			  drop_debugger: true, // Remove debugger statements
+			},
+		},
 		rollupOptions: {
 			maxParallelFileOps: 1,
 			output: {
