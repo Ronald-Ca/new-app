@@ -1,29 +1,22 @@
-# Use uma imagem leve do Node.js
 FROM node:latest AS builder
-
-# Define o diretório de trabalho
 WORKDIR /app
-
-# Copia os arquivos de dependências e instala as dependências
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
-
-# Copia o restante da aplicação
+COPY package*.json .
+COPY yarn*.lock .
+RUN yarn
+COPY .env .env
 COPY . .
-
-# Compila o aplicativo
-RUN NODE_OPTIONS="--max-old-space-size=2048" tsc -b
-RUN NODE_OPTIONS="--max-old-space-size=2048" vite build
+RUN yarn build
 
 
-# Etapa de produção com NGINX
-FROM nginx:latest
-
-# Copia os arquivos compilados para o diretório padrão do NGINX
+FROM nginx:latest as production
+ENV NODE_ENV production
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Exponha a porta 80
+# Add your nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port
 EXPOSE 80
 
-# Comando para iniciar o NGINX
+# Start nginx
 CMD ["nginx", "-g", "daemon off;"]
