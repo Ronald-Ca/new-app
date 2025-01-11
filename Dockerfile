@@ -4,9 +4,7 @@ COPY package*.json .
 COPY yarn*.lock .
 RUN yarn
 COPY . .
-RUN yarn build
-
-
+RUN NODE_OPTIONS="--max-old-space-size=3072" yarn build
 FROM nginx:latest
 COPY --from=builder /app/build /usr/share/nginx/html
 
