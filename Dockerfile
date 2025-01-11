@@ -3,7 +3,6 @@ WORKDIR /app
 COPY package*.json .
 COPY yarn*.lock .
 RUN yarn
-COPY .env .env
 COPY . .
 RUN yarn build
 
