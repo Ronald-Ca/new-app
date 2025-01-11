@@ -9,7 +9,7 @@ export default defineConfig({
 	build: {
 		outDir: './build',
 		chunkSizeWarningLimit: 1000,
-		minify: false,
+		sourcemap: false,
 		rollupOptions: {
 			maxParallelFileOps: 1,
 			output: {
