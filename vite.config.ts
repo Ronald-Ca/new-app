@@ -10,22 +10,6 @@ export default defineConfig({
 		emptyOutDir: true,
 		outDir: './build',
 		chunkSizeWarningLimit: 1000,
-		sourcemap: false,
-		minify: 'terser',
-		terserOptions: {
-			compress: {
-			  drop_console: true, 
-			  drop_debugger: true, 
-			},
-		},
-		rollupOptions: {
-			maxParallelFileOps: 1,
-			output: {
-				manualChunks: {
-					vendor: ['react', 'react-dom'], 
-				},
-			},
-		},
 	},
 	server: {
 		host: true,

@@ -2,9 +2,9 @@ FROM node:latest AS builder
 WORKDIR /app
 COPY package*.json .
 COPY yarn*.lock .
-RUN yarn
+RUN npm install
 COPY . .
-RUN yarn build
+RUN npm run build
 FROM nginx:latest
 COPY --from=builder /app/build /usr/share/nginx/html
 
