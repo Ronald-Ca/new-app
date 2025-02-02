@@ -2,9 +2,10 @@ FROM node:22-alpine3.21 AS builder
 WORKDIR /app
 COPY package*.json .
 COPY yarn*.lock .
-RUN npm install
+RUN yarn
+ENV NODE_OPTIONS=--max_old_space_size=4096
 COPY . .
-RUN npm run build
+RUN yarn build
 FROM nginx:latest
 COPY --from=builder /app/build /usr/share/nginx/html
 
