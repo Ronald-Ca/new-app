@@ -6,7 +6,7 @@ export default class AboutService extends BaseService {
 		super('about')
 	}
 	async getAbout(): Promise<AboutType> {
-		const response = await api.get('/about/get')
+		const response = await api.get('/about')
 		return response.data.data
 	}
 	async createAbout(data: AboutType): Promise<DefaultReturnType<AboutType>> {
@@ -18,7 +18,7 @@ export default class AboutService extends BaseService {
 			formData.append('image', data.image)
 		}
 
-		const response = await api.post('/about/create', formData, this.getToken())
+		const response = await api.post('/about', formData, this.getToken())
 		return response.data
 	}
 
@@ -31,7 +31,7 @@ export default class AboutService extends BaseService {
 			formData.append('image', data.image)
 		}
 
-		const response = await api.put(`/about/update/${data.id}`, formData, this.getToken())
+		const response = await api.put(`/about/${data.id}`, formData, this.getToken())
 		return response.data
 	}
 }

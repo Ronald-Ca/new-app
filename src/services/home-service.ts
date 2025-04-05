@@ -19,6 +19,12 @@ export default class HomeService extends BaseService {
 		if (data.image) {
 			formData.append('image', data.image)
 		}
+		if (data.colorBackground) {
+			formData.append('colorBackground', data.colorBackground)
+		}
+		if (data.imageBackground) {
+			formData.append('imageBackground', data.imageBackground)
+		}
 
 		const response = await api.post('/home/create', formData, this.getToken())
 		return response.data
@@ -32,6 +38,12 @@ export default class HomeService extends BaseService {
 		if (data.image) {
 			formData.append('image', data.image)
 		}
+		if (data.colorBackground) {
+			formData.append('colorBackground', data.colorBackground)
+		}
+		if (data.imageBackground) {
+			formData.append('imageBackground', data.imageBackground)
+		}
 
 		const response = await api.put(`/home/update/${data.id}`, formData, this.getToken())
 		return response.data
@@ -44,4 +56,6 @@ export type HomeType = {
 	title: string
 	role: string
 	description: string
+	colorBackground?: string
+	imageBackground?: File | null
 }

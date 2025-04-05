@@ -8,7 +8,6 @@ import { useGetCurriculumQuery } from '../../../queries/curriculum'
 import { useGetExperienceQuery } from '../../../queries/experience'
 import { useGetSkillsQuery } from '../../../queries/skill'
 
-
 export default function About() {
 	const { data: about } = useGetAboutQuery()
 	const { data: curriculum } = useGetCurriculumQuery()
@@ -40,7 +39,7 @@ export default function About() {
 	if (!about) return <LoadingSpinner />
 
 	return (
-		<div className='min-h-screen bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 animate-gradient-move flex flex-col p-6'>
+		<div className='min-h-screen bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 animate-gradient-move flex flex-col p-6 mt-20'>
 			<div>
 				<div className='flex justify-between items-center mb-6'>
 					<h1 className='w-full text-center text-[50px] font-semibold text-gray-300'>Quem sou eu?</h1>

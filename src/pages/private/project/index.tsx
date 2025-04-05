@@ -48,13 +48,13 @@ const ProjectCard = ({ project, skills }: ProjectCardProps) => {
 					</CardHeader>
 				</Card>
 			</DialogTrigger>
-			<DialogContent className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50' onClick={() => setIsOpen(false)}>
+			<DialogContent className='fixed mx-auto  z-50 flex justify-center items-center bg-black/80 bg-slate-900 rounded-lg p-6 max-w-[800px] border-[2px] border-[#00BFFF]' onClick={() => setIsOpen(false)}>
 				<div
-					className='bg-slate-900 rounded-lg p-6 max-w-[800px] mx-auto relative border-[2px] border-[#00BFFF]'
+					className=' relative'
 					onClick={(e) => e.stopPropagation()}
 				>
 					<DialogClose asChild>
-						<IoIosClose size={35} className='text-[#00BFFF] absolute top-0 right-0 cursor-pointer' onClick={() => setIsOpen(false)} />
+						<IoIosClose size={35} className='text-[#00BFFF] absolute -top-5 -right-4 cursor-pointer z-50' onClick={() => setIsOpen(false)} />
 					</DialogClose>
 					<DialogHeader>
 						<DialogTitle className='text-gray-100 text-center font-semibold text-[30px]'>{project.name}</DialogTitle>
@@ -83,16 +83,16 @@ const ProjectCard = ({ project, skills }: ProjectCardProps) => {
 						<DialogDescription className='text-gray-100 text-[15px] rounded-[10px] border-[2px] border-[#00BFFF] p-[8px]'>
 							{filteredSkills?.map((stack) => (
 								<span
-									key={stack.id}
-									className={`mr-2 text-slate-900 bg-[${stack.color}] rounded-[4px] pb-[2px] pl-[5px] pr-[5px] font-semibold`}
+									key = { stack.id }
+									className = {`mr-2 text-slate-900 bg-[${stack.color.toString()}] rounded-[4px] pb-[2px] pl-[5px] pr-[5px] font-semibold`}
 								>
-									{stack.name}
-								</span>
+							{stack.name}
+						</span>
 							))}
-						</DialogDescription>
-					</DialogHeader>
-				</div>
-			</DialogContent>
-		</Dialog>
+					</DialogDescription>
+				</DialogHeader>
+			</div>
+		</DialogContent>
+		</Dialog >
 	)
 }

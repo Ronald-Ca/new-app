@@ -98,3 +98,13 @@
   background-size: 200% 200%;
   animation: moveGradient 5s ease infinite;
 }
+
+@keyframes neon-pulse {
+  0% { filter: drop-shadow(0 0 2px #00BFFF); }
+  50% { filter: drop-shadow(0 0 5px #00BFFF); }
+  100% { filter: drop-shadow(0 0 2px #00BFFF); }
+}
+
+.neon-pulse {
+  animation: neon-pulse 2s infinite;
+}
