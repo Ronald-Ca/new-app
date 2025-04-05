@@ -11,7 +11,7 @@ type PropsTypeObject = {
 }
 
 const useGetAboutQuery = () => {
-	return useQuery(['get-home'], () => about.getAbout())
+	return useQuery(['get-about'], () => about.getAbout())
 }
 
 const useCreateAboutMutation = (options: PropsTypeObject) => {
@@ -22,7 +22,7 @@ const useCreateAboutMutation = (options: PropsTypeObject) => {
 }
 
 const useUpdateAboutMutation = (options: PropsTypeObject) => {
-	return useMutation(async (data: AboutType) => await about.updateHome(data), {
+	return useMutation(async (data: AboutType) => await about.updateAbout(data), {
 		onSuccess: options?.onSuccess,
 		onError: options?.onError,
 	})

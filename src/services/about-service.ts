@@ -5,15 +5,18 @@ export default class AboutService extends BaseService {
 	constructor() {
 		super('about')
 	}
+
 	async getAbout(): Promise<AboutType> {
 		const response = await api.get('/about')
 		return response.data.data
 	}
+
 	async createAbout(data: AboutType): Promise<DefaultReturnType<AboutType>> {
 		const formData = new FormData()
-		formData.append('person', data.person)
-		formData.append('education', data.education)
-		formData.append('address', data.address)
+		formData.append('name', data.name)
+		formData.append('age', data.age.toString())
+		formData.append('city', data.city)
+		formData.append('state', data.state)
 		if (data.image) {
 			formData.append('image', data.image)
 		}
@@ -22,11 +25,12 @@ export default class AboutService extends BaseService {
 		return response.data
 	}
 
-	async updateHome(data: AboutType): Promise<DefaultReturnType<AboutType>> {
+	async updateAbout(data: AboutType): Promise<DefaultReturnType<AboutType>> {
 		const formData = new FormData()
-		formData.append('person', data.person)
-		formData.append('education', data.education)
-		formData.append('address', data.address)
+		formData.append('name', data.name)
+		formData.append('age', data.age.toString())
+		formData.append('city', data.city)
+		formData.append('state', data.state)
 		if (data.image) {
 			formData.append('image', data.image)
 		}
@@ -38,8 +42,9 @@ export default class AboutService extends BaseService {
 
 export type AboutType = {
 	id?: string
-	person: string
-	education: string
-	address: string
+	name: string
+	age: number
+	city: string
+	state: string
 	image: File | null
 }
