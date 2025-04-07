@@ -1,5 +1,5 @@
 import { Button } from '../../components/ui/button'
-import { FaAddressCard, FaEdit, FaGamepad, FaHouseUser } from 'react-icons/fa'
+import { FaAddressCard, FaEdit, FaGamepad, FaHouseUser, FaGraduationCap } from 'react-icons/fa'
 import { ImExit } from 'react-icons/im'
 import { PiProjectorScreenChartFill } from 'react-icons/pi'
 import { useState } from 'react'
@@ -12,10 +12,11 @@ import ConfigProject from './content/config-project'
 import ConfigSocialMedia from './content/config-social-media'
 import ConfigExperience from './content/config-experience'
 import ConfigCurriculum from './content/config-curriculum'
+import ConfigEducation from './content/config-education'
 
 export default function Config() {
 	const [activeComponent, setActiveComponent] = useState<
-		'home' | 'about' | 'skills' | 'projects' | 'social-media' | 'stack' | 'experience' | 'curriculum'
+		'home' | 'about' | 'education' | 'skills' | 'projects' | 'social-media' | 'stack' | 'experience' | 'curriculum'
 	>('home')
 
 	const renderComponent = () => {
@@ -24,6 +25,8 @@ export default function Config() {
 				return <ConfigHome />
 			case 'about':
 				return <ConfigAbout />
+			case 'education':
+				return <ConfigEducation />
 			case 'skills':
 				return <ConfigSkill />
 			case 'projects':
@@ -58,56 +61,56 @@ export default function Config() {
 					<ul className='flex flex-col justify-center items-center gap-[10px] text-gray-50'>
 						<li
 							onClick={() => setActiveComponent('home')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] mt-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'home' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'
-								}`}
+							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] mt-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'home' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
 						>
 							<FaHouseUser color='#00BFFF' />
 							Início
 						</li>
 						<li
 							onClick={() => setActiveComponent('about')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'about' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'
-								}`}
+							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'about' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
 						>
 							<FaAddressCard color='#00BFFF' />
 							Sobre
 						</li>
 						<li
+							onClick={() => setActiveComponent('education')}
+							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'education' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
+						>
+							<FaGraduationCap color='#00BFFF' />
+							Formação Acadêmica
+						</li>
+						<li
 							onClick={() => setActiveComponent('experience')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'experience' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'
-								}`}
+							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'experience' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
 						>
 							<SiLevelsdotfyi color='#00BFFF' />
 							Experiência
 						</li>
 						<li
 							onClick={() => setActiveComponent('skills')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'skills' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'
-								}`}
+							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'skills' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
 						>
 							<FaGamepad color='#00BFFF' />
 							Skills
 						</li>
 						<li
 							onClick={() => setActiveComponent('projects')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'projects' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'
-								}`}
+							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'projects' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
 						>
 							<PiProjectorScreenChartFill color='#00BFFF' />
 							Projetos
 						</li>
 						<li
 							onClick={() => setActiveComponent('social-media')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'social-media' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'
-								}`}
+							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'social-media' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
 						>
 							<IoShareSocial color='#00BFFF' />
 							Redes Sociais
 						</li>
 						<li
 							onClick={() => setActiveComponent('curriculum')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'curriculum' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'
-								}`}
+							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'curriculum' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
 						>
 							<IoDocumentAttach color='#00BFFF' />
 							Currículo

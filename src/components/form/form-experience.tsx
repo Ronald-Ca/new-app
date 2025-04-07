@@ -1,14 +1,14 @@
-import { useGetSkillsQuery } from '../../queries/skill'
-import { ExperienceType } from '../../services/experience-service'
-import { DropdownMenuCheckboxItem } from '@radix-ui/react-dropdown-menu'
-import { useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { FormControl, FormField, FormItem, FormLabel } from '../ui/form'
 import { Input } from '../ui/input'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Button } from '../ui/button'
-import { moths, years } from '../../utils/moths-and-years'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Textarea } from '../ui/textarea'
+import { moths, years } from '../../utils/moths-and-years'
+import { ExperienceType } from '../../services/experience-service'
+import { useState } from 'react'
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import { useGetSkillsQuery } from '@app/queries/skill'
 
 interface ExperienceFormProps {
 	selectedExperience?: ExperienceType
@@ -17,11 +17,23 @@ interface ExperienceFormProps {
 }
 
 export function FormExperience({ selectedExperience, handleSave, loading }: ExperienceFormProps) {
-	const form = useForm()
+	const form = useForm({
+		defaultValues: {
+			company: '',
+			role: '',
+			yearInitial: '',
+			mothInitial: '',
+			yearFinal: '',
+			mothFinal: '',
+			activities: '',
+			experienceSkill: [] as string[],
+		},
+	})
+
+	const { handleSubmit } = form
 
 	const { data: skills } = useGetSkillsQuery()
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const onSubmit = (data: any) => {
 		const newExperience: ExperienceType = {
 			...data,
@@ -32,224 +44,159 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 
 	return (
 		<FormProvider {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+			<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 text-white">
+				{/* Organização */}
 				<FormField
 					control={form.control}
-					name='company'
+					name="company"
 					defaultValue={selectedExperience?.company || ''}
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className='text-gray-50'>Organização:</FormLabel>
+							<FormLabel className="text-gray-50">Organização:</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder='Organização' className='p-2 rounded bg-slate-800 text-gray-100' />
+								<Input {...field} placeholder="Organização" className="p-2 rounded bg-slate-800 text-gray-100" />
 							</FormControl>
 						</FormItem>
 					)}
 				/>
-
+				{/* Função */}
 				<FormField
 					control={form.control}
-					name='role'
+					name="role"
 					defaultValue={selectedExperience?.role || ''}
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className='text-gray-50'>Função:</FormLabel>
+							<FormLabel className="text-gray-50">Função:</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder='Função' className='p-2 rounded bg-slate-800 text-gray-100' />
+								<Input {...field} placeholder="Função" className="p-2 rounded bg-slate-800 text-gray-100" />
 							</FormControl>
 						</FormItem>
 					)}
 				/>
-
-				<div className='flex space-x-4'>
+				{/* Ano Inicial e Mês Inicial */}
+				<div className="flex gap-4">
 					<FormField
 						control={form.control}
-						name='yearInitial'
+						name="yearInitial"
 						defaultValue={selectedExperience?.yearInitial || ''}
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel className='text-gray-50'>Ano Inicial:</FormLabel>
+							<FormItem className="flex-1">
+								<FormLabel>Ano Inicial:</FormLabel>
 								<FormControl>
-									<DropdownMenu>
-										<DropdownMenuTrigger asChild>
-											<Button variant='outline' className='w-full'>
-												{field.value ? `Selecionado: ${field.value}` : 'Selecione o Ano'}
-											</Button>
-										</DropdownMenuTrigger>
-										<DropdownMenuContent className='w-56'>
-											<DropdownMenuLabel>Anos Disponíveis</DropdownMenuLabel>
-											<DropdownMenuSeparator />
-											<DropdownMenuRadioGroup
-												value={field.value?.toString() || ''}
-												onValueChange={(value) => {
-													const selectedYear = parseInt(value, 10)
-													field.onChange(selectedYear)
-													form.setValue('yearInitial', selectedYear)
-												}}
-											>
-												{years.map((year) => (
-													<DropdownMenuRadioItem key={year.year} value={year.year.toString()}>
-														{year.year}
-													</DropdownMenuRadioItem>
-												))}
-											</DropdownMenuRadioGroup>
-										</DropdownMenuContent>
-									</DropdownMenu>
+									<Select value={field.value} onValueChange={field.onChange}>
+										<SelectTrigger>
+											<SelectValue placeholder="Selecione o Ano" />
+										</SelectTrigger>
+										<SelectContent>
+											{years.map((year) => (
+												<SelectItem key={year.year} value={year.year.toString()}>
+													{year.year}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 								</FormControl>
 							</FormItem>
 						)}
 					/>
-
 					<FormField
 						control={form.control}
-						name='mothInitial'
+						name="mothInitial"
 						defaultValue={selectedExperience?.mothInitial || ''}
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel className='text-gray-50'>Mês Inicial:</FormLabel>
+							<FormItem className="flex-1">
+								<FormLabel>Mês Inicial:</FormLabel>
 								<FormControl>
-									<DropdownMenu>
-										<DropdownMenuTrigger asChild>
-											<Button variant='outline' className='w-full'>
-												{field.value
-													? `Selecionado: ${moths.find((m) => m.abbreviation === field.value)?.name}`
-													: 'Selecione o Mês'}
-											</Button>
-										</DropdownMenuTrigger>
-										<DropdownMenuContent className='w-56'>
-											<DropdownMenuLabel>Meses Disponíveis</DropdownMenuLabel>
-											<DropdownMenuSeparator />
-											<DropdownMenuRadioGroup
-												value={field.value?.toString() || ''}
-												onValueChange={(value) => {
-													const selectedMonth = moths.find((month) => month.id.toString() === value)?.abbreviation
-													if (selectedMonth) {
-														field.onChange(selectedMonth)
-														form.setValue('mothInitial', selectedMonth)
-													}
-												}}
-											>
-												{moths.map((month) => (
-													<DropdownMenuRadioItem key={month.id} value={month.id.toString()}>
-														{month.name}
-													</DropdownMenuRadioItem>
-												))}
-											</DropdownMenuRadioGroup>
-										</DropdownMenuContent>
-									</DropdownMenu>
+									<Select value={field.value} onValueChange={field.onChange}>
+										<SelectTrigger>
+											<SelectValue placeholder="Selecione o Mês" />
+										</SelectTrigger>
+										<SelectContent>
+											{moths.map((month) => (
+												<SelectItem key={month.id} value={month.abbreviation}>
+													{month.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 								</FormControl>
 							</FormItem>
 						)}
 					/>
 				</div>
-
-				<div className='flex space-x-4'>
+				{/* Ano Final e Mês Final */}
+				<div className="flex gap-4">
 					<FormField
 						control={form.control}
-						name='yearFinal'
+						name="yearFinal"
 						defaultValue={selectedExperience?.yearFinal || ''}
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel className='text-gray-50'>Ano Final:</FormLabel>
+							<FormItem className="flex-1">
+								<FormLabel>Ano Final:</FormLabel>
 								<FormControl>
-									<DropdownMenu>
-										<DropdownMenuTrigger asChild>
-											<Button variant='outline' className='w-full'>
-												{field.value ? `Selecionado: ${field.value}` : 'Selecione o Ano'}
-											</Button>
-										</DropdownMenuTrigger>
-										<DropdownMenuContent className='w-56'>
-											<DropdownMenuLabel>Anos Disponíveis</DropdownMenuLabel>
-											<DropdownMenuSeparator />
-											<DropdownMenuRadioGroup
-												value={field.value?.toString() || ''}
-												onValueChange={(value) => {
-													const selectedYear = parseInt(value, 10)
-													field.onChange(selectedYear)
-													form.setValue('yearFinal', selectedYear)
-												}}
-											>
-												{years.map((year) => (
-													<DropdownMenuRadioItem key={year.year} value={year.year.toString()}>
-														{year.year}
-													</DropdownMenuRadioItem>
-												))}
-											</DropdownMenuRadioGroup>
-										</DropdownMenuContent>
-									</DropdownMenu>
+									<Select value={field.value} onValueChange={field.onChange}>
+										<SelectTrigger>
+											<SelectValue placeholder="Selecione o Ano" />
+										</SelectTrigger>
+										<SelectContent>
+											{years.map((year) => (
+												<SelectItem key={year.year} value={year.year.toString()}>
+													{year.year}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 								</FormControl>
 							</FormItem>
 						)}
 					/>
-
 					<FormField
 						control={form.control}
-						name='mothFinal'
+						name="mothFinal"
 						defaultValue={selectedExperience?.mothFinal || ''}
 						render={({ field }) => (
-							<FormItem>
-								<FormLabel className='text-gray-50'>Mês Final:</FormLabel>
+							<FormItem className="flex-1">
+								<FormLabel>Mês Final:</FormLabel>
 								<FormControl>
-									<DropdownMenu>
-										<DropdownMenuTrigger asChild>
-											<Button variant='outline' className='w-full'>
-												{field.value === 'Present'
-													? 'Selecionado: Atual'
-													: field.value
-														? `Selecionado: ${moths.find((m) => m.abbreviation === field.value)?.name}`
-														: 'Selecione o Mês'}
-											</Button>
-										</DropdownMenuTrigger>
-										<DropdownMenuContent className='w-56'>
-											<DropdownMenuLabel>Meses Disponíveis</DropdownMenuLabel>
-											<DropdownMenuSeparator />
-											<DropdownMenuRadioGroup
-												value={field.value?.toString() || ''}
-												onValueChange={(value) => {
-													const selectedValue =
-														value === 'Present'
-															? 'Present'
-															: moths.find((month) => month.id.toString() === value)?.abbreviation
-													if (selectedValue) {
-														field.onChange(selectedValue)
-														form.setValue('mothFinal', selectedValue)
-													}
-												}}
-											>
-												<DropdownMenuRadioItem key='Present' value='Present'>
-													Atual
-												</DropdownMenuRadioItem>
-												{moths.map((month) => (
-													<DropdownMenuRadioItem key={month.id} value={month.id.toString()}>
-														{month.name}
-													</DropdownMenuRadioItem>
-												))}
-											</DropdownMenuRadioGroup>
-										</DropdownMenuContent>
-									</DropdownMenu>
+									<Select value={field.value} onValueChange={field.onChange}>
+										<SelectTrigger>
+											<SelectValue placeholder="Selecione o Mês" />
+										</SelectTrigger>
+										<SelectContent>
+											<SelectItem key="Present" value="Present">
+												Atual
+											</SelectItem>
+											{moths.map((month) => (
+												<SelectItem key={month.id} value={month.abbreviation}>
+													{month.name}
+												</SelectItem>
+											))}
+										</SelectContent>
+									</Select>
 								</FormControl>
 							</FormItem>
 						)}
 					/>
 				</div>
-
+				{/* Atividades */}
 				<FormField
 					control={form.control}
-					name='activities'
+					name="activities"
 					defaultValue={selectedExperience?.activities.join(', ') || ''}
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className='text-gray-50'>Atividades:</FormLabel>
+							<FormLabel className="text-gray-50">Atividades:</FormLabel>
 							<FormControl>
 								<Textarea
 									{...field}
-									placeholder='Atividades (separadas por vírgula)'
-									className='p-2 rounded bg-slate-800 text-gray-100'
+									placeholder="Atividades (separadas por ponto e vírgula ';')"
+									className="p-2 rounded bg-slate-800 text-gray-100"
 								/>
 							</FormControl>
 						</FormItem>
 					)}
 				/>
+
 				<FormField
 					control={form.control}
 					name='experienceSkill'
@@ -260,14 +207,14 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 						const handleClose = () => setIsOpen(false)
 
 						return (
-							<FormItem>
-								<FormLabel className='text-gray-300'>Skills</FormLabel>
+							<FormItem className='flex flex-col'>
+								<FormLabel>Skills:</FormLabel>
 								<FormControl>
 									<DropdownMenu open={isOpen}>
 										<DropdownMenuTrigger asChild>
 											<Button
 												variant='outline'
-												className='w-full'
+												className='w-[48%] text-gray-400 bg-transparent'
 												onClick={(e) => {
 													e.preventDefault()
 													handleToggle()
@@ -299,7 +246,7 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 																? [...(field.value ?? []), skill.id]
 																: (field.value ?? []).filter((id: string) => id !== skill.id)
 
-															const sanitizedValue = newValue.filter((id: string): id is string => id !== undefined)
+															const sanitizedValue = newValue.filter((id: string | undefined): id is string => id !== undefined)
 
 															field.onChange(sanitizedValue)
 															form.setValue('experienceSkill', sanitizedValue)
@@ -316,11 +263,11 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 						)
 					}}
 				/>
-
+				{/* Botão de Salvar */}
 				<Button
 					disabled={loading}
-					type='submit'
-					className='bg-[#00BFFF] text-slate-950 hover:text-[#00BFFF] hover:bg-[#1c222b] hover:border-[#00BFFF]'
+					type="submit"
+					className="bg-[#00BFFF] text-slate-950 hover:text-[#00BFFF] hover:bg-[#1c222b] hover:border-[#00BFFF]"
 				>
 					{loading ? 'Salvando...' : 'Salvar'}
 				</Button>

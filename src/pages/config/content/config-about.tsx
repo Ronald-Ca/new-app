@@ -16,7 +16,6 @@ interface About {
 
 export default function ConfigAbout() {
 	const { setAlert } = useAlert()
-	// Inicializa com string vazia para identificar quando não há imagem
 	const [imagePreview, setImagePreview] = useState('')
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const [, setSelectedFile] = useState<File | null>(null)
@@ -97,6 +96,8 @@ export default function ConfigAbout() {
 			<div className='flex flex-col justify-center items-center h-screen'>
 				<div className='flex flex-col justify-center items-center border-2 border-[#00BFFF] pt-5 pb-5 rounded-xl gap-5 w-[600px]'>
 					<div className='flex flex-col gap-10 items-center'>
+
+						{/* Seção de Imagem */}
 						<div className='flex flex-col items-center gap-[10px] relative'>
 							{imagePreview ? (
 								<img
@@ -118,6 +119,7 @@ export default function ConfigAbout() {
 							<Input type='file' className='hidden' onChange={handleImageChange} ref={fileInputRef} />
 						</div>
 						
+						{/* Formulário de Dados */}
 						<FormAbout onSubmit={onSubmit} />
 					</div>
 				</div>
