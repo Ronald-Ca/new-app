@@ -7,7 +7,7 @@ export default class HomeService extends BaseService {
 	}
 
 	async getHome(): Promise<HomeType> {
-		const response = await api.get('/home/get')
+		const response = await api.get('/home')
 		return response.data.data
 	}
 
@@ -26,7 +26,7 @@ export default class HomeService extends BaseService {
 			formData.append('imageBackground', data.imageBackground)
 		}
 
-		const response = await api.post('/home/create', formData, this.getToken())
+		const response = await api.post('/home', formData, this.getToken())
 		return response.data
 	}
 
@@ -45,7 +45,7 @@ export default class HomeService extends BaseService {
 			formData.append('imageBackground', data.imageBackground)
 		}
 
-		const response = await api.put(`/home/update/${data.id}`, formData, this.getToken())
+		const response = await api.put(`/home/${data.id}`, formData, this.getToken())
 		return response.data
 	}
 }

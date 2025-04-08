@@ -7,7 +7,7 @@ export default class EducationService extends BaseService {
 	}
 
 	async getEducation(): Promise<EducationType[]> {
-		const response = await api.get('/education', this.getToken())
+		const response = await api.get('/education')
 		return response.data.data
 	}
 

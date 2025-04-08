@@ -4,6 +4,10 @@
 
 @layer base {
   :root {
+    --color-default: #00BFFF;
+    --bg-secondary: bg-slate-800;
+    --bg-default: #000000;
+    --bg-component: #1c222b;
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
