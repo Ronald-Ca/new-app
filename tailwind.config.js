@@ -18,11 +18,21 @@ module.exports = {
 		},
 		extend: {
 			width: {
+				"1w": "100px",
+				"2w": "200px",
+				"3w": "300px",
+				"4w": "400px",
 				"5w": "500px",
+				"6w": "600px",
 				"xch": "50ch"
 			},
 			height: {
-				"5h": "500px"
+				"1h": "100px",
+				"2h": "200px",
+				"3h": "300px",
+				"4h": "400px",
+				"5h": "500px",
+				"6h": "600px",
 			},
 			colors: {
 				default: "var(--color-default)",

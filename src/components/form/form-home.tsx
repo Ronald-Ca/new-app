@@ -31,7 +31,7 @@ export function FormHome({ onSubmit, isSubmitting = false }: FormHomeProps) {
           <FormItem className='w-full flex flex-col items-start'>
             <FormLabel className='text-gray-50'>Título:</FormLabel>
             <FormControl>
-              <Input {...field} placeholder='Título' className='border-[1px] border-gray-50 bg-slate-950 text-gray-50' />
+              <Input {...field} placeholder='Título' className='border-2 border-gray-50 bg-slate-950 text-gray-50' />
             </FormControl>
           </FormItem>
         )}
@@ -44,7 +44,7 @@ export function FormHome({ onSubmit, isSubmitting = false }: FormHomeProps) {
           <FormItem className='w-full flex flex-col items-start'>
             <FormLabel className='text-gray-50'>Cargo:</FormLabel>
             <FormControl>
-              <Input {...field} placeholder='Cargo' className='border-[1px] border-gray-50 bg-slate-950 text-gray-50' />
+              <Input {...field} placeholder='Cargo' className='border-2 border-gray-50 bg-slate-950 text-gray-50' />
             </FormControl>
           </FormItem>
         )}
@@ -60,7 +60,7 @@ export function FormHome({ onSubmit, isSubmitting = false }: FormHomeProps) {
               <Textarea
                 {...field}
                 placeholder='Descrição'
-                className='border-[1px] border-gray-50 w-full bg-slate-950 text-gray-50'
+                className='border-2 border-gray-50 w-full bg-slate-950 text-gray-50'
               />
             </FormControl>
           </FormItem>
@@ -77,7 +77,7 @@ export function FormHome({ onSubmit, isSubmitting = false }: FormHomeProps) {
               <Input
                 {...field}
                 type='color'
-                className='cursor-pointer border-[1px] border-gray-50 w-[100px] bg-slate-950 text-gray-50'
+                className='cursor-pointer border-2 border-gray-50 w-28 bg-slate-950 text-gray-50'
               />
             </FormControl>
           </FormItem>
@@ -87,9 +87,8 @@ export function FormHome({ onSubmit, isSubmitting = false }: FormHomeProps) {
       <Button
         type='submit'
         disabled={isSubmitting}
-        className={`flex items-center justify-center gap-2 bg-[#00BFFF] text-slate-950 border border-slate-950 py-2 px-4 rounded transition-colors ${
-          !isSubmitting && 'hover:text-[#00BFFF] hover:bg-[#1c222b] hover:border-[#00BFFF]'
-        }`}
+        className={`flex items-center justify-center gap-2 bg-default text-slate-950 border border-slate-950 py-2 px-4 rounded transition-colors ${!isSubmitting && 'hover:text-default hover:bg-slate-950 hover:border-default'
+          }`}
       >
         {isSubmitting ? (
           <>

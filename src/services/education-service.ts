@@ -12,46 +12,12 @@ export default class EducationService extends BaseService {
 	}
 
 	async createEducation(data: EducationType): Promise<DefaultReturnType<EducationType>> {
-		const formData = new FormData()
-		formData.append('course', data.course)
-		formData.append('institution', data.institution)
-		formData.append('yearInit', data.yearInit)
-		if (data.yearFinal) {
-			formData.append('yearFinal', data.yearFinal)
-		}
-		if (data.city) {
-			formData.append('city', data.city)
-		}
-		if (data.state) {
-			formData.append('state', data.state)
-		}
-		if (data.modality) {
-			formData.append('modality', data.modality)
-		}
-
-		const response = await api.post('/education', formData, this.getToken())
+		const response = await api.post('/education', data, this.getToken())
 		return response.data
 	}
 
 	async updateEducation(data: EducationType): Promise<DefaultReturnType<EducationType>> {
-		const formData = new FormData()
-		formData.append('course', data.course)
-		formData.append('institution', data.institution)
-		formData.append('yearInit', data.yearInit)
-		if (data.yearFinal) {
-			formData.append('yearFinal', data.yearFinal)
-		}
-		if (data.city) {
-			formData.append('city', data.city)
-		}
-		if (data.state) {
-			formData.append('state', data.state)
-		}
-		if (data.modality) {
-			formData.append('modality', data.modality)
-		}
-
-		const response = await api.put(`/education/${data.id}`, formData, this.getToken())
+		const response = await api.put(`/education/${data.id}`, data, this.getToken())
 		return response.data
 	}
 }

@@ -4,6 +4,7 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { states } from '@app/utils/states'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { FaSpinner } from 'react-icons/fa'
 
 interface About {
 	image: File | null
@@ -15,9 +16,10 @@ interface About {
 
 interface FormAboutProps {
 	onSubmit: (data: About) => void
+	isSubmitting?: boolean
 }
 
-export function FormAbout({ onSubmit }: FormAboutProps) {
+export function FormAbout({ onSubmit, isSubmitting }: FormAboutProps) {
 	const form = useFormContext<About>()
 
 	return (
@@ -33,12 +35,13 @@ export function FormAbout({ onSubmit }: FormAboutProps) {
 								<Input
 									{...field}
 									placeholder='Seu nome'
-									className='border-[1px] border-gray-50 w-full bg-slate-950 text-gray-50'
+									className='border-2 border-gray-50 w-full bg-slate-950 text-gray-50'
 								/>
 							</FormControl>
 						</FormItem>
 					)}
 				/>
+
 				<FormField
 					control={form.control}
 					name='age'
@@ -50,14 +53,14 @@ export function FormAbout({ onSubmit }: FormAboutProps) {
 									{...field}
 									placeholder='Idade'
 									type='number'
-									className='border-[1px] border-gray-50 w-full bg-slate-950 text-gray-50'
+									className='border-2 border-gray-50 w-full bg-slate-950 text-gray-50'
 								/>
 							</FormControl>
 						</FormItem>
 					)}
 				/>
 			</div>
-			
+
 			<div className="flex gap-3">
 				<FormField
 					control={form.control}
@@ -69,12 +72,13 @@ export function FormAbout({ onSubmit }: FormAboutProps) {
 								<Input
 									{...field}
 									placeholder='Sua cidade'
-									className='border-[1px] border-gray-50 w-full bg-slate-950 text-gray-50'
+									className='border-2 border-gray-50 w-full bg-slate-950 text-gray-50'
 								/>
 							</FormControl>
 						</FormItem>
 					)}
 				/>
+
 				<FormField
 					control={form.control}
 					name='state'
@@ -83,12 +87,12 @@ export function FormAbout({ onSubmit }: FormAboutProps) {
 							<FormLabel className='text-gray-50'>Estado:</FormLabel>
 							<FormControl>
 								<Select value={field.value} onValueChange={field.onChange}>
-									<SelectTrigger className="w-full">
+									<SelectTrigger className="w-full text-white bg-slate-950">
 										<SelectValue placeholder="UF" />
 									</SelectTrigger>
-									<SelectContent>
+									<SelectContent className='bg-slate-950'>
 										{states.map((estado) => (
-											<SelectItem key={estado.id} value={estado.sigla}>
+											<SelectItem className="bg-slate-950 text-white" key={estado.id} value={estado.sigla}>
 												{estado.sigla}
 											</SelectItem>
 										))}
@@ -99,11 +103,20 @@ export function FormAbout({ onSubmit }: FormAboutProps) {
 					)}
 				/>
 			</div>
+
 			<Button
 				type='submit'
-				className='bg-[#00BFFF] text-slate-950 border-[1px] border-slate-950 hover:text-[#00BFFF] hover:bg-[#1c222b] hover:border-[#00BFFF]'
+				disabled={isSubmitting}
+				className={`flex items-center justify-center gap-2 bg-default text-slate-950 border border-slate-950 py-2 px-4 rounded transition-colors ${!isSubmitting && 'hover:text-default hover:bg-slate-950 hover:border-default'
+					}`}
 			>
-				Salvar
+				{isSubmitting ? (
+					<>
+						<FaSpinner className='animate-spin' />
+					</>
+				) : (
+					'Salvar'
+				)}
 			</Button>
 		</form>
 	)

@@ -33,7 +33,7 @@ export default function ConfigExperience() {
 		onSuccess: () => {
 			setIsOpen(false)
 			setLoading(false)
-			queryClient.invalidateQueries(['get-experiences'])
+			queryClient.invalidateQueries(['get-experience'])
 			setAlert({ title: 'Sucesso!', message: 'Experiência criada com sucesso!', type: 'success' })
 		},
 		onError: () => {
@@ -46,7 +46,7 @@ export default function ConfigExperience() {
 		onSuccess: () => {
 			setIsOpen(false)
 			setLoading(false)
-			queryClient.invalidateQueries(['get-experiences'])
+			queryClient.invalidateQueries(['get-experience'])
 			setAlert({ title: 'Sucesso!', message: 'Experiência atualizada com sucesso!', type: 'success' })
 		},
 		onError: () => {

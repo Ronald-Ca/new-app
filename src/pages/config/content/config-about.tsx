@@ -91,36 +91,38 @@ export default function ConfigAbout() {
 		}
 	}, [isSuccess, about, formMethods])
 
+	const isMutating = createAbout.isLoading || updateAbout.isLoading
+
 	return (
 		<FormProvider {...formMethods}>
 			<div className='flex flex-col justify-center items-center h-screen'>
-				<div className='flex flex-col justify-center items-center border-2 border-[#00BFFF] pt-5 pb-5 rounded-xl gap-5 w-[600px]'>
+				<div className='flex flex-col justify-center items-center border-2 border-default pt-5 pb-5 rounded-xl gap-5 w-6w'>
 					<div className='flex flex-col gap-10 items-center'>
 
 						{/* Seção de Imagem */}
-						<div className='flex flex-col items-center gap-[10px] relative'>
+						<div className='flex flex-col items-center gap-3 relative'>
 							{imagePreview ? (
 								<img
 									src={imagePreview}
 									alt='Preview'
-									className='w-[250px] h-[250px] object-cover rounded-full'
+									className='w-64 h-64 object-cover rounded-full'
 								/>
 							) : (
-								<div className='w-[250px] h-[250px] flex items-center justify-center bg-gray-200 rounded-full'>
+								<div className='w-64 h-64 flex items-center justify-center bg-gray-200 rounded-full'>
 									<span className='text-gray-500'>Sem foto</span>
 								</div>
 							)}
 							<div
-								className='cursor-pointer absolute bottom-[10px] right-[50px] transform translate-x-1/2 translate-y-1/2 hover:scale-110 transition-transform duration-300 bg-slate-950 p-[10px] rounded-full'
+								className='bg-slate-950 cursor-pointer absolute bottom-3 right-14 p-3 transform translate-x-1/2 translate-y-1/2 hover:scale-110 transition-transform duration-300 rounded-full'
 								onClick={handleCameraClick}
 							>
-								<FaCamera className='text-[#00BFFF] text-[30px]' />
+								<FaCamera className='text-default' size={30} />
 							</div>
 							<Input type='file' className='hidden' onChange={handleImageChange} ref={fileInputRef} />
 						</div>
 						
 						{/* Formulário de Dados */}
-						<FormAbout onSubmit={onSubmit} />
+						<FormAbout onSubmit={onSubmit} isSubmitting={isMutating} />
 					</div>
 				</div>
 			</div>

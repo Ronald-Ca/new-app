@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Textarea } from '../ui/textarea'
 import { moths, years } from '../../utils/moths-and-years'
 import { ExperienceType } from '../../services/experience-service'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { useGetSkillsQuery } from '@app/queries/skill'
 
@@ -30,14 +30,31 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 		},
 	})
 
-	const { handleSubmit } = form
-
+	const { reset, handleSubmit } = form
 	const { data: skills } = useGetSkillsQuery()
+
+	useEffect(() => {
+		const defaultValues = {
+			company: selectedExperience?.company || '',
+			role: selectedExperience?.role || '',
+			yearInitial: selectedExperience?.yearInitial?.toString() || '',
+			mothInitial: selectedExperience?.mothInitial || '',
+			yearFinal: selectedExperience?.yearFinal?.toString() || '',
+			mothFinal: selectedExperience?.mothFinal || '',
+			activities: selectedExperience?.activities ? selectedExperience.activities.join(';') : '',
+			experienceSkill: selectedExperience?.experienceSkill?.map(item => item.skillId) || [],
+			id: selectedExperience?.id || '',
+		}
+
+		reset(defaultValues)
+	}, [selectedExperience, reset])
 
 	const onSubmit = (data: any) => {
 		const newExperience: ExperienceType = {
 			...data,
-			activities: data.activities.split(','),
+			yearInitial: parseInt(data.yearInitial),
+			yearFinal: parseInt(data.yearFinal),
+			activities: data.activities.split(';'),
 		}
 		handleSave(newExperience)
 	}
@@ -54,7 +71,7 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 						<FormItem>
 							<FormLabel className="text-gray-50">Organização:</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder="Organização" className="p-2 rounded bg-slate-800 text-gray-100" />
+								<Input {...field} placeholder="Organização" className="p-2 rounded bg-slate-950 text-gray-100" />
 							</FormControl>
 						</FormItem>
 					)}
@@ -68,7 +85,7 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 						<FormItem>
 							<FormLabel className="text-gray-50">Função:</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder="Função" className="p-2 rounded bg-slate-800 text-gray-100" />
+								<Input {...field} placeholder="Função" className="p-2 rounded bg-slate-950 text-gray-100" />
 							</FormControl>
 						</FormItem>
 					)}
@@ -78,18 +95,18 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 					<FormField
 						control={form.control}
 						name="yearInitial"
-						defaultValue={selectedExperience?.yearInitial || ''}
+						defaultValue={selectedExperience?.yearInitial?.toString() || ''}
 						render={({ field }) => (
 							<FormItem className="flex-1">
 								<FormLabel>Ano Inicial:</FormLabel>
 								<FormControl>
 									<Select value={field.value} onValueChange={field.onChange}>
-										<SelectTrigger>
+										<SelectTrigger className='bg-slate-950'>
 											<SelectValue placeholder="Selecione o Ano" />
 										</SelectTrigger>
-										<SelectContent>
+										<SelectContent className='bg-slate-950'>
 											{years.map((year) => (
-												<SelectItem key={year.year} value={year.year.toString()}>
+												<SelectItem className='text-white' key={year.year} value={year.year.toString()}>
 													{year.year}
 												</SelectItem>
 											))}
@@ -108,12 +125,12 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 								<FormLabel>Mês Inicial:</FormLabel>
 								<FormControl>
 									<Select value={field.value} onValueChange={field.onChange}>
-										<SelectTrigger>
+										<SelectTrigger className='bg-slate-950'>
 											<SelectValue placeholder="Selecione o Mês" />
 										</SelectTrigger>
-										<SelectContent>
+										<SelectContent className='bg-slate-950'>
 											{moths.map((month) => (
-												<SelectItem key={month.id} value={month.abbreviation}>
+												<SelectItem className='text-white' key={month.id} value={month.abbreviation}>
 													{month.name}
 												</SelectItem>
 											))}
@@ -129,18 +146,18 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 					<FormField
 						control={form.control}
 						name="yearFinal"
-						defaultValue={selectedExperience?.yearFinal || ''}
+						defaultValue={selectedExperience?.yearFinal?.toString() || ''}
 						render={({ field }) => (
 							<FormItem className="flex-1">
 								<FormLabel>Ano Final:</FormLabel>
 								<FormControl>
 									<Select value={field.value} onValueChange={field.onChange}>
-										<SelectTrigger>
+										<SelectTrigger className='bg-slate-950'>
 											<SelectValue placeholder="Selecione o Ano" />
 										</SelectTrigger>
-										<SelectContent>
+										<SelectContent className='bg-slate-950'>
 											{years.map((year) => (
-												<SelectItem key={year.year} value={year.year.toString()}>
+												<SelectItem className='text-white' key={year.year} value={year.year.toString()}>
 													{year.year}
 												</SelectItem>
 											))}
@@ -159,15 +176,15 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 								<FormLabel>Mês Final:</FormLabel>
 								<FormControl>
 									<Select value={field.value} onValueChange={field.onChange}>
-										<SelectTrigger>
+										<SelectTrigger className='bg-slate-950'>
 											<SelectValue placeholder="Selecione o Mês" />
 										</SelectTrigger>
-										<SelectContent>
-											<SelectItem key="Present" value="Present">
+										<SelectContent className='bg-slate-950'>
+											<SelectItem className='text-white' key="Present" value="Present">
 												Atual
 											</SelectItem>
 											{moths.map((month) => (
-												<SelectItem key={month.id} value={month.abbreviation}>
+												<SelectItem className='text-white' key={month.id} value={month.abbreviation}>
 													{month.name}
 												</SelectItem>
 											))}
@@ -190,7 +207,7 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 								<Textarea
 									{...field}
 									placeholder="Atividades (separadas por ponto e vírgula ';')"
-									className="p-2 rounded bg-slate-800 text-gray-100"
+									className="p-2 rounded bg-slate-950 text-white"
 								/>
 							</FormControl>
 						</FormItem>
@@ -214,7 +231,7 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 										<DropdownMenuTrigger asChild>
 											<Button
 												variant='outline'
-												className='w-[48%] text-gray-400 bg-transparent'
+												className='w-[48%] text-white bg-slate-950'
 												onClick={(e) => {
 													e.preventDefault()
 													handleToggle()
@@ -224,7 +241,7 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 											</Button>
 										</DropdownMenuTrigger>
 										<DropdownMenuContent
-											className='w-56 h-[300px] overflow-y-auto'
+											className='w-56 h-[300px] overflow-y-auto bg-slate-950 text-white'
 											onClick={(e) => e.stopPropagation()}
 											onPointerDownOutside={(e) => {
 												e.preventDefault()
@@ -239,6 +256,7 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 
 												return (
 													<DropdownMenuCheckboxItem
+														className='text-white bg-slate-950'
 														key={skill.id}
 														checked={isChecked}
 														onCheckedChange={(checked) => {
