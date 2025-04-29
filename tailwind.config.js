@@ -33,6 +33,8 @@ module.exports = {
 				"4h": "400px",
 				"5h": "500px",
 				"6h": "600px",
+				"7h": "700px",
+				"8h": "800px",
 			},
 			colors: {
 				default: "var(--color-default)",

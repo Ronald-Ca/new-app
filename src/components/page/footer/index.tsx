@@ -19,7 +19,7 @@ export default function Footer() {
 						href={href}
 						target="_blank"
 						rel="noreferrer"
-						className="text-[#00BFFF] text-3xl transition-all duration-300 transform hover:scale-110 hover:text-white"
+						className="text-default text-3xl transition-all duration-300 transform hover:scale-110 hover:text-white"
 					>
 						{icon}
 					</a>

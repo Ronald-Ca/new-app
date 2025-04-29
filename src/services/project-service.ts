@@ -19,7 +19,7 @@ export default class ProjectsService extends BaseService {
 		formData.append('description', data.description || '')
 		formData.append('link', data.link || '')
 
-		data.projectSkills.forEach((skill) => {
+		data.projectSkills && data.projectSkills.forEach((skill) => {
 			formData.append('projectSkills', skill.id)
 		})
 
@@ -35,7 +35,7 @@ export default class ProjectsService extends BaseService {
 		formData.append('description', data.description || '')
 		formData.append('link', data.link || '')
 
-		data.projectSkills.forEach((skill) => {
+		data.projectSkills && data.projectSkills.forEach((skill) => {
 			formData.append('projectSkills', skill.id)
 		})
 
@@ -51,11 +51,11 @@ export type ProjectType = {
 	video?: string | File
 	description?: string
 	link?: string
-	projectSkills: ProjectSkillType[]
+	projectSkills?: ProjectSkillType[]
 }
 
 type ProjectSkillType = {
 	id: string
-	projectId: string
-	skillId: string
+	projectId?: string
+	skillId?: string
 }

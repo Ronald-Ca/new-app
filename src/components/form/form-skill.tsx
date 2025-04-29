@@ -5,6 +5,7 @@ import { FormControl, FormField, FormItem, FormLabel } from '../ui/form'
 import { Input } from '../ui/input'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Button } from '../ui/button'
+import { FaSpinner } from 'react-icons/fa'
 
 interface Skill {
 	name: string
@@ -18,9 +19,10 @@ interface Skill {
 interface SkillFormProps {
 	selectedSkill: SkillType | null
 	handleSave: (skill: Skill) => void
+	isSubmitting?: boolean
 }
 
-export default function FormSkill({ selectedSkill, handleSave }: SkillFormProps) {
+export default function FormSkill({ selectedSkill, handleSave, isSubmitting }: SkillFormProps) {
 	const form = useForm<Skill>({
 		defaultValues: {
 			name: selectedSkill?.name || '',
@@ -49,7 +51,7 @@ export default function FormSkill({ selectedSkill, handleSave }: SkillFormProps)
 								<Input
 									{...field}
 									placeholder='Nome'
-									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-[1px] border-[#00BFFF]'
+									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-2 border-default'
 								/>
 							</FormControl>
 						</FormItem>
@@ -66,7 +68,7 @@ export default function FormSkill({ selectedSkill, handleSave }: SkillFormProps)
 									{...field}
 									type='number'
 									placeholder='Nível'
-									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-[1px] border-[#00BFFF]'
+									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-2 border-default'
 								/>
 							</FormControl>
 						</FormItem>
@@ -83,7 +85,7 @@ export default function FormSkill({ selectedSkill, handleSave }: SkillFormProps)
 									{...field}
 									type='number'
 									placeholder='Experiência'
-									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-[1px] border-[#00BFFF]'
+									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-2 border-default'
 								/>
 							</FormControl>
 						</FormItem>
@@ -99,7 +101,7 @@ export default function FormSkill({ selectedSkill, handleSave }: SkillFormProps)
 								<Input
 									{...field}
 									placeholder='Ícone'
-									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-[1px] border-[#00BFFF]'
+									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-2 border-default'
 								/>
 							</FormControl>
 						</FormItem>
@@ -115,7 +117,7 @@ export default function FormSkill({ selectedSkill, handleSave }: SkillFormProps)
 								<Input
 									{...field}
 									placeholder='Cor'
-									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-[1px] border-[#00BFFF]'
+									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-2 border-default'
 								/>
 							</FormControl>
 						</FormItem>
@@ -129,18 +131,19 @@ export default function FormSkill({ selectedSkill, handleSave }: SkillFormProps)
 							<FormLabel className='text-gray-300'>Tipo</FormLabel>
 							<FormControl>
 								<RadioGroup value={field.value} onValueChange={field.onChange} className='flex gap-4'>
-									<FormItem className='flex items-center gap-[10px]'>
-										<FormLabel className='text-gray-300 mt-[5px]'>Habilidade</FormLabel>
+									<FormItem className='flex items-center space-x-2'>
+										<FormLabel className='text-gray-300 mt-1'>Habilidade</FormLabel>
 										<RadioGroupItem
 											value='skill'
-											className={`text-white w-[10px] h-[10px] ${field.value === 'skill' ? 'bg-blue-500' : 'bg-white'} border border-white rounded-full`}
+											className={`${field.value === 'skill' ? 'bg-default' : 'bg-transparent'} border border-default`}
+											color='red'
 										/>
 									</FormItem>
-									<FormItem className='flex items-center gap-[10px]'>
-										<FormLabel className='text-gray-300 mt-[5px]'>Competência</FormLabel>
+									<FormItem className='flex items-center space-x-2'>
+										<FormLabel className='text-gray-300 mt-1'>Competência</FormLabel>
 										<RadioGroupItem
 											value='competence'
-											className={`text-white w-[10px] h-[10px] ${field.value === 'competence' ? 'bg-blue-500' : 'bg-white'} border border-white rounded-full`}
+											className='border border-defa'
 										/>
 									</FormItem>
 								</RadioGroup>
@@ -148,9 +151,23 @@ export default function FormSkill({ selectedSkill, handleSave }: SkillFormProps)
 						</FormItem>
 					)}
 				/>
-				<Button type='submit' className='bg-[#00BFFF] text-slate-950 hover:text-[#00BFFF] hover:bg-[#1c222b] hover:border-[#00BFFF]'>
-					Salvar
-				</Button>
+
+				<div className="flex justify-center mt-4">
+					<Button
+						type='submit'
+						disabled={isSubmitting}
+						className={`flex items-center justify-center gap-2 bg-default text-slate-950 border border-slate-950 py-2 px-4 rounded transition-colors ${!isSubmitting && 'hover:text-default hover:bg-slate-950 hover:border-default'
+							}`}
+					>
+						{isSubmitting ? (
+							<>
+								<FaSpinner className='animate-spin' />
+							</>
+						) : (
+							'Salvar'
+						)}
+					</Button>
+				</div>
 			</form>
 		</FormProvider>
 	)

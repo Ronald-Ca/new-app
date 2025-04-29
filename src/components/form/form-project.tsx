@@ -8,14 +8,15 @@ import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Button } from '../ui/button'
+import { FaSpinner } from 'react-icons/fa'
 
 interface ProjectFormProps {
 	selectedProject?: ProjectType
 	handleSave: (project: ProjectType) => void
-	loading?: boolean
+	isSubmitting?: boolean
 }
 
-export function FormProject({ selectedProject, handleSave, loading }: ProjectFormProps) {
+export function FormProject({ selectedProject, handleSave, isSubmitting }: ProjectFormProps) {
 	const form = useForm({
 		defaultValues: {
 			name: selectedProject?.name || '',
@@ -52,8 +53,7 @@ export function FormProject({ selectedProject, handleSave, loading }: ProjectFor
 		inputRef?.current?.click()
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const onSubmit = (data: any) => {
+	const onSubmit = (data: ProjectType) => {
 		const newProject: ProjectType = {
 			...data,
 			projectSkills: skillsId.map((id) => ({ id })),
@@ -74,7 +74,7 @@ export function FormProject({ selectedProject, handleSave, loading }: ProjectFor
 								<Input
 									{...field}
 									placeholder='Nome do projeto'
-									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-[1px] border-[#00BFFF]'
+									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-2 border-default'
 								/>
 							</FormControl>
 						</FormItem>
@@ -90,7 +90,7 @@ export function FormProject({ selectedProject, handleSave, loading }: ProjectFor
 								<Textarea
 									{...field}
 									placeholder='Descrição do projeto'
-									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-[1px] border-[#00BFFF]'
+									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-2 border-default'
 								/>
 							</FormControl>
 						</FormItem>
@@ -106,7 +106,7 @@ export function FormProject({ selectedProject, handleSave, loading }: ProjectFor
 								<Input
 									{...field}
 									placeholder='Link do projeto'
-									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-[1px] border-[#00BFFF]'
+									className='bg-slate-800 text-gray-300 p-2 rounded-lg border-2 border-default'
 								/>
 							</FormControl>
 						</FormItem>
@@ -139,7 +139,7 @@ export function FormProject({ selectedProject, handleSave, loading }: ProjectFor
 											</Button>
 										</DropdownMenuTrigger>
 										<DropdownMenuContent
-											className='w-56 h-[300px] overflow-y-auto'
+											className='w-56 h-3h overflow-y-auto'
 											onClick={(e) => e.stopPropagation()}
 											onPointerDownOutside={(e) => {
 												e.preventDefault()
@@ -184,10 +184,10 @@ export function FormProject({ selectedProject, handleSave, loading }: ProjectFor
 					<FormControl>
 						<div
 							onClick={() => handleCameraClick(fileInputRef)}
-							className='h-[200px] cursor-pointer flex items-center justify-center border-[1px] border-dashed p-[8px] rounded-[10px]'
+							className='h-2h cursor-pointer flex items-center justify-center border-2 border-dashed p-2 rounded-xl'
 						>
 							{imagePreview ? (
-								<img src={imagePreview} alt='Preview' className='w-full h-full object-cover rounded-[10px]' />
+								<img src={imagePreview} alt='Preview' className='w-full h-full object-cover rounded-xl' />
 							) : (
 								<p className='text-gray-50'>Adicione uma imagem para pré-visualização</p>
 							)}
@@ -206,10 +206,10 @@ export function FormProject({ selectedProject, handleSave, loading }: ProjectFor
 					<FormControl>
 						<div
 							onClick={() => handleCameraClick(videoInputRef)}
-							className='h-[200px] cursor-pointer flex items-center justify-center border-[1px] border-dashed p-[8px] rounded-[10px]'
+							className='h-2h cursor-pointer flex items-center justify-center border-2 border-dashed p-2 rounded-xl'
 						>
 							{videoPreview ? (
-								<video src={videoPreview} className='w-full h-full object-cover rounded-[10px]' controls />
+								<video src={videoPreview} className='w-full h-full object-cover rounded-xl' controls />
 							) : (
 								<p className='text-gray-50'>Adicione um vídeo para pré-visualização</p>
 							)}
@@ -222,14 +222,24 @@ export function FormProject({ selectedProject, handleSave, loading }: ProjectFor
 						</div>
 					</FormControl>
 				</FormItem>
+
 				{/* Botão de Salvar */}
-				<Button
-					disabled={loading}
-					type='submit'
-					className='bg-[#00BFFF] text-slate-950 hover:text-[#00BFFF] hover:bg-[#1c222b] hover:border-[#00BFFF]'
-				>
-					{loading ? 'Salvando...' : 'Salvar'}
-				</Button>
+				<div className="flex justify-center mt-4">
+					<Button
+						type='submit'
+						disabled={isSubmitting}
+						className={`flex items-center justify-center gap-2 bg-default text-slate-950 border border-slate-950 py-2 px-4 rounded transition-colors ${!isSubmitting && 'hover:text-default hover:bg-slate-950 hover:border-default'
+							}`}
+					>
+						{isSubmitting ? (
+							<>
+								<FaSpinner className='animate-spin' />
+							</>
+						) : (
+							'Salvar'
+						)}
+					</Button>
+				</div>
 			</form>
 		</FormProvider>
 	)

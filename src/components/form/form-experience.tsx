@@ -9,14 +9,15 @@ import { ExperienceType } from '../../services/experience-service'
 import { useEffect, useState } from 'react'
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { useGetSkillsQuery } from '@app/queries/skill'
+import { FaSpinner } from 'react-icons/fa'
 
 interface ExperienceFormProps {
 	selectedExperience?: ExperienceType
 	handleSave: (experience: ExperienceType) => void
-	loading?: boolean
+	isSubmitting?: boolean
 }
 
-export function FormExperience({ selectedExperience, handleSave, loading }: ExperienceFormProps) {
+export function FormExperience({ selectedExperience, handleSave, isSubmitting }: ExperienceFormProps) {
 	const form = useForm({
 		defaultValues: {
 			company: '',
@@ -281,14 +282,22 @@ export function FormExperience({ selectedExperience, handleSave, loading }: Expe
 						)
 					}}
 				/>
-				{/* Botão de Salvar */}
-				<Button
-					disabled={loading}
-					type="submit"
-					className="bg-[#00BFFF] text-slate-950 hover:text-[#00BFFF] hover:bg-[#1c222b] hover:border-[#00BFFF]"
-				>
-					{loading ? 'Salvando...' : 'Salvar'}
-				</Button>
+				<div className="flex justify-center mt-4">
+					<Button
+						type='submit'
+						disabled={isSubmitting}
+						className={`flex items-center justify-center gap-2 bg-default text-slate-950 border border-slate-950 py-2 px-4 rounded transition-colors ${!isSubmitting && 'hover:text-default hover:bg-slate-950 hover:border-default'
+							}`}
+					>
+						{isSubmitting ? (
+							<>
+								<FaSpinner className='animate-spin' />
+							</>
+						) : (
+							'Salvar'
+						)}
+					</Button>
+				</div>
 			</form>
 		</FormProvider>
 	)

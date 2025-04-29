@@ -80,14 +80,14 @@ export default function ConfigCurriculum() {
 			<h1 className='font-semibold text-2xl'>Carregar Currículo</h1>
 
 			<div className='flex flex-col items-center gap-4'>
-				<div className='flex gap-[10px]'>
+				<div className='flex gap-3'>
 					<Button className='flex items-center gap-2' onClick={handleUploadClick}>
 						Upload <TiUploadOutline />
 					</Button>
 
 					<Button
 						onClick={handleSave}
-						className='bg-[#00BFFF] text-slate-950 border-[1px] border-slate-950 hover:text-[#00BFFF] hover:bg-[#1c222b] hover:border-[#00BFFF]'
+						className='bg-default text-slate-950 border-2 border-slate-950 hover:text-default hover:bg-bg_component hover:border-default'
 					>
 						Salvar
 					</Button>
@@ -98,7 +98,7 @@ export default function ConfigCurriculum() {
 			</div>
 
 			{localPreviewUrl && (
-				<div className='w-full max-w-[500px] h-[600px] mt-4'>
+				<div className='w-5w h-6h mt-4'>
 					<iframe
 						src={localPreviewUrl || undefined}
 						className='w-full h-full border border-slate-400'
