@@ -16,19 +16,8 @@ interface FormEducationProps {
     isSubmitting?: boolean
 }
 
-interface EducationFormValues {
-    course: string
-    institution: string
-    yearInit: string
-    yearFinal?: string
-    city?: string
-    state?: string
-    modality?: string
-    id?: string
-}
-
 export default function FormEducation({ selectedEducation, handleSave, isSubmitting }: FormEducationProps) {
-    const form = useForm<EducationFormValues>({
+    const form = useForm<EducationType>({
         defaultValues: {
             course: '',
             institution: '',
@@ -36,7 +25,7 @@ export default function FormEducation({ selectedEducation, handleSave, isSubmitt
             yearFinal: '',
             city: '',
             state: '',
-            modality: '',
+            modality: undefined,
             id: '',
         },
     })
@@ -44,21 +33,21 @@ export default function FormEducation({ selectedEducation, handleSave, isSubmitt
     const { reset, handleSubmit } = form
 
     useEffect(() => {
-        const defaultFormValues: EducationFormValues = {
+        const defaultFormValues: EducationType = {
             course: selectedEducation?.course || '',
             institution: selectedEducation?.institution || '',
             yearInit: selectedEducation?.yearInit || '',
             yearFinal: selectedEducation?.yearFinal || '',
             city: selectedEducation?.city || '',
             state: selectedEducation?.state || '',
-            modality: selectedEducation?.modality || '',
+            modality: selectedEducation?.modality || undefined,
             id: selectedEducation?.id,
         }
 
         reset(defaultFormValues)
     }, [selectedEducation, reset])
 
-    const onSubmit = (data: EducationFormValues) => {
+    const onSubmit = (data: EducationType) => {
         handleSave(data)
     }
 
