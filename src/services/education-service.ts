@@ -30,5 +30,5 @@ export type EducationType = {
 	yearFinal?: string
 	city?: string
 	state?: string
-	modality?: string
+	modality?: 'on-site' | 'hybrid' | 'remote'
 }

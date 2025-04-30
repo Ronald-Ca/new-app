@@ -24,6 +24,8 @@ module.exports = {
 				"4w": "400px",
 				"5w": "500px",
 				"6w": "600px",
+				"7w": "700px",
+				"8w": "800px",
 				"xch": "50ch"
 			},
 			height: {
