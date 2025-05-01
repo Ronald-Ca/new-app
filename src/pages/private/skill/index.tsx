@@ -1,19 +1,24 @@
-import { FaStar } from 'react-icons/fa'
-import { ReactElement, useEffect, useState } from 'react'
-import { useGetSkillsQuery } from '../../../queries/skill'
-import { loadIcon } from '../../../utils/dynamic-icons'
+import { type ReactElement, useEffect, useState } from "react"
+import { useGetSkillsQuery } from "../../../queries/skill"
+import { loadIcon } from "../../../utils/dynamic-icons"
+import { motion } from "framer-motion"
+import { Card, CardContent, CardHeader, CardTitle } from "@app/components/ui/card"
+import { Badge } from "@app/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs"
+import { Progress } from "@radix-ui/react-progress"
 
 interface Skill {
 	name: string
 	iconName: string
 	color: string
 	stars: number
-	type: 'skill' | 'competence'
+	type: "skill" | "competence"
 }
 
 export default function Skills() {
 	const [loadedSkills, setLoadedSkills] = useState<(Skill & { icon: ReactElement })[]>([])
 	const { data: skill } = useGetSkillsQuery()
+	const [, setActiveTab] = useState<string>("skills")
 
 	useEffect(() => {
 		async function loadSkillsAndCompetences() {
@@ -21,7 +26,7 @@ export default function Skills() {
 				const skillsWithIcons = await Promise.all(
 					skill.map(async (skill) => {
 						const iconName = skill.icon.trim()
-						const icon = await loadIcon(iconName, skill.color || '#00BFFF')
+						const icon = await loadIcon(iconName, skill.color || "#00BFFF")
 						return { ...skill, stars: skill.level, icon, iconName: skill.icon }
 					}),
 				)
@@ -31,49 +36,122 @@ export default function Skills() {
 		loadSkillsAndCompetences()
 	}, [skill])
 
-	const renderSkillsOrCompetences = (tipo: 'skill' | 'competence') => {
+	const container = {
+		hidden: { opacity: 0 },
+		show: {
+			opacity: 1,
+			transition: {
+				staggerChildren: 0.1,
+			},
+		},
+	}
+
+	const item = {
+		hidden: { y: 20, opacity: 0 },
+		show: { y: 0, opacity: 1 },
+	}
+
+	const renderSkillCard = (skill: Skill & { icon: ReactElement }, index: number) => {
+		return (
+			<motion.div
+				key={index}
+				variants={item}
+				whileHover={{
+					scale: 1.05,
+					boxShadow: "0 10px 30px rgba(0,191,255,0.2)",
+				}}
+				className="w-full"
+			>
+				<Card className="h-full bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700 overflow-hidden group">
+					<CardHeader className="pb-2">
+						<div className="flex justify-between items-center">
+							<CardTitle className="text-xl font-bold text-white">{skill.name}</CardTitle>
+							<Badge variant="outline" className="bg-slate-700/50 text-cyan-400 border-cyan-500/50">
+								{skill.stars}/5
+							</Badge>
+						</div>
+					</CardHeader>
+					<CardContent>
+						<div className="flex flex-col items-center gap-4">
+							<div className="text-5xl text-cyan-400 p-3 rounded-full bg-slate-800/50 border border-slate-700">
+								{skill.icon}
+							</div>
+							<Progress value={skill.stars * 20} className="h-2 w-full bg-slate-700">
+								<div
+									className="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"
+									style={{ width: `${skill.stars * 20}%` }}
+								></div>
+							</Progress>
+						</div>
+					</CardContent>
+				</Card>
+			</motion.div>
+		)
+	}
+
+	const renderSkillsOrCompetences = (tipo: "skill" | "competence") => {
 		const filteredSkills = loadedSkills.filter((skill) => skill.type === tipo)
 
 		return (
-			<div className='flex flex-wrap justify-center gap-4 border-2 rounded-xl border-default p-12 mt-20'>
+			<motion.div
+				variants={container}
+				initial="hidden"
+				animate="show"
+				className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8"
+			>
 				{filteredSkills.length > 0 ? (
-					filteredSkills.map((skill, index) => (
-						<div
-							key={index}
-							className='w-2w border-2 rounded-xl border-default p-5 text-center flex flex-col items-center transform hover:scale-105 transition-transform duration-300'
-						>
-							<h2 className='text-white text-2xl font-semibold mb-4'>{skill.name}</h2>
-							{skill.icon}
-							<div className='flex justify-center mt-3'>
-								{Array(skill.stars)
-									.fill(0)
-									.map((_, i) => (
-										<FaStar key={i} className='text-default mr-1' />
-									))}
-							</div>
-						</div>
-					))
+					filteredSkills.map((skill, index) => renderSkillCard(skill, index))
 				) : (
-					<p className='text-white text-xl font-medium'>
-						Nenhuma {tipo === 'skill' ? 'skill' : 'competência'} cadastrada foi encontrada em nosso banco de dados.
+					<p className="text-white text-xl font-medium col-span-full text-center py-12">
+						Nenhuma {tipo === "skill" ? "skill" : "competência"} cadastrada foi encontrada em nosso banco de dados.
 					</p>
 				)}
-			</div>
+			</motion.div>
 		)
 	}
 
 	return (
-		<div className='h-full flex-grow flex flex-col p-6 bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 animate-gradient-move'>
-			<div className='flex mb-6'>
-				<h1 className='w-full text-center text-5xl font-semibold text-white'>Habilidades</h1>
+		<div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800">
+			<div className="max-w-7xl mx-auto mt-12">
+				<Tabs defaultValue="skills" className="w-full" onValueChange={setActiveTab}>
+					<div className="flex justify-center items-center mb-8">
+						<TabsList className="grid grid-cols-2 w-full max-w-md bg-slate-800/50 rounded-lg p-1 border border-default">
+							<TabsTrigger
+								value="skills"
+								className="
+        w-full py-2 font-semibold text-center
+        rounded-l-lg
+        data-[state=active]:bg-default data-[state=active]:text-slate-800
+        data-[state=inactive]:text-default
+      "
+							>
+								Habilidades Técnicas
+							</TabsTrigger>
+
+							<TabsTrigger
+								value="competences"
+								className="
+        w-full py-2 font-semibold text-center
+        rounded-r-lg
+        data-[state=active]:bg-default data-[state=active]:text-slate-800
+        data-[state=inactive]:text-default
+      "
+							>
+								Competências
+							</TabsTrigger>
+						</TabsList>
+					</div>
+
+
+					<TabsContent value="skills" className="mt-0">
+						{renderSkillsOrCompetences("skill")}
+					</TabsContent>
+
+					<TabsContent value="competences" className="mt-0">
+						{renderSkillsOrCompetences("competence")}
+					</TabsContent>
+				</Tabs>
 			</div>
-			{renderSkillsOrCompetences('skill')}
-			<div className='flex justify-center items-center gap-3 mb-6 mt-6'>
-				<hr className='border-2 border-default w-[50%] rounded-xl' />
-				<h1 className='text-center text-5xl font-semibold text-gray-300'>Competências</h1>
-				<hr className='border-2 border-default w-[50%] rounded-xl' />
-			</div>
-			{renderSkillsOrCompetences('competence')}
 		</div>
 	)
 }
