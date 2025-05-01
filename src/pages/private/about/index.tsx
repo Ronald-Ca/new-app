@@ -1,4 +1,4 @@
-import { FaBirthdayCake, FaCalendarAlt, FaChalkboardTeacher, FaCity, FaHome, FaUserGraduate } from 'react-icons/fa'
+import { FaBirthdayCake, FaCalendarAlt, FaChalkboardTeacher, FaCity, FaHome } from 'react-icons/fa'
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
 import LoadingSpinner from '../../../components/common/loading'
 import { ButtonCurriculum } from '../../../components/common/button-curriculum'
@@ -9,8 +9,12 @@ import { useGetSkillsQuery } from '../../../queries/skill'
 import { BsFillPersonVcardFill } from 'react-icons/bs'
 import { useGetEducationQuery } from '@app/queries/education'
 import { BiSolidInstitution } from 'react-icons/bi'
-import { TbPointFilled } from 'react-icons/tb'
-import { HiBuildingOffice } from 'react-icons/hi2'
+import { HiAcademicCap, HiBuildingOffice, HiUser } from 'react-icons/hi2'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@radix-ui/react-tabs'
+import { HiCode } from 'react-icons/hi'
+import { Card, CardContent, CardHeader } from '@app/components/ui/card'
+import { Separator } from '@radix-ui/react-select'
+import { Badge } from '@app/components/ui/badge'
 
 export default function About() {
 	const { data: about } = useGetAboutQuery()
@@ -20,125 +24,197 @@ export default function About() {
 	const { data: education } = useGetEducationQuery()
 
 	const filteredSkills = skills?.filter((skill) =>
-		experiences?.some((experience) => experience.experienceSkill.some((experienceSkill) => experienceSkill.skillId === skill.id)),
+		experiences?.some((experience) =>
+			experience.experienceSkill.some((experienceSkill) => experienceSkill.skillId === skill.id),
+		),
 	)
 
 	if (!about) return <LoadingSpinner />
 
 	return (
-		<div className='min-h-screen bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 animate-gradient-move flex flex-col p-6 mt-20'>
-			<div className='flex justify-between items-center mb-6'>
-				<h1 className='w-full text-center text-5xl font-semibold text-white'>Quem sou eu?</h1>
-				<ButtonCurriculum id={curriculum?.id} />
-			</div>
+		<div className="min-h-screen-header-footer bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 animate-gradient-move py-10 px-4 md:px-8 lg:px-16">
+			<div className="max-w-7xl mx-auto">
+				{/* Main Content */}
+				<Tabs defaultValue="profile" className="w-full mt-20">
+					<TabsList className="grid grid-cols-3 max-w-md mx-auto mb-8 bg-slate-800/50 rounded-lg">
+						<TabsTrigger value="profile" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-slate-950  flex items-center justify-center font-semibold pt-2 pb-2 rounded-l-lg text-default border border-default">
+							<HiUser className="mr-2" /> Perfil
+						</TabsTrigger>
+						<TabsTrigger value="education" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-slate-950 flex items-center justify-center font-semibold pt-2 pb-2 text-default border-t border-t-default border-b border-b-default ">
+							<HiAcademicCap className="mr-2" /> Formação
+						</TabsTrigger>
+						<TabsTrigger value="experience" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-slate-950 flex items-center justify-center font-semibold pt-2 pb-2 rounded-r-lg text-default border border-default">
+							<HiCode className="mr-2" /> Experiências
+						</TabsTrigger>
+					</TabsList>
 
-			<div className='flex flex-wrap justify-center items-center gap-24 border-2 rounded-xl border-default p-12'>
-				<div className='flex flex-col items-center gap-5 border-4 border-default rounded-xl p-4 relative'>
-					<TbPointFilled size={40} className='text-default absolute top-2 left-2' />
-
-					<div className='border-4 border-default p-2 rounded-full shadow-lg'>
-						<Avatar className='w-5w h-12'>
-							<AvatarImage src={about.image?.toString()} alt='Foto de perfil' className='rounded-full h-4h' />
-						</Avatar>
-					</div>
-
-					<div className='flex flex-col gap-5'>
-						<div className='flex items-center gap-2 text-default'><BsFillPersonVcardFill size={20} /> <span className='text-white font-semibold'>{about.name}</span></div>
-						<div className='flex items-center gap-2 text-default'><FaBirthdayCake size={20} /> <span className='text-white font-semibold'>{about.age} anos</span></div>
-						<div className='flex items-center gap-2 text-default'><FaHome size={20} /> <span className='text-white font-semibold'>{about.city} - {about.state}</span></div>
-					</div>
-
-				</div>
-
-				<div className='flex gap-5 border-4 border-default rounded-xl p-4'>
-					<h1
-						className="font-bold text-5xl text-white uppercase border-2 border-default rounded-lg pl-4 pr-4 text-center lg:text-left"
-						style={{
-							writingMode: 'vertical-rl',
-							textOrientation: 'upright'
-						}}
-					>
-						Formação
-					</h1>
-
-					<div className='flex flex-col gap-5 w-6w'>
-						{education?.map((edu) => (
-							<div className='border-2 border-default rounded-xl p-4 '>
-								<div className='flex items-center gap-2 text-default'>
-									<FaUserGraduate />
-									<span className='font-bold text-white'>{edu.course}</span>
+					{/* Profile Tab */}
+					<TabsContent value="profile" className="mt-0">
+						<Card className="bg-slate-900/50 border-cyan-500/50 text-white">
+							<CardHeader className="text-center relative">
+								<div className="flex justify-center mb-6">
+									<div className="border-4 border-cyan-500 p-2 rounded-full shadow-lg shadow-cyan-500/20">
+										<Avatar className="w-40 h-40">
+											<AvatarImage
+												src={about.image?.toString() || "/placeholder.svg"}
+												alt="Foto de perfil"
+												className="rounded-full w-96 h-96 object-cover"
+											/>
+										</Avatar>
+									</div>
+									<div className='absolute top-0 right-0 mt-4 mr-4'>
+										<ButtonCurriculum id={curriculum?.id} />
+									</div>
 								</div>
+								<h2 className="text-3xl font-bold text-cyan-400">{about.name}</h2>
+							</CardHeader>
+							<CardContent>
+									<div className="flex flex-col gap-4 justify-between bg-slate-800/50 p-6 rounded-lg">
+										<div className='w-full'>
+											<h3 className="text-xl font-semibold text-cyan-400 mb-4">Sobre mim</h3>
+											<p className="text-gray-300 leading-relaxed">
+												Sou um desenvolvedor apaixonado por criar soluções inovadoras e eficientes. Com experiência em
+												desenvolvimento web full stack, estou sempre em busca de novos desafios e aprendizados na área de
+												tecnologia.
+											</p>
+										</div>
 
-								<div className='flex items-center gap-2 text-default'>
-									<BiSolidInstitution />
-									<span className='font-bold text-white'>{edu.institution}</span>
+										<div className="flex gap-4 items-center md:items-start">
+											<div className="flex items-center gap-3 text-lg">
+												<BsFillPersonVcardFill className="text-cyan-400" size={24} />
+												<span>Desenvolvedor Full Stack</span>
+											</div>
+
+											<Separator className="h-8 w-[1px] bg-slate-700" />
+
+											<div className="flex items-center gap-3 text-lg">
+												<FaBirthdayCake className="text-cyan-400" size={24} />
+												<span>{about.age} anos</span>
+											</div>
+
+											<Separator className="h-8 w-[1px] bg-slate-700" />
+
+											<div className="flex items-center gap-3 text-lg">
+												<FaHome className="text-cyan-400" size={24} />
+												<span>
+													{about.city} - {about.state}
+												</span>
+											</div>
+										</div>
+									</div>
+
+								{/* <div className="mt-8">
+									<h3 className="text-xl font-semibold text-cyan-400 mb-4">Principais habilidades</h3>
+									<div className="flex flex-wrap gap-2">
+										{filteredSkills?.slice(0, 8).map((skill, idx) => (
+											<Badge key={idx} className="bg-slate-800 hover:bg-slate-700 text-white border-cyan-500/50">
+												{skill.name}
+											</Badge>
+										))}
+									</div>
+								</div> */}
+							</CardContent>
+						</Card>
+					</TabsContent>
+
+					{/* Education Tab */}
+					<TabsContent value="education" className="mt-0">
+						<Card className="bg-slate-900/50 border-cyan-500/50 text-white">
+							<CardHeader>
+								<h2 className="text-3xl font-bold text-center text-cyan-400">Formação Acadêmica</h2>
+							</CardHeader>
+							<CardContent>
+								<div className="grid grid-cols-1 gap-6">
+									{education?.map((edu, key) => (
+										<div key={key} className="bg-slate-800/50 rounded-xl p-6 border-l-4 border-cyan-500">
+											<h3 className="text-xl font-bold text-white mb-4">{edu.course}</h3>
+
+											<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+												<div className="flex items-center gap-2 text-gray-300">
+													<BiSolidInstitution className="text-cyan-400" />
+													<span>{edu.institution}</span>
+												</div>
+
+												<div className="flex items-center gap-2 text-gray-300">
+													<FaCity className="text-cyan-400" />
+													<span>
+														{edu.city} - {edu.state}
+													</span>
+												</div>
+
+												<div className="flex items-center gap-2 text-gray-300">
+													<FaChalkboardTeacher className="text-cyan-400" />
+													<span>{edu.modality === "on-site" ? "Presencial" : "Home Office"}</span>
+												</div>
+
+												<div className="flex items-center gap-2 text-gray-300">
+													<FaCalendarAlt className="text-cyan-400" />
+													<span>
+														{edu.yearInit} - {edu.yearFinal}
+													</span>
+												</div>
+											</div>
+										</div>
+									))}
 								</div>
+							</CardContent>
+						</Card>
+					</TabsContent>
 
-								<div className='flex items-center gap-2 text-default'>
-									<FaCity />
-									<span className='font-bold text-white'>{edu.city} - {edu.state}</span>
+					{/* Experience Tab */}
+					<TabsContent value="experience" className="mt-0">
+						<Card className="bg-slate-900/50 border-cyan-500/50 text-white">
+							<CardHeader>
+								<h2 className="text-3xl font-bold text-center text-cyan-400">Experiências Profissionais</h2>
+							</CardHeader>
+							<CardContent>
+								<div className="grid grid-cols-1 gap-8">
+									{experiences?.map((experience, index) => (
+										<div key={index} className="bg-slate-800/50 rounded-xl p-6">
+											<div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
+												<h3 className="text-2xl font-bold text-white flex items-center">
+													<HiBuildingOffice className="mr-2 text-cyan-400" />
+													{experience.company}
+												</h3>
+												<div className="text-cyan-400 font-medium mt-2 md:mt-0">
+													{experience.mothInitial}/{experience.yearInitial} - {experience.mothFinal}/
+													{experience.yearFinal}
+												</div>
+											</div>
+
+											<div className="mb-4 text-xl font-semibold text-gray-300">{experience.role}</div>
+
+											<Separator className="my-4 bg-slate-700" />
+
+											<div className="mb-6">
+												<h4 className="text-lg font-semibold text-cyan-400 mb-3">Atividades:</h4>
+												<ul className="space-y-2">
+													{experience.activities.map((activity, idx) => (
+														<li key={idx} className="text-gray-300 flex items-start">
+															<span className="text-cyan-400 mr-2">•</span>
+															{activity}
+														</li>
+													))}
+												</ul>
+											</div>
+
+											<div>
+												<h4 className="text-lg font-semibold text-cyan-400 mb-3">Stacks:</h4>
+												<div className="flex flex-wrap gap-2">
+													{filteredSkills?.map((skill, idx) => (
+														<Badge key={idx} className="bg-slate-950 hover:bg-slate-900 text-white border-cyan-500/50">
+															{skill.name}
+														</Badge>
+													))}
+												</div>
+											</div>
+										</div>
+									))}
 								</div>
-
-								<div className='flex items-center gap-2 text-default'>
-									<FaChalkboardTeacher />
-									<span className='font-bold text-white'>{edu.modality === 'on-site' ? 'Presencial' : 'Home Office'}</span>
-								</div>
-
-								<div className='flex items-center gap-2 text-default'>
-									<FaCalendarAlt />
-									<span className='font-bold text-white'>{edu.yearInit} - {edu.yearFinal}</span>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-			</div>
-
-			<div className='flex justify-center items-center gap-3 mb-6 mt-6'>
-				<hr className='border-2 border-default w-[50%] rounded-xl' />
-				<h1 className='text-center text-5xl font-semibold text-white'>Experiências</h1>
-				<hr className='border-2 border-default w-[50%] rounded-xl' />
-			</div>
-
-			<div className='grid grid-cols-2 gap-5'>
-				{experiences &&
-					experiences.map((experience, index) => (
-						<div key={index} className='border-4 rounded-xl border-default p-4 flex-1'>
-							<h2 className='flex font-semibold text-2xl text-white items-center pb-2 border-b-2 border-default '>
-								<HiBuildingOffice className='mr-1 text-default' /> {experience.company}
-							</h2>
-
-							<p className='flex flex-col text-white text-xl mt-2 font-semibold'>
-								{experience.role}
-								<span className='text-slate-400 text-lg font-semibold'>
-									{experience.mothInitial}/{experience.yearInitial}
-									{' - '}
-									{experience.mothFinal}/{experience.yearFinal}
-								</span>
-							</p>
-
-							<h3 className='text-xl text-default mt-2 font-semibold'>Atividades:</h3>
-							<ul className='list-disc list-inside'>
-								{experience.activities.map((activity, idx) => (
-									<li key={idx} className='text-white text-xl'>
-										{activity}
-									</li>
-								))}
-							</ul>
-							<h3 className='text-xl text-default mt-2 mb-3 font-semibold'>Stacks:</h3>
-
-							<ul className='flex flex-wrap gap-2'>
-								{filteredSkills?.map((skill, idx) => (
-									<li
-										key={idx}
-										className='border-2border-default bg-slate-950 rounded-lg px-4 py-1 text-gray-300 font-bold'
-									>
-										{skill.name}
-									</li>
-								))}
-							</ul>
-						</div>
-					))}
+							</CardContent>
+						</Card>
+					</TabsContent>
+				</Tabs>
 			</div>
 		</div>
 	)

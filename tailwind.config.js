@@ -38,6 +38,9 @@ module.exports = {
 				"7h": "700px",
 				"8h": "800px",
 			},
+			minHeight: {
+				"screen-header-footer": "calc(100vh - 78px)",
+			},
 			colors: {
 				default: "var(--color-default)",
 				bg_default: "var(--bg-default)",
