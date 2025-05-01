@@ -3,9 +3,11 @@ import { PiProjectorScreenChartFill } from 'react-icons/pi';
 import { MdOutlineContactMail } from 'react-icons/md';
 import { IoMdLogIn } from 'react-icons/io';
 import { BiSolidGame } from 'react-icons/bi';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Header() {
+  const navigate = useNavigate()
+
   const menuItems = [
     { path: '/', icon: <FaHouseUser />, text: 'Início' },
     { path: '/about', icon: <FaAddressCard />, text: 'Sobre' },
@@ -48,7 +50,7 @@ export default function Header() {
       <div className="flex gap-4">
         <div
           className="px-6 py-2 flex items-center gap-2 bg-slate-800/50 rounded-lg text-gray-200 border border-slate-600 hover:border-default hover:bg-default/10 transition-all duration-300 hover:shadow-[0_0_15px_3px_rgba(0,191,255,0.3)] cursor-pointer"
-          onClick={() => window.history.pushState(null, '', '/contact')}
+          onClick={() => navigate('/contact')}
         >
           <MdOutlineContactMail className="text-default animate-pulse" />
           Contato

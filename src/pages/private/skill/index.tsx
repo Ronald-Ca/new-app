@@ -111,7 +111,7 @@ export default function Skills() {
 	}
 
 	return (
-		<div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800">
+		<div className="min-h-screen-header-footer py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800">
 			<div className="max-w-7xl mx-auto mt-12">
 				<Tabs defaultValue="skills" className="w-full" onValueChange={setActiveTab}>
 					<div className="flex justify-center items-center mb-8">
