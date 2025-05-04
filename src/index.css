@@ -57,6 +57,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -66,15 +67,19 @@
   0% {
     border-color: #00BFFF;
   }
+
   25% {
     border-color: #00FF7F;
   }
+
   50% {
     border-color: #FFD700;
   }
+
   75% {
     border-color: #FF4500;
   }
+
   100% {
     border-color: #00BFFF;
   }
@@ -90,9 +95,11 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -104,11 +111,53 @@
 }
 
 @keyframes neon-pulse {
-  0% { filter: drop-shadow(0 0 2px #00BFFF); }
-  50% { filter: drop-shadow(0 0 5px #00BFFF); }
-  100% { filter: drop-shadow(0 0 2px #00BFFF); }
+  0% {
+    filter: drop-shadow(0 0 2px #00BFFF);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 5px #00BFFF);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 2px #00BFFF);
+  }
 }
 
 .neon-pulse {
   animation: neon-pulse 2s infinite;
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+.bg-grid-white {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
 }

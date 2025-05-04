@@ -57,7 +57,7 @@ export default function Header() {
         </div>
         <div
           className="px-6 py-2 flex items-center gap-2 bg-default/10 rounded-lg text-gray-200 border border-default hover:bg-default/20 transition-all duration-300 group cursor-pointer"
-          onClick={() => window.history.pushState(null, '', '/login')}
+          onClick={() => navigate('/login')}
         >
           <IoMdLogIn className="text-default group-hover:translate-x-1 transition-transform" />
           Login
