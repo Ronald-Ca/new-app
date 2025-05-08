@@ -1,123 +1,139 @@
-import { Button } from '../../components/ui/button'
-import { FaAddressCard, FaEdit, FaGamepad, FaHouseUser, FaGraduationCap } from 'react-icons/fa'
-import { ImExit } from 'react-icons/im'
-import { PiProjectorScreenChartFill } from 'react-icons/pi'
-import { useState } from 'react'
-import { IoDocumentAttach, IoShareSocial } from 'react-icons/io5'
-import { SiLevelsdotfyi } from 'react-icons/si'
-import ConfigAbout from './content/config-about'
-import ConfigHome from './content/config-home'
-import ConfigSkill from './content/config-skill'
-import ConfigProject from './content/config-project'
-import ConfigSocialMedia from './content/config-social-media'
-import ConfigExperience from './content/config-experience'
-import ConfigCurriculum from './content/config-curriculum'
-import ConfigEducation from './content/config-education'
+import { useState, Suspense, lazy, useMemo } from "react"
+import { FaHouseUser, FaAddressCard, FaGraduationCap, FaGamepad, FaEdit } from "react-icons/fa"
+import { SiLevelsdotfyi } from "react-icons/si"
+import { PiProjectorScreenChartFill } from "react-icons/pi"
+import { IoShareSocial, IoDocumentAttach } from "react-icons/io5"
+import { Button } from "@app/components/ui/button"
+import { ImExit } from "react-icons/im"
+import { cn } from "@app/lib/utils"
+import { SidebarMenu, SidebarMenuItem } from "@app/components/ui/sidebar"
 
-export default function Config() {
-	const [activeComponent, setActiveComponent] = useState<
-		'home' | 'about' | 'education' | 'skills' | 'projects' | 'social-media' | 'stack' | 'experience' | 'curriculum'
-	>('home')
+const configTabs = [
+	{
+		key: "home",
+		label: "Início",
+		icon: FaHouseUser,
+		component: lazy(() => import("./content/config-home")),
+	},
+	{
+		key: "about",
+		label: "Sobre",
+		icon: FaAddressCard,
+		component: lazy(() => import("./content/config-about")),
+	},
+	{
+		key: "education",
+		label: "Formação",
+		icon: FaGraduationCap,
+		component: lazy(() => import("./content/config-education")),
+	},
+	{
+		key: "experience",
+		label: "Experiência",
+		icon: SiLevelsdotfyi,
+		component: lazy(() => import("./content/config-experience")),
+	},
+	{
+		key: "skills",
+		label: "Skills",
+		icon: FaGamepad,
+		component: lazy(() => import("./content/config-skill")),
+	},
+	{
+		key: "projects",
+		label: "Projetos",
+		icon: PiProjectorScreenChartFill,
+		component: lazy(() => import("./content/config-project")),
+	},
+	{
+		key: "social-media",
+		label: "Redes",
+		icon: IoShareSocial,
+		component: lazy(() => import("./content/config-social-media")),
+	},
+	{
+		key: "curriculum",
+		label: "Currículo",
+		icon: IoDocumentAttach,
+		component: lazy(() => import("./content/config-curriculum")),
+	},
+] as const
 
-	const renderComponent = () => {
-		switch (activeComponent) {
-			case 'home':
-				return <ConfigHome />
-			case 'about':
-				return <ConfigAbout />
-			case 'education':
-				return <ConfigEducation />
-			case 'skills':
-				return <ConfigSkill />
-			case 'projects':
-				return <ConfigProject />
-			case 'social-media':
-				return <ConfigSocialMedia />
-			case 'experience':
-				return <ConfigExperience />
-			case 'curriculum':
-				return <ConfigCurriculum />
-			default:
-				return <ConfigHome />
-		}
-	}
+type TabKey = (typeof configTabs)[number]["key"]
+
+export default function ConfigPage() {
+	const [active, setActive] = useState<TabKey>("home")
+
+	const ActiveComponent = useMemo(() => configTabs.find((tab) => tab.key === active)?.component, [active])
 
 	return (
-		<div className='flex flex-col min-h-screen bg-gradient-to-r from-slate-950 via-slate-900 to-gray-950 animate-gradient-move'>
-			<header className='flex items-center justify-between p-[20px] bg-slate-950 border-b border-[#00BFFF]'>
-				<h1 className='text-[#00BFFF] text-[25px] font-bold flex items-center gap-[10px]'>
-					<FaEdit className='mt-[2px] text-[#00BFFF]' />
-					Modo Editor
+		<div className="flex flex-col min-h-screen bg-[#0a0e17]">
+			<header className="flex items-center justify-between p-4 bg-[#070b14] border-b border-[#1e2a4a] shadow-md">
+				<h1 className="text-cyan-400 text-2xl font-bold flex items-center gap-3">
+					<FaEdit className="text-cyan-500" />
+					<span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Modo Editor</span>
 				</h1>
-				<a href='/'>
-					<Button className='text-[#00BFFF] w-[100px] flex gap-[5px] border border-[#00BFFF] hover:bg-[#1c222b]'>
-						<ImExit className='mt-[2px]' />
-						Sair
-					</Button>
-				</a>
+				<Button
+					variant="outline"
+					className="border-cyan-700 hover:bg-cyan-950 hover:text-cyan-300 transition-all duration-300"
+				>
+					<a href="/" className="flex items-center gap-2">
+						<ImExit /> Sair
+					</a>
+				</Button>
 			</header>
-			<main className='flex flex-1'>
-				<menu className='w-[250px] bg-slate-950 min-h-full border-r border-[#00BFFF]'>
-					<ul className='flex flex-col justify-center items-center gap-[10px] text-gray-50'>
-						<li
-							onClick={() => setActiveComponent('home')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] mt-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'home' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
+
+			<main className="flex flex-1">
+				<aside className="w-64 bg-[#070b14] border-r border-[#1e2a4a] shadow-lg">
+					<div className="px-3 py-2">
+						<SidebarMenu>
+							{configTabs.map(({ key, label, icon: Icon }) => (
+								<SidebarMenuItem key={key}>
+									<button
+										onClick={() => setActive(key)}
+										className={cn(
+											"w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200",
+											"hover:bg-[#111827] group relative overflow-hidden",
+											active === key
+												? "bg-gradient-to-r from-[#0c1a2c] to-[#111827] text-cyan-400 font-medium border-l-2 border-cyan-500"
+												: "text-gray-400",
+										)}
+									>
+										{active === key && <div className="absolute inset-0 bg-cyan-500/5 rounded-lg" />}
+										<span
+											className={cn(
+												"text-lg transition-all duration-200",
+												active === key ? "text-cyan-400" : "text-gray-500 group-hover:text-gray-300",
+											)}
+										>
+											<Icon />
+										</span>
+										<span className="relative z-10">{label}</span>
+
+										{active === key && <div className="absolute right-2 w-1.5 h-1.5 rounded-full bg-cyan-500"></div>}
+									</button>
+								</SidebarMenuItem>
+							))}
+						</SidebarMenu>
+					</div>
+				</aside>
+
+				<section className="flex-1 p-6 overflow-auto bg-gradient-to-b from-[#0a0e17] to-[#0c1220]">
+					<div className="bg-[#070b14] rounded-xl border border-[#1e2a4a] shadow-xl p-6 h-full">
+						<Suspense
+							fallback={
+								<div className="flex items-center justify-center h-full">
+									<div className="animate-pulse flex flex-col items-center">
+										<div className="h-2 w-20 bg-gray-700 rounded mb-3"></div>
+										<div className="h-2 w-28 bg-gray-800 rounded"></div>
+									</div>
+								</div>
+							}
 						>
-							<FaHouseUser color='#00BFFF' />
-							Início
-						</li>
-						<li
-							onClick={() => setActiveComponent('about')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'about' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
-						>
-							<FaAddressCard color='#00BFFF' />
-							Sobre
-						</li>
-						<li
-							onClick={() => setActiveComponent('education')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'education' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
-						>
-							<FaGraduationCap color='#00BFFF' />
-							Formação Acadêmica
-						</li>
-						<li
-							onClick={() => setActiveComponent('experience')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'experience' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
-						>
-							<SiLevelsdotfyi color='#00BFFF' />
-							Experiência
-						</li>
-						<li
-							onClick={() => setActiveComponent('skills')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'skills' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
-						>
-							<FaGamepad color='#00BFFF' />
-							Skills
-						</li>
-						<li
-							onClick={() => setActiveComponent('projects')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'projects' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
-						>
-							<PiProjectorScreenChartFill color='#00BFFF' />
-							Projetos
-						</li>
-						<li
-							onClick={() => setActiveComponent('social-media')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'social-media' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
-						>
-							<IoShareSocial color='#00BFFF' />
-							Redes Sociais
-						</li>
-						<li
-							onClick={() => setActiveComponent('curriculum')}
-							className={`flex justify-center items-center gap-[5px] text-[#00BFFF] border-t border-t-[#00BFFF] border-b border-b-[#00BFFF] w-full p-[10px] font-semibold cursor-pointer transition-colors ${activeComponent === 'curriculum' ? 'bg-[#1c222b]' : 'hover:bg-[#1c222b]'}`}
-						>
-							<IoDocumentAttach color='#00BFFF' />
-							Currículo
-						</li>
-					</ul>
-				</menu>
-				<div className='flex-1 p-[20px]'>{renderComponent()}</div>
+							{ActiveComponent && <ActiveComponent />}
+						</Suspense>
+					</div>
+				</section>
 			</main>
 		</div>
 	)

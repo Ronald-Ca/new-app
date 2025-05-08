@@ -1,5 +1,5 @@
 import { Button } from '../../../components/ui/button'
-import { useAlert } from '../../../contexts/alertContext'
+import { useAlert } from '../../../contexts/alert-context'
 import { useCreateCurriculumMutation, useGetCurriculumQuery } from '../../../queries/curriculum'
 import { useState, useRef, useEffect } from 'react'
 import { TiUploadOutline } from 'react-icons/ti'

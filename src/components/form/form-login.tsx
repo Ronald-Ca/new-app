@@ -1,16 +1,20 @@
-import { useAlert } from "@app/contexts/alertContext";
+import { useAlert } from "@app/contexts/alert-context";
 import { useAuthenticateMutation } from "@app/queries/user";
 import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Eye, EyeOff, Lock, LogIn, User } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { cn } from "@app/lib/utils";
+import { UserLoginType } from "@app/services/user-service";
 
 export default function FormLogin() {
-    const form = useForm();
+    const form = useForm<UserLoginType>({
+        defaultValues: { email: "", password: "" },
+    });
+
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -40,15 +44,17 @@ export default function FormLogin() {
         },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const onSubmit = async (data: any) => {
+    const onSubmit: SubmitHandler<UserLoginType> = async (data) => {
         setIsLoading(true);
         loginMutation.mutate(data);
     };
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6 w-full"
+            >
                 <FormField
                     control={form.control}
                     name="email"

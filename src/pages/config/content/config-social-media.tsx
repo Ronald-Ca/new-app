@@ -2,7 +2,7 @@
 import FormSocialMedia from '../../../components/form/form-social-media'
 import { Card, CardTitle } from '../../../components/ui/card'
 import { DialogHeader } from '../../../components/ui/dialog'
-import { useAlert } from '../../../contexts/alertContext'
+import { useAlert } from '../../../contexts/alert-context'
 import { useCreateSocialMediaMutation, useGetSocialMediaQuery, useUpdateSocialMediaMutation } from '../../../queries/social-media'
 import { SocialMediaType } from '../../../services/social-media-service'
 import { Dialog, DialogClose, DialogContent, DialogTitle } from '@radix-ui/react-dialog'

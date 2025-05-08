@@ -2,7 +2,7 @@
 import { FormProject } from '../../../components/form/form-project'
 import { Card, CardContent, CardTitle } from '../../../components/ui/card'
 import { DialogHeader } from '../../../components/ui/dialog'
-import { useAlert } from '../../../contexts/alertContext'
+import { useAlert } from '../../../contexts/alert-context'
 import { useCreateProjectMutation, useGetProjectsQuery, useUpdateProjectMutation } from '../../../queries/project'
 import { ProjectType } from '../../../services/project-service'
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
