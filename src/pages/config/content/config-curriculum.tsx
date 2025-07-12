@@ -2,8 +2,10 @@ import { Button } from '../../../components/ui/button'
 import { useAlert } from '../../../contexts/alert-context'
 import { useCreateCurriculumMutation, useGetCurriculumQuery } from '../../../queries/curriculum'
 import { useState, useRef, useEffect } from 'react'
-import { TiUploadOutline } from 'react-icons/ti'
+import { FaFilePdf, FaSave, FaSpinner, FaUpload } from 'react-icons/fa'
 import { useQueryClient } from '@tanstack/react-query'
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
+import { Skeleton } from '../../../components/ui/skeleton'
 
 export default function ConfigCurriculum() {
 	const { setAlert } = useAlert()
@@ -27,7 +29,7 @@ export default function ConfigCurriculum() {
 		fileInputRef.current?.click()
 	}
 
-	const { data: curriculum } = useGetCurriculumQuery()
+	const { data: curriculum, isLoading } = useGetCurriculumQuery()
 
 	const createCurriculum = useCreateCurriculumMutation({
 		onSuccess: () => {
@@ -57,6 +59,8 @@ export default function ConfigCurriculum() {
 		},
 	})
 
+	const isMutating = createCurriculum.isLoading || updateCurriculum.isLoading
+
 	const handleSave = () => {
 		if (curriculum?.curriculum) {
 			updateCurriculum.mutate({ curriculum: file as File, fileName: fileName as string, id: curriculum.id })
@@ -68,44 +72,82 @@ export default function ConfigCurriculum() {
 	useEffect(() => {
 		if (curriculum?.curriculum) {
 			setFileName(curriculum.fileName as string)
-
 			if (typeof curriculum.curriculum === 'string') {
 				setLocalPreviewUrl(curriculum.curriculum)
 			}
 		}
 	}, [curriculum])
 
-	return (
-		<div className='flex flex-col items-center gap-4 w-full justify-center text-white'>
-			<h1 className='font-semibold text-2xl'>Carregar Currículo</h1>
-
-			<div className='flex flex-col items-center gap-4'>
-				<div className='flex gap-3'>
-					<Button className='flex items-center gap-2' onClick={handleUploadClick}>
-						Upload <TiUploadOutline />
-					</Button>
-
-					<Button
-						onClick={handleSave}
-						className='bg-default text-slate-950 border-2 border-slate-950 hover:text-default hover:bg-bg_component hover:border-default'
-					>
-						Salvar
-					</Button>
-
-					<input ref={fileInputRef} type='file' accept='.pdf' className='hidden' onChange={handleFileChange} />
-				</div>
-				{fileName && <span className='text-slate-400'>{fileName}</span>}
+	if (isLoading) {
+		return (
+			<div className="flex flex-col items-center justify-center min-h-[60vh] w-full">
+				<Skeleton className="h-12 w-64 mb-6" />
+				<Skeleton className="h-40 w-96 mb-4" />
+				<Skeleton className="h-96 w-[32rem] rounded-xl" />
 			</div>
+		)
+	}
 
-			{localPreviewUrl && (
-				<div className='w-5w h-6h mt-4'>
-					<iframe
-						src={localPreviewUrl || undefined}
-						className='w-full h-full border border-slate-400'
-						title='Pré-visualização do Currículo'
-					></iframe>
-				</div>
-			)}
+	return (
+		<div className="min-h-full flex flex-col items-center justify-center py-8 px-2">
+			<Card className="bg-[#0c1220] border border-[#1e2a4a] shadow-lg w-full max-w-2xl">
+				<CardHeader className="pb-2 flex flex-col items-center">
+					<CardTitle className="text-2xl font-bold text-cyan-400 flex items-center gap-3">
+						<span className="bg-cyan-500/10 p-2 rounded-md">
+							<FaFilePdf className="text-cyan-400" size={24} />
+						</span>
+						Currículo em PDF
+					</CardTitle>
+					<p className="text-gray-400 text-sm mt-2 text-center max-w-lg">
+						Faça upload do seu currículo em PDF. Ele ficará disponível para download no seu portfólio.
+					</p>
+				</CardHeader>
+				<CardContent className="flex flex-col items-center gap-6">
+					<div className="flex flex-col items-center gap-2 w-full">
+						<div className="flex gap-3 w-full justify-center">
+							<Button
+								type="button"
+								className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-medium px-6 py-2 rounded-md shadow"
+								onClick={handleUploadClick}
+							>
+								<FaUpload />
+								<span>Selecionar PDF</span>
+							</Button>
+							<Button
+								type="button"
+								onClick={handleSave}
+								disabled={!file || isMutating}
+								className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-medium px-6 py-2 rounded-md shadow"
+							>
+								{isMutating ? <FaSpinner className="animate-spin" /> : <FaSave />}
+								<span>{isMutating ? 'Salvando...' : 'Salvar'}</span>
+							</Button>
+							<input
+								ref={fileInputRef}
+								type="file"
+								accept=".pdf"
+								className="hidden"
+								onChange={handleFileChange}
+							/>
+						</div>
+						{fileName && (
+							<span className="text-cyan-400 text-sm mt-1 flex items-center gap-2">
+								<FaFilePdf className="text-cyan-400" />
+								{fileName}
+							</span>
+						)}
+					</div>
+					{localPreviewUrl && (
+						<div className="w-full h-[32rem] max-w-2xl mt-4 rounded-xl overflow-hidden border border-cyan-900 bg-[#070b14] shadow-inner">
+							<iframe
+								src={localPreviewUrl || undefined}
+								className="w-full h-full border-none rounded-xl"
+								title="Pré-visualização do Currículo"
+							></iframe>
+						</div>
+					)}
+				</CardContent>
+			</Card>
 		</div>
 	)
 }
