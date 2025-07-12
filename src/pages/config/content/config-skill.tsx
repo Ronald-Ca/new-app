@@ -3,17 +3,19 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../../../c
 import { useAlert } from '../../../contexts/alert-context'
 import { useCreateSkillMutation, useGetSkillsQuery, useUpdateSkillMutation } from '../../../queries/skill'
 import { SkillType } from '../../../services/skill-service'
-import { useState } from 'react'
+import { loadIcons } from '../../../helpers/load-icons'
+import React, { useEffect, useState, ReactElement } from 'react'
 import { FaCode, FaEdit, FaTrash } from 'react-icons/fa'
 import { IoIosAdd } from 'react-icons/io'
 import { useQueryClient } from '@tanstack/react-query'
 import { Button } from '@app/components/ui/button'
 import { Badge } from '@app/components/ui/badge'
-import { Progress } from '@radix-ui/react-progress'
 import DeleteDialog from '@app/components/common/dialogs/delete-dialog/delete-dialog'
-import FormDialog from '@app/components/common/dialogs/form-dialog/form-dialog'
 import SkeletonGrid from '@app/components/common/skeleton-grid/skeleton-grid'
 import PageHeader from '@app/components/common/page-header/page-header'
+import { SegmentedProgress } from '../../../components/ui/segmented-progress'
+import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
+import { IoClose } from 'react-icons/io5'
 
 interface Skill {
 	name: string
@@ -22,6 +24,19 @@ interface Skill {
 	experience: number
 	color: string
 	type: 'skill' | 'competence'
+}
+
+function DynamicIcon({ iconName, color, size = 40 }: { iconName: string, color: string, size?: number }) {
+    const [icon, setIcon] = useState<ReactElement | null>(null)
+    useEffect(() => {
+        let mounted = true
+        loadIcons(iconName, color).then((el) => {
+            if (mounted) setIcon(React.cloneElement(el, { size }))
+        }).catch(() => setIcon(null))
+        return () => { mounted = false }
+    }, [iconName, color, size])
+    if (!icon) return <span style={{ fontSize: size }}>💻</span>
+    return icon
 }
 
 export default function ConfigSkill() {
@@ -91,26 +106,6 @@ export default function ConfigSkill() {
 
 	const isMutationLoading = createSkill.isLoading || updateSkill.isLoading
 
-	// Função para obter a cor do texto baseada na cor de fundo
-	const getTextColor = (bgColor: string) => {
-		// Se a cor começar com # e tiver 7 caracteres (formato #RRGGBB)
-		if (bgColor && bgColor.startsWith("#") && bgColor.length === 7) {
-			// Converte a cor hex para RGB
-			const r = Number.parseInt(bgColor.slice(1, 3), 16)
-			const g = Number.parseInt(bgColor.slice(3, 5), 16)
-			const b = Number.parseInt(bgColor.slice(5, 7), 16)
-
-			// Calcula a luminosidade (fórmula simplificada)
-			const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-
-			// Retorna branco para cores escuras e preto para cores claras
-			return luminance > 0.5 ? "#000000" : "#FFFFFF"
-		}
-
-		// Cor padrão se não conseguir determinar
-		return "#FFFFFF"
-	}
-
 	return (
 		<div className="min-h-full">
 			<PageHeader
@@ -148,15 +143,10 @@ export default function ConfigSkill() {
 										<div className="space-y-1">
 											<div className="flex justify-between text-xs">
 												<span className="text-gray-400">Nível:</span>
-												<span className="text-cyan-400">{skill.level}/10</span>
+												<span className="text-cyan-400">{skill.level}/5</span>
 											</div>
 
-											<Progress value={skill.level * 10} className="h-2 w-full bg-slate-700">
-												<div
-													className={`linear-gradient(to right, ${skill.color ? `${skill.color}-500, ${skill.color}-600` : "cyan-500, blue-600"}) rounded-full`}
-													style={{ width: `${skill.level * 10}%` }}
-												></div>
-											</Progress>
+											<SegmentedProgress value={skill.level} max={5} className="my-1" />
 										</div>
 
 										<div className="flex justify-between items-center text-xs">
@@ -182,15 +172,7 @@ export default function ConfigSkill() {
 								</CardContent>
 
 								<CardFooter className="flex justify-center pt-0 pb-3">
-									<div
-										className="w-8 h-8 rounded-full flex items-center justify-center text-lg"
-										style={{
-											backgroundColor: skill.color || "#0ea5e9",
-											color: getTextColor(skill.color),
-										}}
-									>
-										{skill.icon || "💻"}
-									</div>
+									<DynamicIcon iconName={skill.icon} color={skill.color || '#0ea5e9'} size={40} />
 								</CardFooter>
 
 								<div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -227,14 +209,32 @@ export default function ConfigSkill() {
 				</div>
 			)}
 
-			<FormDialog
-				open={isOpen}
-				onOpenChange={setIsOpen}
-				title={selectedSkill ? 'Editar Habilidade' : 'Adicionar Habilidade'}
-				icon={<FaCode size={18} />}
-			>
-				<FormSkill selectedSkill={selectedSkill} handleSave={handleSave} isSubmitting={isMutationLoading} />
-			</FormDialog>
+			<Dialog open={isOpen} onOpenChange={setIsOpen}>
+				<DialogContent
+					className="
+					fixed top-1/2 left-1/2 
+					p-4 rounded-lg
+					transform -translate-x-1/2 -translate-y-1/2 
+					bg-[#0c1220] border border-[#1e2a4a] 
+					text-gray-100 w-full max-w-2xl max-h-[90vh] overflow-y-auto
+					scrollbar-thin
+					scrollbar-track-transparent scrollbar-track-rounded-lg
+					scrollbar-thumb-cyan-400 scrollbar-thumb-rounded-lg
+					hover:scrollbar-thumb-cyan-400
+					"
+				>
+					<div className="mb-4">
+						<DialogTitle className="text-xl font-semibold text-cyan-400 flex items-center justify-between gap-2">
+							<div className="flex gap-2 items-center">
+								<FaCode size={18} />
+								{selectedSkill ? 'Editar Habilidade' : 'Adicionar Habilidade'}
+							</div>
+							<IoClose className="cursor-pointer" onClick={() => setIsOpen(false)} />
+						</DialogTitle>
+					</div>
+					<FormSkill selectedSkill={selectedSkill} handleSave={handleSave} isSubmitting={isMutationLoading} />
+				</DialogContent>
+			</Dialog>
 
 			<DeleteDialog
 				open={isDeleteDialogOpen}

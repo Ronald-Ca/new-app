@@ -8,8 +8,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix
 import { MdOutlineEmojiEmotions } from 'react-icons/md'
 import { Separator } from '@radix-ui/react-separator'
 import { TbCategory } from 'react-icons/tb'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Slider } from '@radix-ui/react-slider'
+import { IconPicker } from '../common/icon-picker/IconPicker'
+import { SegmentedProgress } from '../ui/segmented-progress'
 
 interface Skill {
 	name: string
@@ -43,8 +45,6 @@ const colorPalette = [
 ]
 
 export default function FormSkill({ selectedSkill, handleSave, isSubmitting = false }: SkillFormProps) {
-	const [previewColor, setPreviewColor] = useState("#0ea5e9")
-	const [previewIcon, setPreviewIcon] = useState("💻")
 
 	const form = useForm<Skill>({
 		defaultValues: {
@@ -57,19 +57,8 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 		},
 	})
 
-	const { watch, setValue } = form
+	const { setValue } = form
 
-	// Observar mudanças nos campos de cor e ícone
-	const colorValue = watch("color")
-	const iconValue = watch("icon")
-
-	useEffect(() => {
-		setPreviewColor(colorValue || "#0ea5e9")
-	}, [colorValue])
-
-	useEffect(() => {
-		setPreviewIcon(iconValue || "💻")
-	}, [iconValue])
 
 	useEffect(() => {
 		if (selectedSkill) {
@@ -81,8 +70,6 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 				color: selectedSkill.color || "#0ea5e9",
 				type: selectedSkill.type || "skill",
 			})
-			setPreviewColor(selectedSkill.color || "#0ea5e9")
-			setPreviewIcon(selectedSkill.icon || "💻")
 		} else {
 			form.reset({
 				name: "",
@@ -92,8 +79,6 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 				color: "#0ea5e9",
 				type: "skill",
 			})
-			setPreviewColor("#0ea5e9")
-			setPreviewIcon("💻")
 		}
 	}, [selectedSkill, form])
 
@@ -101,46 +86,9 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 		handleSave(data)
 	}
 
-	// Função para obter a cor do texto baseada na cor de fundo
-	const getTextColor = (bgColor: string) => {
-		// Se a cor começar com # e tiver 7 caracteres (formato #RRGGBB)
-		if (bgColor && bgColor.startsWith("#") && bgColor.length === 7) {
-			// Converte a cor hex para RGB
-			const r = Number.parseInt(bgColor.slice(1, 3), 16)
-			const g = Number.parseInt(bgColor.slice(3, 5), 16)
-			const b = Number.parseInt(bgColor.slice(5, 7), 16)
-
-			// Calcula a luminosidade (fórmula simplificada)
-			const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-
-			// Retorna branco para cores escuras e preto para cores claras
-			return luminance > 0.5 ? "#000000" : "#FFFFFF"
-		}
-
-		// Cor padrão se não conseguir determinar
-		return "#FFFFFF"
-	}
-
-	// Emojis comuns para habilidades técnicas
-	const commonEmojis = ["💻", "🚀", "⚙️", "🔧", "📱", "🌐", "🔍", "📊", "🛠️", "📈", "🧩", "🔌", "🧠", "🤖"]
-
 	return (
 		<FormProvider {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 py-4">
-				<div className="flex flex-col items-center mb-6">
-					<div
-						className="w-16 h-16 rounded-full flex items-center justify-center text-3xl mb-2"
-						style={{
-							backgroundColor: previewColor,
-							color: getTextColor(previewColor),
-							transition: "all 0.3s ease",
-						}}
-					>
-						{previewIcon}
-					</div>
-					<p className="text-gray-400 text-sm">Pré-visualização</p>
-				</div>
-
 				<div className="space-y-4">
 					<div className="flex items-center gap-2 mb-2">
 						<FaCode className="text-cyan-500" size={16} />
@@ -180,8 +128,8 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 										type="button"
 										variant={field.value === "skill" ? "default" : "outline"}
 										className={`flex-1 ${field.value === "skill"
-												? "bg-gradient-to-r from-cyan-500 to-blue-600"
-												: "bg-[#070b14] border border-[#1e2a4a] text-gray-400"
+											? "bg-gradient-to-r from-cyan-500 to-blue-600"
+											: "bg-[#070b14] border border-[#1e2a4a] text-gray-400"
 											}`}
 										onClick={() => setValue("type", "skill")}
 									>
@@ -191,8 +139,8 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 										type="button"
 										variant={field.value === "competence" ? "default" : "outline"}
 										className={`flex-1 ${field.value === "competence"
-												? "bg-gradient-to-r from-purple-500 to-pink-600"
-												: "bg-[#070b14] border border-[#1e2a4a] text-gray-400"
+											? "bg-gradient-to-r from-purple-500 to-pink-600"
+											: "bg-[#070b14] border border-[#1e2a4a] text-gray-400"
 											}`}
 										onClick={() => setValue("type", "competence")}
 									>
@@ -220,17 +168,10 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 							<FormItem>
 								<div className="flex justify-between items-center">
 									<FormLabel className="text-gray-300">Nível de Proficiência</FormLabel>
-									<span className="text-cyan-400 font-medium">{value}/10</span>
+									<span className="text-cyan-400 font-medium">{value}/5</span>
 								</div>
 								<FormControl>
-									<Slider
-										min={1}
-										max={10}
-										step={1}
-										value={[value]}
-										onValueChange={(vals) => onChange(vals[0])}
-										className="py-4"
-									/>
+									<SegmentedProgress value={value} max={5} onChange={onChange} className="my-2" />
 								</FormControl>
 								<div className="flex justify-between text-xs text-gray-500 px-1">
 									<span>Iniciante</span>
@@ -252,9 +193,14 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 										<FaClock className="text-cyan-500/70" size={14} />
 										Tempo de Experiência (anos)
 									</FormLabel>
-									<span className="text-cyan-400 font-medium">
-										{value} {value === 1 ? "ano" : "anos"}
-									</span>
+									<Input
+										type="number"
+										min={1}
+										max={20}
+										value={value}
+										onChange={e => onChange(Number(e.target.value))}
+										className="w-16 bg-[#070b14] border border-[#1e2a4a] focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-gray-100 rounded-md text-center"
+									/>
 								</div>
 								<FormControl>
 									<Slider
@@ -290,28 +236,17 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 									Ícone (emoji)
 								</FormLabel>
 								<FormControl>
-									<div className="flex gap-2">
-										<Input
-											{...field}
-											placeholder="Emoji (ex: 💻, 🚀)"
-											className="bg-[#070b14] border border-[#1e2a4a] focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-gray-100 rounded-md"
+									<div>
+										<IconPicker
+											onSelect={(iconName) => field.onChange(iconName)}
+											size={28}
+											color={form.watch('color') || '#0ea5e9'}
 										/>
 									</div>
 								</FormControl>
-								<div className="flex flex-wrap gap-2 mt-2">
-									{commonEmojis.map((emoji) => (
-										<Button
-											key={emoji}
-											type="button"
-											variant="outline"
-											size="sm"
-											className="h-8 w-8 p-0 bg-[#070b14] border border-[#1e2a4a] hover:bg-[#0c1220] hover:border-cyan-500"
-											onClick={() => setValue("icon", emoji)}
-										>
-											{emoji}
-										</Button>
-									))}
-								</div>
+								{field.value && (
+									<div className="mt-2 text-xs text-cyan-400">Ícone selecionado: <span className="font-mono">{field.value}</span></div>
+								)}
 								<FormMessage className="text-red-400" />
 							</FormItem>
 						)}
@@ -352,7 +287,14 @@ export default function FormSkill({ selectedSkill, handleSave, isSubmitting = fa
 											</TooltipContent>
 										</Tooltip>
 									</TooltipProvider>
-									<div className="text-sm text-gray-400 uppercase">{field.value}</div>
+									{/* Substituir a div de valor da cor por um input manual */}
+									<Input
+										value={field.value}
+										onChange={e => field.onChange(e.target.value)}
+										placeholder="#0ea5e9"
+										className="w-28 bg-[#070b14] border border-[#1e2a4a] focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 text-gray-100 rounded-md text-sm uppercase"
+										maxLength={7}
+									/>
 								</div>
 								<div className="flex flex-wrap gap-2 mt-2">
 									{colorPalette.map((color) => (
