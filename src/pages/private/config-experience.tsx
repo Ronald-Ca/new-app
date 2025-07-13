@@ -1,19 +1,19 @@
 import type React from "react"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card"
-import { DialogHeader } from "../../../components/ui/dialog"
-import { useAlert } from "../../../contexts/alert-context"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@app/components/ui/card"
+import { DialogHeader } from "@app/components/ui/dialog"
+import { useAlert } from "@app/contexts/alert-context"
 import {
 	useCreateExperienceMutation,
 	useGetExperienceQuery,
 	useUpdateExperienceMutation,
-} from "../../../queries/experience"
-import type { ExperienceType } from "../../../services/experience-service"
-import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog"
+} from "@app/queries/experience"
+import type { ExperienceType } from "@app/services/experience-service"
+import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog"	
 import { useState } from "react"
 import { FaEdit, FaBriefcase } from "react-icons/fa"
 import { IoIosAdd } from "react-icons/io"
 import { useQueryClient } from "@tanstack/react-query"
-import { FormExperience } from "../../../components/form/form-experience"
+import { FormExperience } from "@app/components/form/form-experience"
 import { FaTrash } from "react-icons/fa6"
 import {
 	AlertDialog,

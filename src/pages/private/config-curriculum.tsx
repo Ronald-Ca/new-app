@@ -1,11 +1,11 @@
-import { Button } from '../../../components/ui/button'
-import { useAlert } from '../../../contexts/alert-context'
-import { useCreateCurriculumMutation, useGetCurriculumQuery } from '../../../queries/curriculum'
+import { Button } from '@app/components/ui/button'
+import { useAlert } from '@app/contexts/alert-context'
+import { useCreateCurriculumMutation, useGetCurriculumQuery } from '@app/queries/curriculum'
 import { useState, useRef, useEffect } from 'react'
 import { FaFilePdf, FaSave, FaSpinner, FaUpload } from 'react-icons/fa'
 import { useQueryClient } from '@tanstack/react-query'
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
-import { Skeleton } from '../../../components/ui/skeleton'
+import { Card, CardContent, CardHeader, CardTitle } from '@app/components/ui/card'
+import { Skeleton } from '@app/components/ui/skeleton'
 
 export default function ConfigCurriculum() {
 	const { setAlert } = useAlert()

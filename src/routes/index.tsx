@@ -1,14 +1,14 @@
-import Home from '../pages/private/home'
 import ProtectedPage from '../components/page/protected-page'
-import Config from '../pages/config'
 import Login from '../pages/login'
-import About from '../pages/private/about'
-import Contact from '../pages/private/contact'
-import Projects from '../pages/private/project'
-import Skills from '../pages/private/skill'
 import { Routes, Route } from 'react-router-dom'
 import Thanks from '../pages/thanks'
 import NotFound from '../pages/not-found';
+import Home from '@app/pages/public/home'
+import Config from '@app/pages/private'
+import About from '@app/pages/public/about'
+import Skills from '@app/pages/public/skill';
+import Projects from '@app/pages/public/project';
+import Contact from '@app/pages/public/contact';
 
 export default function App() {
 	return (

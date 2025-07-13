@@ -1,16 +1,15 @@
-
-import FormSocialMedia from '../../../components/form/form-social-media'
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
+import FormSocialMedia from '@app/components/form/form-social-media'
+import { Card, CardContent, CardHeader, CardTitle } from '@app/components/ui/card'
 import { Button } from '@app/components/ui/button'
-import { useAlert } from '../../../contexts/alert-context'
-import { useCreateSocialMediaMutation, useGetSocialMediaQuery, useUpdateSocialMediaMutation } from '../../../queries/social-media'
-import { SocialMediaType } from '../../../services/social-media-service'
-import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
+import { useAlert } from '@app/contexts/alert-context'
+import { useCreateSocialMediaMutation, useGetSocialMediaQuery, useUpdateSocialMediaMutation } from '@app/queries/social-media'
+import { SocialMediaType } from '@app/services/social-media-service'
 import { useState } from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import { IoIosAdd } from 'react-icons/io'
 import { IoMdClose } from 'react-icons/io'
 import { useQueryClient } from '@tanstack/react-query'
+import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
 
 export default function ConfigSocialMedia() {
 	const { setAlert } = useAlert()

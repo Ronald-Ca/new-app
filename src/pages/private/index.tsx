@@ -13,55 +13,55 @@ const configTabs = [
 		key: "home",
 		label: "Início",
 		icon: FaHouseUser,
-		component: lazy(() => import("./content/config-home")),
+		component: lazy(() => import("./config-home")),
 	},
 	{
 		key: "about",
 		label: "Sobre",
 		icon: FaAddressCard,
-		component: lazy(() => import("./content/config-about")),
+		component: lazy(() => import("./config-about")),
 	},
 	{
 		key: "education",
 		label: "Formação",
 		icon: FaGraduationCap,
-		component: lazy(() => import("./content/config-education")),
+		component: lazy(() => import("./config-education")),
 	},
 	{
 		key: "experience",
 		label: "Experiência",
 		icon: SiLevelsdotfyi,
-		component: lazy(() => import("./content/config-experience")),
+		component: lazy(() => import("./config-experience")),
 	},
 	{
 		key: "skills",
 		label: "Skills",
 		icon: FaGamepad,
-		component: lazy(() => import("./content/config-skill")),
+		component: lazy(() => import("./config-skill")),
 	},
 	{
 		key: "projects",
 		label: "Projetos",
 		icon: PiProjectorScreenChartFill,
-		component: lazy(() => import("./content/config-project")),
+		component: lazy(() => import("./config-project")),
 	},
 	{
 		key: "social-media",
 		label: "Redes",
 		icon: IoShareSocial,
-		component: lazy(() => import("./content/config-social-media")),
+		component: lazy(() => import("./config-social-media")),
 	},
 	{
 		key: "curriculum",
 		label: "Currículo",
 		icon: IoDocumentAttach,
-		component: lazy(() => import("./content/config-curriculum")),
+		component: lazy(() => import("./config-curriculum")),
 	},
 ] as const
 
 type TabKey = (typeof configTabs)[number]["key"]
 
-export default function ConfigPage() {
+export default function Config() {
 	const [active, setActive] = useState<TabKey>("home")
 
 	const ActiveComponent = useMemo(() => configTabs.find((tab) => tab.key === active)?.component, [active])
