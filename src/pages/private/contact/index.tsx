@@ -24,19 +24,23 @@ export default function Contact() {
 
 	return (
 		<div className="min-h-screen-header-footer px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 to-slate-800 flex items-center justify-center">
-			<div className="max-w-7xl mx-auto pt-16">
+			<div className="max-w-7xl mx-auto pt-28 md:pt-24 sm:pt-2 w-full">
 				<motion.div
 					initial={{ opacity: 0, y: -20 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5 }}
 					className="text-center mb-12"
 				>
-					<h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+					<h1
+						className="font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent
+						text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight md:leading-tight"
+						style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+					>
 						Vamos Conversar?
 					</h1>
 				</motion.div>
 
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start w-full">
 					{/* Cartão de info social */}
 					<motion.div
 						initial={{ opacity: 0, x: -20 }}

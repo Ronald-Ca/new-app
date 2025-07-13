@@ -7,8 +7,6 @@ import type { SkillType } from "../../../services/skill-service"
 import { Badge } from "@app/components/ui/badge"
 import ProjectModal from "./modal"
 
-
-
 export default function Projects() {
 	const { data: projects } = useGetProjectsQuery()
 	const { data: skills } = useGetSkillsQuery()
@@ -63,12 +61,12 @@ const ProjectCard = ({ project, skills, index }: ProjectCardProps) => {
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: -20 }}
 				transition={{ duration: 0.4, delay }}
-				whileHover={{ y: -8, transition: { duration: 0.2 } }}
+				whileHover={{ y: -8, boxShadow: '0 8px 32px rgba(34,211,238,0.18)', borderColor: '#06b6d4' }}
 				className="group"
 			>
 				<div
 					onClick={() => setIsOpen(true)}
-					className="h-full overflow-hidden rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 border border-default shadow-lg cursor-pointer group-hover:shadow-cyan-500/10 group-hover:border-cyan-500/30 transition-all duration-300"
+					className="h-full overflow-hidden rounded-xl bg-slate-900/50 border border-cyan-500/50 shadow-lg hover:shadow-cyan-500/20 group-hover:border-cyan-400 transition-all duration-300 cursor-pointer"
 				>
 					<div className="relative overflow-hidden">
 						<div className="aspect-video overflow-hidden">
@@ -77,25 +75,27 @@ const ProjectCard = ({ project, skills, index }: ProjectCardProps) => {
 								alt={`${project.name} preview`}
 								className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
 							/>
+							<div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-70" />
 						</div>
-						<div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60"></div>
 					</div>
 
-					<div className="p-6">
-						<h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+					<div className="p-6 flex flex-col h-full">
+						<h3 className="text-xl font-bold text-cyan-400 mb-2 group-hover:text-cyan-300 transition-colors">
 							{project.name}
 						</h3>
 
-						<p className="text-slate-400 line-clamp-2 mb-4 h-12">{project.description}</p>
+						<p className="text-slate-300 line-clamp-2 mb-4 h-12">
+							{project.description}
+						</p>
 
 						<div className="flex flex-wrap gap-2 mt-auto">
 							{filteredSkills?.slice(0, 3).map((stack) => (
-								<Badge key={stack.id} variant="outline" className="bg-slate-800 text-cyan-400 border-cyan-500/20">
+								<Badge key={stack.id} variant="outline" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/30 font-semibold px-3 py-1">
 									{stack.name}
 								</Badge>
 							))}
 							{filteredSkills && filteredSkills.length > 3 && (
-								<Badge variant="outline" className="bg-slate-800 border-slate-700">
+								<Badge variant="outline" className="bg-cyan-500/10 border-cyan-500/30 text-cyan-400 font-semibold px-3 py-1">
 									+{filteredSkills.length - 3}
 								</Badge>
 							)}
