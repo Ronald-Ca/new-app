@@ -1,9 +1,10 @@
-import { FaAddressCard, FaHouseUser, FaGamepad } from 'react-icons/fa';
+import { FaAddressCard, FaHouseUser, FaGamepad, FaStar } from 'react-icons/fa';
 import { PiProjectorScreenChartFill } from 'react-icons/pi';
 import { MdOutlineContactMail } from 'react-icons/md';
 import { IoMdLogIn } from 'react-icons/io';
 import { BiSolidGame } from 'react-icons/bi';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@app/components/ui/tooltip';
 
 export default function Header() {
   const navigate = useNavigate()
@@ -47,9 +48,25 @@ export default function Header() {
         ))}
       </nav>
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 items-center">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div
+                className="flex items-center justify-center w-11 h-11 bg-default rounded-lg border border-default shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 neon-pulse"
+                onClick={() => navigate('/thanks')}
+                style={{ zIndex: 1 }}
+              >
+                <FaStar className="text-white text-xl" />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              Agradecimentos
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <div
-          className="px-6 py-2 flex items-center gap-2 bg-slate-800/50 rounded-lg text-gray-200 border border-slate-600 hover:border-default hover:bg-default/10 transition-all duration-300 hover:shadow-[0_0_15px_3px_rgba(0,191,255,0.3)] cursor-pointer"
+          className="px-6 py-2 flex items-center gap-2 bg-slate-800/50 rounded-lg text-gray-200 border border-slate-600 transition-all duration-300 cursor-pointer"
           onClick={() => navigate('/contact')}
         >
           <MdOutlineContactMail className="text-default animate-pulse" />
