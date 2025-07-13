@@ -8,6 +8,7 @@ import Projects from '../pages/private/project'
 import Skills from '../pages/private/skill'
 import { Routes, Route } from 'react-router-dom'
 import Thanks from '../pages/thanks'
+import NotFound from '../pages/not-found';
 
 export default function App() {
 	return (
@@ -15,6 +16,8 @@ export default function App() {
 			<Route path="/login" element={<Login />} />
 			<Route path="/config" element={<Config />} />
 			<Route path="/thanks" element={<Thanks />} />
+			<Route path="/not-found" element={<NotFound />} />
+			<Route path="*" element={<NotFound />} />
 
 			<Route path="/" element={<ProtectedPage />}>
 				<Route index element={<Home />} />
