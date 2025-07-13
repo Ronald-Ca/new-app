@@ -24,7 +24,7 @@ export default function Contact() {
 
 	return (
 		<div className="min-h-screen-header-footer px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 to-slate-800 flex items-center justify-center">
-			<div className="max-w-7xl mx-auto pt-28 md:pt-24 sm:pt-2 w-full">
+			<div className="max-w-7xl mx-auto pt-28 md:pt-24 sm:pt-2 w-full pb-24">
 				<motion.div
 					initial={{ opacity: 0, y: -20 }}
 					animate={{ opacity: 1, y: 0 }}
