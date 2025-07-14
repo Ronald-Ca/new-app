@@ -1,26 +1,15 @@
-import { IoIosArrowDroprightCircle, IoLogoWhatsapp } from "react-icons/io"
+import { IoIosArrowDroprightCircle } from "react-icons/io"
 import { useNavigate } from "react-router-dom"
 import { Button } from "../../../components/ui/button"
 import { Avatar, AvatarImage } from "../../../components/ui/avatar"
 import LoadingSpinner from "../../../components/common/loading"
 import { useGetHomeQuery } from "../../../queries/home"
 import ErrorComponent from "@app/components/common/error"
-import { FaGithub, FaLinkedin, FaReact } from "react-icons/fa"
-import { MdEmail } from "react-icons/md"
-import { TbBrandTypescript, TbBrandMongodb } from "react-icons/tb"
-import { RiInstagramFill, RiJavascriptLine } from "react-icons/ri"
-import { SiExpress } from "react-icons/si"
 import { TooltipProvider } from "@radix-ui/react-tooltip"
 import { TechIcon } from "@app/components/common/tooltip"
 import { useGetSocialMediaQuery } from "@app/queries/social-media"
-
-const techs = [
-	{ label: "React", Icon: FaReact },
-	{ label: "TypeScript", Icon: TbBrandTypescript },
-	{ label: "MongoDB", Icon: TbBrandMongodb },
-	{ label: "JavaScript", Icon: RiJavascriptLine },
-	{ label: "Express", Icon: SiExpress },
-]
+import { iconMap } from "@app/constants/social-medias"
+import { techs } from "@app/constants/tecnologias"
 
 export default function Home() {
 	const navigate = useNavigate()
@@ -32,14 +21,6 @@ export default function Home() {
 	if (isError || !home) return <ErrorComponent />
 
 	const { title, role, description, image, imageBackground } = home
-
-	const iconMap: Record<string, { Icon: React.ComponentType<{ size?: number }> , label: string }> = {
-		whatsapp: { Icon: IoLogoWhatsapp, label: "WhatsApp" },
-		instagram: { Icon: RiInstagramFill, label: "Instagram" },
-		github: { Icon: FaGithub, label: "GitHub" },
-		linkedin: { Icon: FaLinkedin, label: "LinkedIn" },
-		email: { Icon: MdEmail, label: "Email" },
-	};
 
 	return (
 		<div
@@ -55,8 +36,8 @@ export default function Home() {
 			<div
 				className="
 					relative z-10 w-full max-w-7xl mx-auto px-4
-				flex flex-col md:flex-row items-center justify-between gap-10
-				md:gap-20 py-12
+					flex flex-col md:flex-row items-center justify-between gap-10
+					md:gap-20 py-12
 				"
 			>
 				<div className="flex flex-col justify-center max-w-xl">
@@ -126,7 +107,11 @@ export default function Home() {
 				<div className="flex justify-center items-center">
 					<div className="relative">
 						<div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 to-default opacity-70 blur-md"></div>
-						<div className="p-1.5 rounded-full shadow-lg animate-rotateBorder border-4 border-default border-solid relative">
+						<div className="
+							p-1.5 rounded-full shadow-lg animate-rotateBorder 
+							border-4 border-default border-solid relative
+						"
+						>
 							<Avatar className="w-64 h-64 md:w-80 md:h-80">
 								<AvatarImage src={image?.toString() ?? ""} alt="Foto de perfil" className="rounded-full" />
 							</Avatar>
