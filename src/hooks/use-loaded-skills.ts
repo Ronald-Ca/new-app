@@ -9,7 +9,7 @@ type LoadedSkill = Omit<SkillType, "icon"> & {
 }
 
 export function useLoadedSkills() {
-  const { data: rawSkills } = useGetSkillsQuery()
+  const { data: rawSkills, isLoading, isError } = useGetSkillsQuery()
   const [loadedSkills, setLoadedSkills] = useState<LoadedSkill[]>([])
 
   useEffect(() => {
@@ -32,5 +32,5 @@ export function useLoadedSkills() {
     })()
   }, [rawSkills])
 
-  return { loadedSkills, isLoading: !rawSkills }
+  return { loadedSkills, isLoading, isError }
 }

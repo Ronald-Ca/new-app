@@ -10,12 +10,13 @@ import { TechIcon } from "@app/components/common/tooltip"
 import { useGetSocialMediaQuery } from "@app/queries/social-media"
 import { iconMap } from "@app/constants/social-medias"
 import { techs } from "@app/constants/tecnologias"
+import { Skeleton } from "@app/components/ui/skeleton"
 
 export default function Home() {
 	const navigate = useNavigate()
 
 	const { data: home, isLoading, isError } = useGetHomeQuery()
-	const { data: socialMedia } = useGetSocialMediaQuery()
+	const { data: socialMedia, isLoading: isLoadingSocialMedia } = useGetSocialMediaQuery()
 
 	if (isLoading) return <LoadingSpinner />
 	if (isError || !home) return <ErrorComponent />
@@ -27,7 +28,7 @@ export default function Home() {
 			className="
 				relative w-full min-h-screen-header-footer
 				bg-cover bg-center flex items-center justify-center
-				md:px-4
+				md:px-4 bg-slate-900
 			"
 			style={{ backgroundImage: `url(${imageBackground})` }}
 		>
@@ -83,24 +84,28 @@ export default function Home() {
 					</div>
 
 					<div className="flex gap-4 items-center">
-						{socialMedia && socialMedia.map((media, idx) => {
-							const key = media.name?.toLowerCase();
-							const iconData = iconMap[key] || iconMap[media.icon?.toLowerCase() || ''];
-							if (!iconData) return null;
-							const { Icon, label } = iconData;
-							return (
-								<a
-									key={media.id || idx}
-									href={media.link}
-									target="_blank"
-									rel="noopener noreferrer"
-									aria-label={label}
-									className="text-gray-400 hover:text-default transition-colors"
-								>
-									<Icon size={label === "Email" ? 26 : 24} />
-								</a>
-							);
-						})}
+						{isLoadingSocialMedia
+							? Array.from({ length: 5 }).map((_, i) => (
+								<Skeleton key={i} className="w-10 h-10 rounded-full animate-pulse bg-gray-600" />
+							))
+							: socialMedia?.map((media, idx) => {
+								const key = media.name?.toLowerCase();
+								const iconData = iconMap[key] || iconMap[media.icon?.toLowerCase() || ''];
+								if (!iconData) return null;
+								const { Icon, label } = iconData;
+								return (
+									<a
+										key={media.id || idx}
+										href={media.link}
+										target="_blank"
+										rel="noopener noreferrer"
+										aria-label={label}
+										className="text-gray-400 hover:text-default transition-colors"
+									>
+										<Icon size={label === "Email" ? 26 : 24} />
+									</a>
+								);
+							})}
 					</div>
 				</div>
 

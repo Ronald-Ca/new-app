@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import SkillCard from './SkillCard'
+import SkillCard from './skill-card'
 import { SkillsListProps } from '../interfaces/ISkills'
 
 export default function SkillsList({ skills, filter, variants }: SkillsListProps) {
