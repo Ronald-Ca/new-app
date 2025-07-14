@@ -34,7 +34,6 @@ export default function About() {
 	return (
 		<div className="min-h-screen-header-footer bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 animate-gradient-move py-10 px-4 md:px-8 lg:px-16">
 			<div className="max-w-7xl mx-auto">
-				{/* Main Content */}
 				<Tabs defaultValue="profile" className="w-full mt-20">
 					<TabsList className="grid grid-cols-3 max-w-md mx-auto mb-8 bg-slate-800/50 rounded-lg">
 						<TabsTrigger value="profile" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-slate-950  flex items-center justify-center font-semibold pt-2 pb-2 rounded-l-lg text-default border border-default">
@@ -48,7 +47,6 @@ export default function About() {
 						</TabsTrigger>
 					</TabsList>
 
-					{/* Profile Tab */}
 					<TabsContent value="profile" className="mt-0">
 						<Card className="bg-slate-900/50 border-cyan-500/50 text-white">
 							<CardHeader className="text-center relative">
@@ -69,55 +67,43 @@ export default function About() {
 								<h2 className="text-3xl font-bold text-cyan-400">{about.name}</h2>
 							</CardHeader>
 							<CardContent>
-									<div className="flex flex-col gap-4 justify-between bg-slate-800/50 p-6 rounded-lg">
-										<div className='w-full'>
-											<h3 className="text-xl font-semibold text-cyan-400 mb-4">Sobre mim</h3>
-											<p className="text-gray-300 leading-relaxed">
-												Sou um desenvolvedor apaixonado por criar soluções inovadoras e eficientes. Com experiência em
-												desenvolvimento web full stack, estou sempre em busca de novos desafios e aprendizados na área de
-												tecnologia.
-											</p>
-										</div>
-
-										<div className="flex gap-4 items-center md:items-start">
-											<div className="flex items-center gap-3 text-lg">
-												<BsFillPersonVcardFill className="text-cyan-400" size={24} />
-												<span>Desenvolvedor Full Stack</span>
-											</div>
-
-											<Separator className="h-8 w-[1px] bg-slate-700" />
-
-											<div className="flex items-center gap-3 text-lg">
-												<FaBirthdayCake className="text-cyan-400" size={24} />
-												<span>{about.age} anos</span>
-											</div>
-
-											<Separator className="h-8 w-[1px] bg-slate-700" />
-
-											<div className="flex items-center gap-3 text-lg">
-												<FaHome className="text-cyan-400" size={24} />
-												<span>
-													{about.city} - {about.state}
-												</span>
-											</div>
-										</div>
+								<div className="flex flex-col gap-4 justify-between bg-slate-800/50 p-6 rounded-lg">
+									<div className='w-full'>
+										<h3 className="text-xl font-semibold text-cyan-400 mb-4">Sobre mim</h3>
+										<p className="text-gray-300 leading-relaxed">
+											Sou um desenvolvedor apaixonado por criar soluções inovadoras e eficientes. Com experiência em
+											desenvolvimento web full stack, estou sempre em busca de novos desafios e aprendizados na área de
+											tecnologia.
+										</p>
 									</div>
 
-								{/* <div className="mt-8">
-									<h3 className="text-xl font-semibold text-cyan-400 mb-4">Principais habilidades</h3>
-									<div className="flex flex-wrap gap-2">
-										{filteredSkills?.slice(0, 8).map((skill, idx) => (
-											<Badge key={idx} className="bg-slate-800 hover:bg-slate-700 text-white border-cyan-500/50">
-												{skill.name}
-											</Badge>
-										))}
+									<div className="flex gap-4 items-center md:items-start">
+										<div className="flex items-center gap-3 text-lg">
+											<BsFillPersonVcardFill className="text-cyan-400" size={24} />
+											<span>Desenvolvedor Full Stack</span>
+										</div>
+
+										<Separator className="h-8 w-[1px] bg-slate-700" />
+
+										<div className="flex items-center gap-3 text-lg">
+											<FaBirthdayCake className="text-cyan-400" size={24} />
+											<span>{about.age} anos</span>
+										</div>
+
+										<Separator className="h-8 w-[1px] bg-slate-700" />
+
+										<div className="flex items-center gap-3 text-lg">
+											<FaHome className="text-cyan-400" size={24} />
+											<span>
+												{about.city} - {about.state}
+											</span>
+										</div>
 									</div>
-								</div> */}
+								</div>
 							</CardContent>
 						</Card>
 					</TabsContent>
 
-					{/* Education Tab */}
 					<TabsContent value="education" className="mt-0">
 						<Card className="bg-slate-900/50 border-cyan-500/50 text-white">
 							<CardHeader>
@@ -161,7 +147,6 @@ export default function About() {
 						</Card>
 					</TabsContent>
 
-					{/* Experience Tab */}
 					<TabsContent value="experience" className="mt-0">
 						<Card className="bg-slate-900/50 border-cyan-500/50 text-white">
 							<CardHeader>

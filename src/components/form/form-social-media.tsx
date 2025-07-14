@@ -8,8 +8,8 @@ import { IconPicker } from '../common/icon-picker/IconPicker'
 import { IoMdColorPalette } from 'react-icons/io'
 import { Separator } from '@radix-ui/react-separator'
 import { useState } from 'react'
-import { loadIcon } from '../../utils/dynamic-icons'
 import React from 'react'
+import { loadIcons } from '@app/helpers/load-icons'
 
 interface SocialMediaFormProps {
 	selectedMedia: SocialMediaType | null
@@ -38,7 +38,7 @@ export default function FormSocialMedia({ selectedMedia, handleSave, isSubmittin
 	// Atualiza preview do ícone
 	async function updateIconPreview(iconName: string, color: string) {
 		try {
-			const iconEl = await loadIcon(iconName, color)
+			const iconEl = await loadIcons(iconName, color)
 			setIconPreview(iconEl)
 		} catch {
 			setIconPreview(null)
