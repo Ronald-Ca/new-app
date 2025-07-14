@@ -18,7 +18,9 @@ export default function Skills() {
 			className="
 				min-h-screen-header-footer
 				py-16 px-4 sm:px-6 lg:px-8
-				bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800
+				bg-gradient-to-r 
+			  from-slate-900 via-indigo-950 to-blue-950
+				animate-gradient-move
 			"
 		>
 			<div className="max-w-7xl mx-auto mt-12">
