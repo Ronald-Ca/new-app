@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from 'react'
 import { FaFilePdf, FaSave, FaSpinner, FaUpload } from 'react-icons/fa'
 import { useQueryClient } from '@tanstack/react-query'
 import { Card, CardContent, CardHeader, CardTitle } from '@app/components/ui/card'
-import { Skeleton } from '@app/components/ui/skeleton'
+import { ConfigCurriculumSkeleton } from '@app/components/common/skeleton/config-curriculum-skeleton'
 
 export default function ConfigCurriculum() {
 	const { setAlert } = useAlert()
@@ -78,15 +78,7 @@ export default function ConfigCurriculum() {
 		}
 	}, [curriculum])
 
-	if (isLoading) {
-		return (
-			<div className="flex flex-col items-center justify-center min-h-[60vh] w-full">
-				<Skeleton className="h-12 w-64 mb-6" />
-				<Skeleton className="h-40 w-96 mb-4" />
-				<Skeleton className="h-96 w-[32rem] rounded-xl" />
-			</div>
-		)
-	}
+	if (isLoading) return <ConfigCurriculumSkeleton />
 
 	return (
 		<div className="min-h-full flex flex-col items-center justify-center py-8 px-2">
@@ -107,7 +99,10 @@ export default function ConfigCurriculum() {
 						<div className="flex gap-3 w-full justify-center">
 							<Button
 								type="button"
-								className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-medium px-6 py-2 rounded-md shadow"
+								className="
+								flex items-center gap-2 bg-gradient-to-r from-cyan-500 
+								to-blue-600 hover:from-cyan-600 hover:to-blue-700 
+								text-white font-medium px-6 py-2 rounded-md shadow"
 								onClick={handleUploadClick}
 							>
 								<FaUpload />
@@ -117,7 +112,10 @@ export default function ConfigCurriculum() {
 								type="button"
 								onClick={handleSave}
 								disabled={!file || isMutating}
-								className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-medium px-6 py-2 rounded-md shadow"
+								className="
+								flex items-center gap-2 bg-gradient-to-r from-cyan-500
+								to-blue-600 hover:from-cyan-600 hover:to-blue-700 
+								text-white font-medium px-6 py-2 rounded-md shadow"
 							>
 								{isMutating ? <FaSpinner className="animate-spin" /> : <FaSave />}
 								<span>{isMutating ? 'Salvando...' : 'Salvar'}</span>
@@ -138,7 +136,10 @@ export default function ConfigCurriculum() {
 						)}
 					</div>
 					{localPreviewUrl && (
-						<div className="w-full h-[32rem] max-w-2xl mt-4 rounded-xl overflow-hidden border border-cyan-900 bg-[#070b14] shadow-inner">
+						<div className="
+							w-full h-[32rem] max-w-2xl mt-4 rounded-xl overflow-hidden 
+							border border-cyan-900 bg-[#070b14] shadow-inner"
+						>
 							<iframe
 								src={localPreviewUrl || undefined}
 								className="w-full h-full border-none rounded-xl"

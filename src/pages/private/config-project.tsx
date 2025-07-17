@@ -6,7 +6,7 @@ import { useCreateProjectMutation, useGetProjectsQuery, useUpdateProjectMutation
 import { ProjectType } from '@app/services/project-service'
 import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
 import { useState } from 'react'
-import { FaEdit, FaTrash } from 'react-icons/fa'	
+import { FaEdit, FaTrash } from 'react-icons/fa'
 import { IoIosAdd, IoIosClose } from 'react-icons/io'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -72,7 +72,9 @@ export default function ConfigProject() {
 				</h2>
 				<Button
 					onClick={handleAddClick}
-					className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white"
+					className="
+					bg-gradient-to-r from-cyan-500 to-blue-600 
+					hover:from-cyan-600 hover:to-blue-700 text-white"
 				>
 					<IoIosAdd size={20} className="mr-1" /> Adicionar Projeto
 				</Button>
@@ -82,7 +84,10 @@ export default function ConfigProject() {
 					<Card
 						key={index}
 						onClick={() => handleEditClick(project)}
-						className="bg-[#070b14] border border-[#1e2a4a] hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 cursor-pointer group overflow-hidden relative"
+						className="
+						bg-[#070b14] border border-[#1e2a4a] hover:border-cyan-500/50 
+						transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 
+						cursor-pointer group overflow-hidden relative"
 					>
 						<div className="absolute top-2 right-2 flex gap-1">
 							<Button
@@ -102,25 +107,46 @@ export default function ConfigProject() {
 								<FaTrash size={14} />
 							</Button>
 						</div>
-						<div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-600 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+						<div className="
+							absolute top-0 left-0 w-full h-1 bg-gradient-to-r 
+							from-cyan-500 to-blue-600 transform origin-left 
+							scale-x-0 group-hover:scale-x-100 transition-transform duration-300
+						">
+
+						</div>
 						<CardHeader className="pb-2 text-center mt-8">
-							<CardTitle className="text-lg font-semibold text-gray-100 group-hover:text-cyan-400 transition-colors">
+							<CardTitle className="
+								text-lg font-semibold text-gray-100 
+								group-hover:text-cyan-400 transition-colors
+							">
 								{project.name}
 							</CardTitle>
 						</CardHeader>
 						<CardContent className="flex flex-col items-center justify-center pb-2 px-3">
-							<img src={project.image as string} alt={`${project.name} preview`} className="mb-4 rounded-xl max-h-32 object-contain bg-slate-800 w-full" />
-							{/* Exemplo de badge para status/tipo se houver: */}
-							{/* <Badge variant="outline" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/30 text-xs mt-2">Ativo</Badge> */}
+							<img
+								src={project.image as string}
+								alt={`${project.name} preview`}
+								className="mb-4 rounded-xl max-h-32 object-contain bg-slate-800 w-full"
+							/>
 						</CardContent>
 					</Card>
 				))}
 				<Card
 					onClick={handleAddClick}
-					className="bg-[#070b14] border border-dashed border-[#1e2a4a] hover:border-cyan-500/50 transition-all duration-300 flex items-center justify-center h-[250px] cursor-pointer group"
+					className="
+					bg-[#070b14] border border-dashed border-[#1e2a4a] 
+					hover:border-cyan-500/50 transition-all duration-300 
+					flex items-center justify-center h-[250px] cursor-pointer group"
 				>
-					<div className="flex flex-col items-center justify-center gap-3 text-gray-500 group-hover:text-cyan-400 transition-colors">
-						<div className="w-16 h-16 rounded-full bg-[#0c1220] flex items-center justify-center group-hover:bg-cyan-500/10 transition-colors">
+					<div className="
+						flex flex-col items-center justify-center gap-3 
+						text-gray-500 group-hover:text-cyan-400 transition-colors"
+					>
+						<div className="
+							w-16 h-16 rounded-full bg-[#0c1220] flex 
+							items-center justify-center group-hover:bg-cyan-500/10 
+							transition-colors"
+						>
 							<IoIosAdd size={40} className="transition-transform group-hover:scale-110 duration-300" />
 						</div>
 						<p className="font-medium">Adicionar Projeto</p>
@@ -164,8 +190,11 @@ export default function ConfigProject() {
 					"
 				>
 					<div className="mb-4">
-						<DialogTitle className="text-xl font-semibold text-red-400 flex items-center justify-between gap-2">
-							<div className="flex gap-2 items-center">
+						<DialogTitle className="
+							text-xl font-semibold text-red-400 flex 
+							items-center justify-between gap-2">
+							<div className="flex gap-2 items-center"
+						>
 								<FaTrash size={18} />
 								Confirmar exclusão
 							</div>
@@ -180,7 +209,9 @@ export default function ConfigProject() {
 					<div className="flex justify-end gap-2">
 						<Button
 							variant="ghost"
-							className="pt-1 pb-1 pl-2 pr-2 rounded-sm bg-[#070b14] text-gray-300 hover:bg-[#111827] hover:text-gray-100"
+							className="
+							pt-1 pb-1 pl-2 pr-2 rounded-sm bg-[#070b14] text-gray-300 
+							hover:bg-[#111827] hover:text-gray-100"
 							onClick={() => setIsDeleteDialogOpen(false)}
 						>
 							Cancelar
@@ -188,7 +219,6 @@ export default function ConfigProject() {
 						<Button
 							variant="destructive"
 							className="pt-1 pb-1 pl-2 pr-2 rounded-sm bg-red-600 hover:bg-red-700 text-white"
-							// onClick={handleDeleteProject} // Implemente a função de exclusão real
 							disabled
 						>
 							Excluir

@@ -1,4 +1,3 @@
-import { Skeleton } from '@app/components/ui/skeleton'
 import { FormHome } from '@app/components/form/form-home'
 import { Input } from '@app/components/ui/input'
 import { useAlert } from '@app/contexts/alert-context'
@@ -9,6 +8,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { FaCamera } from 'react-icons/fa'
 import { IoMdColorPalette } from 'react-icons/io'
 import { Card, CardContent } from '@app/components/ui/card'
+import { ConfigHomeSkeleton } from '@app/components/common/skeleton/config-home-skeleton'
 
 export default function ConfigHome() {
 	const [imagePreview, setImagePreview] = useState("")
@@ -108,22 +108,7 @@ export default function ConfigHome() {
 
 	const isMutating = createHome.isLoading || updateHome.isLoading
 
-	if (isLoading) {
-		return (
-			<div className="flex flex-col space-y-6 p-4">
-				<div className="flex justify-center">
-					<Skeleton className="h-64 w-64 rounded-full" />
-				</div>
-				<Skeleton className="h-64 w-full" />
-				<div className="space-y-4">
-					<Skeleton className="h-10 w-full" />
-					<Skeleton className="h-10 w-full" />
-					<Skeleton className="h-24 w-full" />
-					<Skeleton className="h-10 w-32" />
-				</div>
-			</div>
-		)
-	}
+	if (isLoading) return <ConfigHomeSkeleton />
 
 	return (
 		<FormProvider {...formMethods}>
@@ -139,7 +124,6 @@ export default function ConfigHome() {
 					<Card className="bg-[#070b14] border border-[#1e2a4a] shadow-lg overflow-hidden">
 						<CardContent className="p-6">
 							<div className="flex flex-col gap-8">
-								{/* Profile Image Section */}
 								<div className="flex flex-col items-center">
 									<div className="relative group">
 										{imagePreview ? (
@@ -174,7 +158,6 @@ export default function ConfigHome() {
 									</p>
 								</div>
 
-								{/* Background Image Section */}
 								<div className="w-full">
 									<h3 className="text-gray-300 font-medium mb-2 flex items-center gap-2">
 										<span className="h-1 w-1 rounded-full bg-cyan-400"></span>
@@ -216,7 +199,6 @@ export default function ConfigHome() {
 									</p>
 								</div>
 
-								{/* Form Section */}
 								<div className="w-full">
 									<h3 className="text-gray-300 font-medium mb-4 flex items-center gap-2">
 										<span className="h-1 w-1 rounded-full bg-cyan-400"></span>

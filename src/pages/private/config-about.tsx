@@ -5,8 +5,8 @@ import { FaCamera, FaUser } from 'react-icons/fa'
 import { Input } from '@app/components/ui/input'
 import { FormAbout } from '@app/components/form/form-about'
 import { useCreateAboutMutation, useGetAboutQuery, useUpdateAboutMutation } from '@app/queries/about'
-import { Skeleton } from '@app/components/ui/skeleton'
 import { Card, CardContent } from '@app/components/ui/card'
+import { ConfigAboutSkeleton } from '@app/components/common/skeleton/config-about-skeleton'
 
 interface About {
 	image: File | null
@@ -95,26 +95,7 @@ export default function ConfigAbout() {
 
 	const isMutating = createAbout.isLoading || updateAbout.isLoading
 
-	if (isLoading) {
-		return (
-			<div className="flex flex-col space-y-6 p-4">
-				<div className="flex justify-center">
-					<Skeleton className="h-64 w-64 rounded-full" />
-				</div>
-				<div className="space-y-4">
-					<div className="flex gap-3">
-						<Skeleton className="h-10 flex-1" />
-						<Skeleton className="h-10 w-20" />
-					</div>
-					<div className="flex gap-3">
-						<Skeleton className="h-10 flex-1" />
-						<Skeleton className="h-10 w-20" />
-					</div>
-					<Skeleton className="h-10 w-32 mx-auto" />
-				</div>
-			</div>
-		)
-	}
+	if (isLoading) return <ConfigAboutSkeleton />
 
 	return (
 		<FormProvider {...formMethods}>
@@ -130,26 +111,38 @@ export default function ConfigAbout() {
 					<Card className="bg-[#070b14] border border-[#1e2a4a] shadow-lg overflow-hidden">
 						<CardContent className="p-6">
 							<div className="flex flex-col gap-8">
-								{/* Profile Image Section */}
 								<div className="flex flex-col items-center">
 									<div className="relative group">
 										{imagePreview ? (
-											<div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-cyan-500/30 shadow-lg shadow-cyan-500/20">
+											<div className="
+												relative w-48 h-48 rounded-full overflow-hidden 
+												border-4 border-cyan-500/30 shadow-lg shadow-cyan-500/20
+											">
 												<img
 													src={imagePreview || "/placeholder.svg"}
 													alt="Preview"
-													className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-												/>
+													className="
+													w-full h-full object-cover transition-transform 
+													duration-300 group-hover:scale-105
+												"/>
 											</div>
 										) : (
-											<div className="w-48 h-48 flex items-center justify-center bg-gradient-to-br from-[#111827] to-[#0c1a2c] rounded-full border-4 border-dashed border-[#1e2a4a]">
+											<div className="
+												w-48 h-48 flex items-center justify-center 
+												bg-gradient-to-br from-[#111827] to-[#0c1a2c] 
+												rounded-full border-4 border-dashed border-[#1e2a4a]
+											">
 												<span className="text-gray-400 text-sm">Adicione sua foto</span>
 											</div>
 										)}
 										<button
 											onClick={handleCameraClick}
-											className="absolute bottom-2 right-2 bg-cyan-500 hover:bg-cyan-600 text-white p-3 rounded-full shadow-lg transform transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#070b14]"
-										>
+											className="
+											absolute bottom-2 right-2 bg-cyan-500 hover:bg-cyan-600 
+											text-white p-3 rounded-full shadow-lg transform transition-all 
+											duration-300 hover:scale-110 focus:outline-none focus:ring-2 
+											focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#070b14]
+										">
 											<FaCamera size={18} />
 										</button>
 										<Input
@@ -160,10 +153,11 @@ export default function ConfigAbout() {
 											accept="image/*"
 										/>
 									</div>
-									<p className="mt-3 text-gray-400 text-sm">Esta foto será exibida na seção "Sobre" do seu portfólio</p>
+									<p className="mt-3 text-gray-400 text-sm">
+										Esta foto será exibida na seção "Sobre" do seu portfólio
+									</p>
 								</div>
 
-								{/* Form Section */}
 								<div className="w-full">
 									<div className="bg-[#0c1220] rounded-lg p-5 border border-[#1e2a4a]">
 										<FormAbout onSubmit={onSubmit} isSubmitting={isMutating} />

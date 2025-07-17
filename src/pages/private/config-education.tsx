@@ -5,7 +5,7 @@ import { useCreateEducationMutation, useGetEducationQuery, useUpdateEducationMut
 import { EducationType } from '@app/services/education-service'
 import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
 import { useState } from 'react'
-import { FaEdit, FaGraduationCap } from 'react-icons/fa'    
+import { FaEdit, FaGraduationCap } from 'react-icons/fa'
 import { IoIosAdd } from 'react-icons/io'
 import { useQueryClient } from '@tanstack/react-query'
 import FormEducation from '@app/components/form/form-education'
@@ -17,6 +17,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { AlertDialogFooter, AlertDialogHeader } from '@app/components/ui/alert-dialog'
 import { IoClose } from 'react-icons/io5'
 import { TruncatedName } from '@app/components/common/truncate-tooltip/truncate-name'
+import { ConfigEducationSkeleton } from '@app/components/common/skeleton/config-education-skeleton'
 
 export default function ConfigEducation() {
     const { setAlert } = useAlert()
@@ -26,7 +27,7 @@ export default function ConfigEducation() {
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
     const { data: educations, isLoading } = useGetEducationQuery()
-   
+
     const createEducation = useCreateEducationMutation({
         onSuccess: () => {
             setIsOpen(false)
@@ -81,6 +82,8 @@ export default function ConfigEducation() {
         setIsOpen(true)
     }
 
+    if (isLoading) return <ConfigEducationSkeleton />
+
     return (
         <div className="min-h-full">
             <div className="mb-6 flex items-center justify-between">
@@ -92,7 +95,9 @@ export default function ConfigEducation() {
                 </h2>
                 <Button
                     onClick={handleAddClick}
-                    className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white"
+                    className="
+                    bg-gradient-to-r from-cyan-500 to-blue-600 
+                    hover:from-cyan-600 hover:to-blue-700 text-white"
                 >
                     <IoIosAdd size={20} className="mr-1" /> Adicionar Formação
                 </Button>
@@ -124,12 +129,24 @@ export default function ConfigEducation() {
                             <Card
                                 key={education.id}
                                 onClick={() => handleCardClick(education)}
-                                className="bg-[#070b14] border border-[#1e2a4a] hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 cursor-pointer group overflow-hidden"
+                                className="
+                                bg-[#070b14] border border-[#1e2a4a] hover:border-cyan-500/50 
+                                transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 
+                                cursor-pointer group overflow-hidden"
                             >
-                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500 to-blue-600 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                                <div className="
+                                    absolute top-0 left-0 w-full h-1 bg-gradient-to-r 
+                                    from-cyan-500 to-blue-600 transform origin-left 
+                                    scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
+                                >
+
+                                </div>
 
                                 <CardHeader className="pb-2">
-                                    <CardTitle className="text-xl font-semibold text-gray-100 group-hover:text-cyan-400 transition-colors">
+                                    <CardTitle className="
+                                        text-xl font-semibold text-gray-100 
+                                        group-hover:text-cyan-400 transition-colors"
+                                    >
                                         {education.course}
                                     </CardTitle>
                                 </CardHeader>
@@ -183,10 +200,20 @@ export default function ConfigEducation() {
 
                     <Card
                         onClick={handleAddClick}
-                        className="bg-[#070b14] border border-dashed border-[#1e2a4a] hover:border-cyan-500/50 transition-all duration-300 flex items-center justify-center h-[250px] cursor-pointer group"
+                        className="
+                        bg-[#070b14] border border-dashed border-[#1e2a4a] 
+                        hover:border-cyan-500/50 transition-all duration-300 flex 
+                        items-center justify-center h-[250px] cursor-pointer group"
                     >
-                        <div className="flex flex-col items-center justify-center gap-3 text-gray-500 group-hover:text-cyan-400 transition-colors">
-                            <div className="w-16 h-16 rounded-full bg-[#0c1220] flex items-center justify-center group-hover:bg-cyan-500/10 transition-colors">
+                        <div className="
+                            flex flex-col items-center justify-center gap-3 
+                            text-gray-500 group-hover:text-cyan-400 transition-colors"
+                        >
+                            <div className="
+                                w-16 h-16 rounded-full bg-[#0c1220] flex 
+                                items-center justify-center group-hover:bg-cyan-500/10 
+                                transition-colors"
+                            >
                                 <IoIosAdd size={40} className="transition-transform group-hover:scale-110 duration-300" />
                             </div>
                             <p className="font-medium">Adicionar Formação</p>
@@ -203,7 +230,10 @@ export default function ConfigEducation() {
                 bg-[#0c1220] border-dashed  border-2 border-[#1e2a4a] 
                 text-gray-100 w-5w">
                     <DialogHeader>
-                        <DialogTitle className="text-xl font-semibold text-cyan-400 flex items-center justify-between gap-2">
+                        <DialogTitle className="
+                            text-xl font-semibold text-cyan-400 
+                            flex items-center justify-between gap-2"
+                        >
                             <div className='flex gap-2 items-center'>
                                 <FaGraduationCap size={18} />
                                 {selectedEducation ? "Editar Formação" : "Adicionar Formação"}
@@ -234,11 +264,16 @@ export default function ConfigEducation() {
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel className="pt-1 pb-1 pl-2 pr-2 rounded-sm bg-[#070b14] text-gray-300 hover:bg-[#111827] hover:text-gray-100">
+                        <AlertDialogCancel className="
+                            pt-1 pb-1 pl-2 pr-2 rounded-sm bg-[#070b14] text-gray-300 
+                            hover:bg-[#111827] hover:text-gray-100"
+                        >
                             Cancelar
                         </AlertDialogCancel>
                         <AlertDialogAction
-                            className="pt-1 pb-1 pl-2 pr-2 rounded-sm bg-red-600 hover:bg-red-700 text-white pointer-events-none"
+                            className="
+                            pt-1 pb-1 pl-2 pr-2 rounded-sm bg-red-600 
+                            hover:bg-red-700 text-white pointer-events-none"
                             disabled={true}
                         >
                             Excluir

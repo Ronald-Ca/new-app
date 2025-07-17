@@ -8,7 +8,7 @@ import {
 	useUpdateExperienceMutation,
 } from "@app/queries/experience"
 import type { ExperienceType } from "@app/services/experience-service"
-import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog"	
+import { Dialog, DialogContent, DialogTitle } from "@radix-ui/react-dialog"
 import { useState } from "react"
 import { FaEdit, FaBriefcase } from "react-icons/fa"
 import { IoIosAdd } from "react-icons/io"
@@ -30,6 +30,7 @@ import { TruncatedName } from "@app/components/common/truncate-tooltip/truncate-
 import { Badge } from "@app/components/ui/badge"
 import { AlertDialogFooter, AlertDialogHeader } from "@app/components/ui/alert-dialog"
 import { useGetSkillsQuery } from "@app/queries/skill"
+import { ConfigExperienceSkeleton } from "@app/components/common/skeleton/config-experience-skeleton"
 
 export default function ConfigExperience() {
 	const { setAlert } = useAlert()
@@ -101,6 +102,8 @@ export default function ConfigExperience() {
 		return `${start} - ${end}`
 	}
 
+	if (isLoading) return <ConfigExperienceSkeleton />
+
 	return (
 		<div className="min-h-full">
 			<div className="mb-6 flex items-center justify-between">
@@ -112,9 +115,12 @@ export default function ConfigExperience() {
 				</h2>
 				<Button
 					onClick={handleAddClick}
-					className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white"
+					className="
+					bg-gradient-to-r from-cyan-500 to-blue-600 
+					hover:from-cyan-600 hover:to-blue-700 text-white"
 				>
-					<IoIosAdd size={20} className="mr-1" /> Adicionar Experiência
+					<IoIosAdd size={20} className="mr-1" />
+					Adicionar Experiência
 				</Button>
 			</div>
 
@@ -149,13 +155,17 @@ export default function ConfigExperience() {
 								transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 
 								cursor-pointer group overflow-hidden"
 							>
-								<div className="absolute top-0 left-0 w-full h-1 
-								bg-gradient-to-r from-cyan-500 to-blue-600 
-								transform origin-left scale-x-0 
-								group-hover:scale-x-100 transition-transform duration-300"></div>
+								<div className="
+									absolute top-0 left-0 w-full h-1 
+									bg-gradient-to-r from-cyan-500 to-blue-600 
+									transform origin-left scale-x-0 
+									group-hover:scale-x-100 transition-transform duration-300"></div>
 
 								<CardHeader className="pb-2">
-									<CardTitle className="text-xl font-semibold text-gray-100 group-hover:text-cyan-400 transition-colors">
+									<CardTitle className="
+										text-xl font-semibold text-gray-100 
+										group-hover:text-cyan-400 transition-colors"
+									>
 										<TruncatedName name={experience.company} maxLength={25} tooltipSide="top" />
 									</CardTitle>
 									<p className="text-cyan-500/70 text-sm font-medium">{experience.role}</p>
@@ -206,7 +216,10 @@ export default function ConfigExperience() {
 													);
 												})}
 												{experience.experienceSkill.length > 3 && (
-													<Badge variant="outline" className="bg-gray-500/10 text-gray-400 border-gray-500/30 text-xs">
+													<Badge
+														variant="outline"
+														className="bg-gray-500/10 text-gray-400 border-gray-500/30 text-xs"
+													>
 														+{experience.experienceSkill.length - 3}
 													</Badge>
 												)}
@@ -243,8 +256,15 @@ export default function ConfigExperience() {
 						transition-all duration-300 flex items-center justify-center 
 						h-[250px] cursor-pointer group"
 					>
-						<div className="flex flex-col items-center justify-center gap-3 text-gray-500 group-hover:text-cyan-400 transition-colors">
-							<div className="w-16 h-16 rounded-full bg-[#0c1220] flex items-center justify-center group-hover:bg-cyan-500/10 transition-colors">
+						<div className="
+							flex flex-col items-center justify-center gap-3 
+							text-gray-500 group-hover:text-cyan-400 transition-colors"
+						>
+							<div className="
+								w-16 h-16 rounded-full bg-[#0c1220] flex 
+								items-center justify-center group-hover:bg-cyan-500/10 
+								transition-colors"
+							>
 								<IoIosAdd size={40} className="transition-transform group-hover:scale-110 duration-300" />
 							</div>
 							<p className="font-medium">Adicionar Experiência</p>
@@ -301,11 +321,16 @@ export default function ConfigExperience() {
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel className="pt-1 pb-1 pl-2 pr-2 rounded-sm bg-[#070b14] text-gray-300 hover:bg-[#111827] hover:text-gray-100">
+						<AlertDialogCancel className="
+							pt-1 pb-1 pl-2 pr-2 rounded-sm bg-[#070b14] 
+							text-gray-300 hover:bg-[#111827] hover:text-gray-100"
+						>
 							Cancelar
 						</AlertDialogCancel>
 						<AlertDialogAction
-							className="pt-1 pb-1 pl-2 pr-2 rounded-sm bg-red-600 hover:bg-red-700 text-white pointer-events-none"
+							className="
+							pt-1 pb-1 pl-2 pr-2 rounded-sm bg-red-600 
+							hover:bg-red-700 text-white pointer-events-none"
 							disabled={true}
 						>
 							Excluir
