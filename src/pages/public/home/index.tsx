@@ -111,7 +111,10 @@ export default function Home() {
 
 				<div className="flex justify-center items-center">
 					<div className="relative">
-						<div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 to-default opacity-70 blur-md"></div>
+						<div className="
+						absolute inset-0 rounded-full bg-gradient-to-r
+						from-cyan-500 to-default opacity-70 blur-md">
+						</div>
 						<div className="
 							p-1.5 rounded-full shadow-lg animate-rotateBorder 
 							border-4 border-default border-solid relative

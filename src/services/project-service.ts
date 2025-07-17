@@ -51,11 +51,22 @@ export type ProjectType = {
 	video?: string | File
 	description?: string
 	link?: string
-	projectSkills?: ProjectSkillType[]
+	projectSkills: ProjectSkillType[]
 }
 
 type ProjectSkillType = {
 	id: string
-	projectId?: string
-	skillId?: string
+	projectId: string
+	skillId: string
+	skill: SkillType
+}
+
+export type SkillType = {
+	id: string
+	name: string
+	icon: string
+	color: string
+	experience: number
+	level: number
+	type: string
 }

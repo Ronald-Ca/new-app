@@ -4,14 +4,12 @@ import { Separator } from '@radix-ui/react-select'
 import { Badge } from '@app/components/ui/badge'
 import React from 'react'
 import { ExperienceType } from '@app/services/experience-service'
-import { SkillType } from '@app/services/skill-service'
 
 interface ExperienceProps {
   experiences: ExperienceType[];
-  filteredSkills: SkillType[];
 }
 
-export const Experience: React.FC<ExperienceProps> = ({ experiences, filteredSkills }) => (
+export const Experience: React.FC<ExperienceProps> = ({ experiences }) => (
   <Card className="bg-slate-900/50 border-cyan-500/50 text-white">
     <CardHeader>
       <h2 className="text-3xl font-bold text-center text-cyan-400">Experiências Profissionais</h2>
@@ -45,9 +43,9 @@ export const Experience: React.FC<ExperienceProps> = ({ experiences, filteredSki
             <div>
               <h4 className="text-lg font-semibold text-cyan-400 mb-3">Stacks:</h4>
               <div className="flex flex-wrap gap-2">
-                {filteredSkills?.map((skill, idx) => (
+                {experience.experienceSkill?.map((skill, idx) => (
                   <Badge key={idx} className="bg-slate-950 hover:bg-slate-900 text-white border-cyan-500/50">
-                    {skill.name}
+                    {skill.skill.name}
                   </Badge>
                 ))}
               </div>

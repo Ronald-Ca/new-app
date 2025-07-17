@@ -8,8 +8,9 @@ export default function SkillsList({ skills, filter, variants }: SkillsListProps
     return (
         <motion.div
             variants={variants.container}
-            initial="hidden"
-            animate="show"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8"
         >
             {filtered.length > 0 ? (

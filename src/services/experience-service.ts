@@ -1,5 +1,6 @@
 import api from "../lib/api"
 import BaseService, { DefaultReturnType } from "../lib/base-service"
+import { SkillType } from "./skill-service"
 
 export default class ExperienceService extends BaseService {
 	constructor() {
@@ -35,7 +36,8 @@ export type ExperienceType = {
 }
 
 type ExperienceSkillType = {
-	id: string
 	experienceId: string
+	id: string
+	skill: SkillType
 	skillId: string
 }

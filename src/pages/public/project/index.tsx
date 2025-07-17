@@ -1,32 +1,42 @@
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { useGetProjectsQuery } from "../../../queries/project"
-import { useGetSkillsQuery } from "../../../queries/skill"
-import type { ProjectType } from "../../../services/project-service"
-import type { SkillType } from "../../../services/skill-service"
-import { Badge } from "@app/components/ui/badge"
-import ProjectModal from "./modal"
+import ProjectCard from "./components/project-card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@app/components/ui/carousel"
 
 export default function Projects() {
 	const { data: projects } = useGetProjectsQuery()
-	const { data: skills } = useGetSkillsQuery()
 
 	return (
-		<div className="min-h-screen-header-footer py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 to-slate-800 flex justify-center items-center">
+		<div className="
+			min-h-screen-header-footer py-16 px-4 sm:px-6 lg:px-8 
+			flex justify-center items-center bg-gradient-to-r 
+			from-slate-900 via-indigo-950 to-blue-950 
+			animate-gradient-move
+		">
 			<div className="max-w-7xl mx-auto">
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 0.5, delay: 0.2 }}
-					className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
 				>
-					<AnimatePresence>
-						{projects &&
-							skills &&
-							projects.map((project, index) => (
-								<ProjectCard key={project.id || index} project={project} skills={skills} index={index} />
-							))}
-					</AnimatePresence>
+					<Carousel className="w-full max-w-md mx-auto">
+						<CarouselContent>
+							{projects &&
+								projects.map((project, index) => (
+									<CarouselItem key={project.id || index}>
+										<ProjectCard project={project} index={index} />
+									</CarouselItem>
+								))}
+						</CarouselContent>
+						<CarouselPrevious />
+						<CarouselNext />
+					</Carousel>
 				</motion.div>
 
 				{projects && projects.length === 0 && (
@@ -36,76 +46,6 @@ export default function Projects() {
 				)}
 			</div>
 		</div>
-	)
-}
-
-interface ProjectCardProps {
-	project: ProjectType
-	skills?: SkillType[]
-	index: number
-}
-
-const ProjectCard = ({ project, skills, index }: ProjectCardProps) => {
-	const [isOpen, setIsOpen] = useState(false)
-
-	const filteredSkills = skills?.filter(
-		(skill) => project.projectSkills && project.projectSkills.some((projectSkill) => projectSkill.skillId === skill.id),
-	)
-
-	const delay = index * 0.1
-
-	return (
-		<>
-			<motion.div
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				exit={{ opacity: 0, y: -20 }}
-				transition={{ duration: 0.4, delay }}
-				whileHover={{ y: -8, boxShadow: '0 8px 32px rgba(34,211,238,0.18)', borderColor: '#06b6d4' }}
-				className="group"
-			>
-				<div
-					onClick={() => setIsOpen(true)}
-					className="h-full overflow-hidden rounded-xl bg-slate-900/50 border border-cyan-500/50 shadow-lg hover:shadow-cyan-500/20 group-hover:border-cyan-400 transition-all duration-300 cursor-pointer"
-				>
-					<div className="relative overflow-hidden">
-						<div className="aspect-video overflow-hidden">
-							<img
-								src={(project.image as string) || "/placeholder.svg"}
-								alt={`${project.name} preview`}
-								className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
-							/>
-							<div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-70" />
-						</div>
-					</div>
-
-					<div className="p-6 flex flex-col h-full">
-						<h3 className="text-xl font-bold text-cyan-400 mb-2 group-hover:text-cyan-300 transition-colors">
-							{project.name}
-						</h3>
-
-						<p className="text-slate-300 line-clamp-2 mb-4 h-12">
-							{project.description}
-						</p>
-
-						<div className="flex flex-wrap gap-2 mt-auto">
-							{filteredSkills?.slice(0, 3).map((stack) => (
-								<Badge key={stack.id} variant="outline" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/30 font-semibold px-3 py-1">
-									{stack.name}
-								</Badge>
-							))}
-							{filteredSkills && filteredSkills.length > 3 && (
-								<Badge variant="outline" className="bg-cyan-500/10 border-cyan-500/30 text-cyan-400 font-semibold px-3 py-1">
-									+{filteredSkills.length - 3}
-								</Badge>
-							)}
-						</div>
-					</div>
-				</div>
-			</motion.div>
-
-			<ProjectModal project={project} skills={filteredSkills || []} isOpen={isOpen} onClose={() => setIsOpen(false)} />
-		</>
 	)
 }
 

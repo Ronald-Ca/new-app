@@ -23,7 +23,10 @@ export default function Contact() {
 	]
 
 	return (
-		<div className="min-h-screen-header-footer px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900 to-slate-800 flex items-center justify-center">
+		<div className="
+			min-h-screen-header-footer px-4 sm:px-6 lg:px-8 bg-gradient-to-b 
+			from-slate-900 to-slate-800 flex items-center justify-center
+		">
 			<div className="max-w-7xl mx-auto pt-28 md:pt-24 sm:pt-2 w-full pb-24">
 				<motion.div
 					initial={{ opacity: 0, y: -20 }}
@@ -32,8 +35,10 @@ export default function Contact() {
 					className="text-center mb-12"
 				>
 					<h1
-						className="font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent
-						text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight md:leading-tight"
+						className="
+						font-bold bg-gradient-to-r from-cyan-400 to-blue-500
+						bg-clip-text text-transparent text-2xl xs:text-3xl 
+						sm:text-4xl md:text-5xl lg:text-6xl leading-tight md:leading-tight"
 						style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
 					>
 						Vamos Conversar?
@@ -41,13 +46,15 @@ export default function Contact() {
 				</motion.div>
 
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start w-full">
-					{/* Cartão de info social */}
 					<motion.div
 						initial={{ opacity: 0, x: -20 }}
 						animate={{ opacity: 1, x: 0 }}
 						transition={{ duration: 0.5, delay: 0.2 }}
 					>
-						<Card className="bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700 overflow-hidden">
+						<Card className="
+							bg-gradient-to-br from-slate-800 to-slate-900
+							border-slate-700 overflow-hidden
+							">
 							<CardHeader className="pb-4">
 								<CardTitle className="text-2xl font-bold text-white">Informações de Contato</CardTitle>
 								<CardDescription className="text-slate-400">
@@ -60,13 +67,19 @@ export default function Contact() {
 										<a
 											key={index}
 											href={link.url}
-											className="flex items-center gap-4 p-3 rounded-lg bg-slate-800/50 border border-slate-700 hover:border-cyan-500/50 transition-all group"
-										>
+											className="
+											flex items-center gap-4 p-3 rounded-lg 
+											bg-slate-800/50 border border-slate-700 
+											hover:border-cyan-500/50 transition-all group
+										">
 											<div className={`${link.color} p-2 rounded-md text-white`}>{link.icon}</div>
 											<div className="flex-1">
 												<p className="font-medium text-white">{link.name}</p>
 											</div>
-											<ArrowRight className="h-4 w-4 text-slate-500 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
+											<ArrowRight className="
+												h-4 w-4 text-slate-500 group-hover:text-cyan-400 
+												group-hover:translate-x-1 transition-all
+											"/>
 										</a>
 									))}
 								</div>
@@ -85,7 +98,6 @@ export default function Contact() {
 						</Card>
 					</motion.div>
 
-					{/* Cartão de formulário */}
 					<Card className="bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700">
 						<CardHeader className="pb-4">
 							<CardTitle className="text-2xl font-bold text-white">Envie uma Mensagem</CardTitle>
