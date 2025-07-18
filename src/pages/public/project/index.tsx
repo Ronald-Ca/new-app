@@ -14,18 +14,18 @@ export default function Projects() {
 
 	return (
 		<div className="
-			min-h-screen-header-footer py-16 px-4 sm:px-6 lg:px-8 
+			min-h-screen-header-footer py-24 px-2 sm:px-6 lg:px-8 
 			flex justify-center items-center bg-gradient-to-r 
 			from-slate-900 via-indigo-950 to-blue-950 
 			animate-gradient-move
 		">
-			<div className="max-w-7xl mx-auto">
+			<div className="w-full max-w-3xl mx-auto">
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 0.5, delay: 0.2 }}
 				>
-					<Carousel className="w-full max-w-md mx-auto">
+					<Carousel className="w-full max-w-lg sm:max-w-xl md:max-w-2xl mx-auto">
 						<CarouselContent>
 							{projects &&
 								projects.map((project, index) => (

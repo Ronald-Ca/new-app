@@ -1,6 +1,8 @@
 import FormLogin from "@app/components/form/form-login";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@app/components/ui/card";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom"
+import { MdArrowBack } from "react-icons/md"
 
 export default function Login() {
 	return (
@@ -16,8 +18,13 @@ export default function Login() {
 						<Card className="
 							border-slate-800 bg-gradient-to-b from-slate-900 
 							to-slate-950 shadow-2xl shadow-cyan-500/10
+							relative
 						">
-							<CardHeader className="space-y-1 pb-4">
+							<Link to="/" className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-800/80 hover:bg-slate-800 text-cyan-400 font-semibold shadow transition-colors text-sm z-10">
+								<MdArrowBack className="w-5 h-5" />
+								Voltar ao início
+							</Link>
+							<CardHeader className="space-y-1 pb-4 pt-14">
 								<CardTitle className="text-2xl font-bold text-center text-white">
 									Bem-vindo de volta
 								</CardTitle>
@@ -29,11 +36,11 @@ export default function Login() {
 								<FormLogin />
 							</CardContent>
 						</Card>
-					</motion.div>
 
-					<div className="mt-8 text-center text-sm text-slate-500">
-						<p>© {new Date().getFullYear()} Ronald Camargo. Todos os direitos reservados.</p>
-					</div>
+						<div className="mt-8 text-center text-sm text-slate-500">
+							<p>© {new Date().getFullYear()} Ronald Camargo. Todos os direitos reservados.</p>
+						</div>
+					</motion.div>
 				</div>
 			</div>
 		</div>
