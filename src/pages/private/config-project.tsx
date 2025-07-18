@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import { IoIosAdd, IoIosClose } from 'react-icons/io'
 import { useQueryClient } from '@tanstack/react-query'
+import { ConfigProjectSkeleton } from '@app/components/common/skeleton/config-project-skeleton'
 
 export default function ConfigProject() {
 	const { setAlert } = useAlert()
@@ -27,7 +28,7 @@ export default function ConfigProject() {
 		setIsOpen(true)
 	}
 
-	const { data: projects } = useGetProjectsQuery()
+	const { data: projects, isLoading } = useGetProjectsQuery()
 
 	const createProject = useCreateProjectMutation({
 		onSuccess: () => {
@@ -60,6 +61,8 @@ export default function ConfigProject() {
 	}
 
 	const isMutating = createProject.isLoading || updateProject.isLoading
+
+	if (isLoading) return <ConfigProjectSkeleton />
 
 	return (
 		<div className="min-h-full">

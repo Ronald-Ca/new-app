@@ -1,5 +1,5 @@
 import FormSocialMedia from '@app/components/form/form-social-media'
-import { Card, CardContent, CardHeader, CardTitle } from '@app/components/ui/card'
+import { Card, CardHeader, CardTitle } from '@app/components/ui/card'
 import { Button } from '@app/components/ui/button'
 import { useAlert } from '@app/contexts/alert-context'
 import { useCreateSocialMediaMutation, useGetSocialMediaQuery, useUpdateSocialMediaMutation } from '@app/queries/social-media'
@@ -10,6 +10,7 @@ import { IoIosAdd } from 'react-icons/io'
 import { IoMdClose } from 'react-icons/io'
 import { useQueryClient } from '@tanstack/react-query'
 import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
+import { ConfigSocialMediaSkeleton } from '@app/components/common/skeleton/config-social-media-skeleton'
 
 export default function ConfigSocialMedia() {
 	const { setAlert } = useAlert()
@@ -28,7 +29,7 @@ export default function ConfigSocialMedia() {
 		setIsOpen(true)
 	}
 
-	const { data: socialMedia } = useGetSocialMediaQuery()
+	const { data: socialMedia, isLoading } = useGetSocialMediaQuery()
 
 	const createSocialMedia = useCreateSocialMediaMutation({
 		onSuccess: () => {
@@ -61,6 +62,8 @@ export default function ConfigSocialMedia() {
 	}
 
 	const isMutating = createSocialMedia.isLoading || updateSocialMedia.isLoading
+
+	if (isLoading) return <ConfigSocialMediaSkeleton />
 
 	return (
 		<div className="min-h-full">
@@ -109,10 +112,6 @@ export default function ConfigSocialMedia() {
 								{media.name}
 							</CardTitle>
 						</CardHeader>
-						<CardContent className="flex flex-col items-center justify-center pb-2 px-3">
-							{/* Exemplo de badge para tipo se houver: */}
-							{/* <Badge variant="outline" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/30 text-xs mt-2">Instagram</Badge> */}
-						</CardContent>
 					</Card>
 				))}
 				<Card
@@ -188,7 +187,6 @@ export default function ConfigSocialMedia() {
 						<Button
 							variant="destructive"
 							className="pt-1 pb-1 pl-2 pr-2 rounded-sm bg-red-600 hover:bg-red-700 text-white"
-							// onClick={handleDeleteSocialMedia} // Implemente a função de exclusão real
 							disabled
 						>
 							Excluir

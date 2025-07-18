@@ -59,8 +59,6 @@ export default function ConfigCurriculum() {
 		},
 	})
 
-	const isMutating = createCurriculum.isLoading || updateCurriculum.isLoading
-
 	const handleSave = () => {
 		if (curriculum?.curriculum) {
 			updateCurriculum.mutate({ curriculum: file as File, fileName: fileName as string, id: curriculum.id })
@@ -77,6 +75,8 @@ export default function ConfigCurriculum() {
 			}
 		}
 	}, [curriculum])
+
+	const isMutating = createCurriculum.isLoading || updateCurriculum.isLoading
 
 	if (isLoading) return <ConfigCurriculumSkeleton />
 

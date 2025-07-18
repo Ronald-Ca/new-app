@@ -25,7 +25,6 @@ import {
 } from "@radix-ui/react-alert-dialog"
 import { IoClose } from "react-icons/io5"
 import { Button } from "@app/components/ui/button"
-import { Skeleton } from "@app/components/ui/skeleton"
 import { TruncatedName } from "@app/components/common/truncate-tooltip/truncate-name"
 import { Badge } from "@app/components/ui/badge"
 import { AlertDialogFooter, AlertDialogHeader } from "@app/components/ui/alert-dialog"
@@ -40,7 +39,7 @@ export default function ConfigExperience() {
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
 	const { data: experiences, isLoading } = useGetExperienceQuery()
-	const { data: skills } = useGetSkillsQuery()
+	const { data: skills, isLoading: isLoadingSkills } = useGetSkillsQuery()
 
 	const createExperience = useCreateExperienceMutation({
 		onSuccess: () => {
@@ -72,8 +71,6 @@ export default function ConfigExperience() {
 		}
 	}
 
-	const isMutating = createExperience.isLoading || updateExperience.isLoading
-
 	const handleEditClick = (experience: ExperienceType, e: React.MouseEvent) => {
 		e.stopPropagation()
 		setSelectedExperience(experience)
@@ -102,7 +99,9 @@ export default function ConfigExperience() {
 		return `${start} - ${end}`
 	}
 
-	if (isLoading) return <ConfigExperienceSkeleton />
+	const isMutating = createExperience.isLoading || updateExperience.isLoading
+
+	if (isLoading || isLoadingSkills) return <ConfigExperienceSkeleton />
 
 	return (
 		<div className="min-h-full">
@@ -124,154 +123,133 @@ export default function ConfigExperience() {
 				</Button>
 			</div>
 
-			{isLoading ? (
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{[1, 2, 3].map((i) => (
-						<Card key={i} className="bg-[#070b14] border border-[#1e2a4a]">
-							<CardHeader className="pb-2">
-								<Skeleton className="h-6 w-3/4" />
-							</CardHeader>
-							<CardContent>
-								<div className="space-y-2">
-									<Skeleton className="h-4 w-full" />
-									<Skeleton className="h-4 w-2/3" />
-								</div>
-							</CardContent>
-							<CardFooter>
-								<Skeleton className="h-8 w-20" />
-							</CardFooter>
-						</Card>
-					))}
-				</div>
-			) : (
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{experiences &&
-						experiences.map((experience: ExperienceType) => (
-							<Card
-								key={experience.id}
-								onClick={() => handleCardClick(experience)}
-								className="
-								bg-[#070b14] border border-[#1e2a4a] hover:border-cyan-500/50 
-								transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 
-								cursor-pointer group overflow-hidden"
-							>
-								<div className="
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{experiences &&
+					experiences.map((experience: ExperienceType) => (
+						<Card
+							key={experience.id}
+							onClick={() => handleCardClick(experience)}
+							className="
+							bg-[#070b14] border border-[#1e2a4a] hover:border-cyan-500/50 
+							transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 
+							cursor-pointer group overflow-hidden"
+						>
+							<div className="
 									absolute top-0 left-0 w-full h-1 
 									bg-gradient-to-r from-cyan-500 to-blue-600 
 									transform origin-left scale-x-0 
 									group-hover:scale-x-100 transition-transform duration-300"></div>
 
-								<CardHeader className="pb-2">
-									<CardTitle className="
+							<CardHeader className="pb-2">
+								<CardTitle className="
 										text-xl font-semibold text-gray-100 
 										group-hover:text-cyan-400 transition-colors"
-									>
-										<TruncatedName name={experience.company} maxLength={25} tooltipSide="top" />
-									</CardTitle>
-									<p className="text-cyan-500/70 text-sm font-medium">{experience.role}</p>
-								</CardHeader>
+								>
+									<TruncatedName name={experience.company} maxLength={25} tooltipSide="top" />
+								</CardTitle>
+								<p className="text-cyan-500/70 text-sm font-medium">{experience.role}</p>
+							</CardHeader>
 
-								<CardContent>
-									<div className="space-y-3 text-gray-400">
-										<p className="flex items-center gap-2">
-											<span className="text-cyan-500/70">Período:</span>{" "}
-											{formatPeriod(
-												experience.mothInitial,
-												experience.yearInitial,
-												experience.mothFinal,
-												experience.yearFinal,
-											)}
-										</p>
-
-										{experience.activities && experience.activities.length > 0 && (
-											<div>
-												<p className="text-cyan-500/70 mb-1">Atividades:</p>
-												<ul className="list-disc list-inside text-sm space-y-1 pl-1">
-													{experience.activities.slice(0, 2).map((activity, idx) => (
-														<li key={idx} className="text-gray-300">
-															<TruncatedName name={activity} maxLength={40} tooltipSide="right" showIcon={false} />
-														</li>
-													))}
-													{experience.activities.length > 2 && (
-														<li className="text-gray-400 italic text-xs">
-															+ {experience.activities.length - 2} atividades...
-														</li>
-													)}
-												</ul>
-											</div>
+							<CardContent>
+								<div className="space-y-3 text-gray-400">
+									<p className="flex items-center gap-2">
+										<span className="text-cyan-500/70">Período:</span>{" "}
+										{formatPeriod(
+											experience.mothInitial,
+											experience.yearInitial,
+											experience.mothFinal,
+											experience.yearFinal,
 										)}
+									</p>
 
-										{experience.experienceSkill && experience.experienceSkill.length > 0 && (
-											<div className="flex flex-wrap gap-1 pt-1">
-												{experience.experienceSkill.slice(0, 3).map((skill, idx) => {
-													const matchedSkill = skills?.find((s) => s.id === skill.skillId);
-													return (
-														<Badge
-															key={idx}
-															variant="outline"
-															className="bg-cyan-500/10 text-cyan-400 border-cyan-500/30 text-xs"
-														>
-															{matchedSkill ? matchedSkill.name : "Desconhecido"}
-														</Badge>
-													);
-												})}
-												{experience.experienceSkill.length > 3 && (
-													<Badge
-														variant="outline"
-														className="bg-gray-500/10 text-gray-400 border-gray-500/30 text-xs"
-													>
-														+{experience.experienceSkill.length - 3}
-													</Badge>
+									{experience.activities && experience.activities.length > 0 && (
+										<div>
+											<p className="text-cyan-500/70 mb-1">Atividades:</p>
+											<ul className="list-disc list-inside text-sm space-y-1 pl-1">
+												{experience.activities.slice(0, 2).map((activity, idx) => (
+													<li key={idx} className="text-gray-300">
+														<TruncatedName name={activity} maxLength={40} tooltipSide="right" showIcon={false} />
+													</li>
+												))}
+												{experience.activities.length > 2 && (
+													<li className="text-gray-400 italic text-xs">
+														+ {experience.activities.length - 2} atividades...
+													</li>
 												)}
-											</div>
-										)}
-									</div>
-								</CardContent>
+											</ul>
+										</div>
+									)}
 
-								<CardFooter className="flex justify-end gap-2">
-									<Button
-										size="sm"
-										variant="ghost"
-										className="text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
-										onClick={(e) => handleEditClick(experience, e)}
-									>
-										<FaEdit size={16} />
-									</Button>
-									<Button
-										size="sm"
-										variant="ghost"
-										className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
-										onClick={(e) => handleDeleteClick(experience, e)}
-									>
-										<FaTrash size={16} />
-									</Button>
-								</CardFooter>
-							</Card>
-						))}
+									{experience.experienceSkill && experience.experienceSkill.length > 0 && (
+										<div className="flex flex-wrap gap-1 pt-1">
+											{experience.experienceSkill.slice(0, 3).map((skill, idx) => {
+												const matchedSkill = skills?.find((s) => s.id === skill.skillId);
+												return (
+													<Badge
+														key={idx}
+														variant="outline"
+														className="bg-cyan-500/10 text-cyan-400 border-cyan-500/30 text-xs"
+													>
+														{matchedSkill ? matchedSkill.name : "Desconhecido"}
+													</Badge>
+												);
+											})}
+											{experience.experienceSkill.length > 3 && (
+												<Badge
+													variant="outline"
+													className="bg-gray-500/10 text-gray-400 border-gray-500/30 text-xs"
+												>
+													+{experience.experienceSkill.length - 3}
+												</Badge>
+											)}
+										</div>
+									)}
+								</div>
+							</CardContent>
 
-					<Card
-						onClick={handleAddClick}
-						className="
+							<CardFooter className="flex justify-end gap-2">
+								<Button
+									size="sm"
+									variant="ghost"
+									className="text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10"
+									onClick={(e) => handleEditClick(experience, e)}
+								>
+									<FaEdit size={16} />
+								</Button>
+								<Button
+									size="sm"
+									variant="ghost"
+									className="text-gray-400 hover:text-red-400 hover:bg-red-500/10"
+									onClick={(e) => handleDeleteClick(experience, e)}
+								>
+									<FaTrash size={16} />
+								</Button>
+							</CardFooter>
+						</Card>
+					))}
+
+				<Card
+					onClick={handleAddClick}
+					className="
 						bg-[#070b14] border border-dashed border-[#1e2a4a] hover:border-cyan-500/50 
 						transition-all duration-300 flex items-center justify-center 
 						h-[250px] cursor-pointer group"
-					>
-						<div className="
+				>
+					<div className="
 							flex flex-col items-center justify-center gap-3 
 							text-gray-500 group-hover:text-cyan-400 transition-colors"
-						>
-							<div className="
+					>
+						<div className="
 								w-16 h-16 rounded-full bg-[#0c1220] flex 
 								items-center justify-center group-hover:bg-cyan-500/10 
 								transition-colors"
-							>
-								<IoIosAdd size={40} className="transition-transform group-hover:scale-110 duration-300" />
-							</div>
-							<p className="font-medium">Adicionar Experiência</p>
+						>
+							<IoIosAdd size={40} className="transition-transform group-hover:scale-110 duration-300" />
 						</div>
-					</Card>
-				</div>
-			)}
+						<p className="font-medium">Adicionar Experiência</p>
+					</div>
+				</Card>
+			</div>
 
 			<Dialog open={isOpen} onOpenChange={setIsOpen}>
 				<DialogContent
