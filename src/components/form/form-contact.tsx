@@ -8,6 +8,9 @@ import { Button } from "../ui/button"
 import { IoPersonOutline } from "react-icons/io5"
 import { MdAlternateEmail } from "react-icons/md"
 import { AiOutlineSend } from "react-icons/ai"
+import { useState } from 'react';
+import { ContactRequest, sendContact } from "@app/services/contact-service"
+import { useAlert } from "@app/contexts/alert-context"
 
 export default function FormContact() {
     const form = useForm({
@@ -19,8 +22,42 @@ export default function FormContact() {
             message: "",
         },
     })
+    const [loading, setLoading] = useState(false);
+    const { setAlert } = useAlert();
 
-    const onSubmit = () => {
+    const onSubmit = async (data: ContactRequest) => {
+        setLoading(true);
+        try {
+            await sendContact({
+                name: data.name,
+                email: data.email,
+                message: data.message,
+                phone: data.phone,
+                subject: data.subject,
+            });
+            setAlert({
+                title: "Sucesso!",
+                message: "Mensagem enviada com sucesso!",
+                type: "success"
+            });
+            form.reset();
+        } catch (err: any) {
+            if (err.response?.status === 429) {
+                setAlert({
+                    title: "Limite atingido",
+                    message: "Você atingiu o limite de mensagens. Tente novamente mais tarde.",
+                    type: "error"
+                });
+            } else {
+                setAlert({
+                    title: "Erro",
+                    message: "Erro ao enviar mensagem. Tente novamente.",
+                    type: "error"
+                });
+            }
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -45,7 +82,9 @@ export default function FormContact() {
                                 <Input
                                     {...field}
                                     placeholder="Seu nome completo"
-                                    className="bg-slate-800/50 border-slate-700 focus:border-cyan-500 focus:ring-cyan-500/20 text-white"
+                                    className="
+                                    bg-slate-800/50 border-slate-700 focus:border-cyan-500 
+                                    focus:ring-cyan-500/20 text-white"
                                 />
                             </FormControl>
                             <FormMessage />
@@ -67,7 +106,11 @@ export default function FormContact() {
                                     <Input
                                         {...field}
                                         placeholder="(00) 00000-0000"
-                                        className="bg-slate-800/50 border-slate-700 focus:border-cyan-500 focus:ring-cyan-500/20 text-white"
+                                        maxLength={15}
+                                        className="
+                                        bg-slate-800/50 border-slate-700 focus:border-cyan-500 
+                                        focus:ring-cyan-500/20 text-white
+                                        "
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -89,7 +132,9 @@ export default function FormContact() {
                                         {...field}
                                         type="email"
                                         placeholder="seu.email@exemplo.com"
-                                        className="bg-slate-800/50 border-slate-700 focus:border-cyan-500 focus:ring-cyan-500/20 text-white"
+                                        className="
+                                        bg-slate-800/50 border-slate-700 focus:border-cyan-500 
+                                        focus:ring-cyan-500/20 text-white"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -111,7 +156,9 @@ export default function FormContact() {
                                 <Input
                                     {...field}
                                     placeholder="Assunto da mensagem"
-                                    className="bg-slate-800/50 border-slate-700 focus:border-cyan-500 focus:ring-cyan-500/20 text-white"
+                                    className="
+                                    bg-slate-800/50 border-slate-700 focus:border-cyan-500 
+                                    focus:ring-cyan-500/20 text-white"
                                 />
                             </FormControl>
                             <FormMessage />
@@ -132,7 +179,9 @@ export default function FormContact() {
                                 <Textarea
                                     {...field}
                                     placeholder="Escreva sua mensagem aqui..."
-                                    className="bg-slate-800/50 border-slate-700 focus:border-cyan-500 focus:ring-cyan-500/20 text-white min-h-[120px]"
+                                    className="
+                                    bg-slate-800/50 border-slate-700 focus:border-cyan-500 
+                                    focus:ring-cyan-500/20 text-white min-h-[120px]"
                                 />
                             </FormControl>
                             <FormMessage />
@@ -142,9 +191,12 @@ export default function FormContact() {
 
                 <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-medium py-6"
+                    className="
+                    w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 
+                    hover:to-blue-700 text-white font-medium py-6"
+                    disabled={loading}
                 >
-                    Enviar Mensagem
+                    {loading ? 'Enviando...' : 'Enviar Mensagem'}
                     <AiOutlineSend className="ml-2 h-4 w-4" />
                 </Button>
             </motion.form>

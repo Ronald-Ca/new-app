@@ -17,7 +17,11 @@ export default function Header() {
   ]
 
   return (
-    <header className="w-full flex justify-between items-center bg-gradient-to-r from-slate-900 to-slate-800 px-8 py-4 border-b border-slate-700 fixed top-0 z-50">
+    <header className="
+      w-full flex justify-between items-center 
+      bg-gradient-to-r from-slate-900 to-slate-800
+      px-8 py-4 border-b border-slate-700 fixed top-0 z-40"
+    >
       <div
         className="flex flex-col justify-center items-center p-3 bg-default rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 relative overflow-hidden cursor-pointer"
         onClick={() => window.history.pushState(null, '', '/')}
