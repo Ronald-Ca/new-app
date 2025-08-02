@@ -10,6 +10,15 @@ export default defineConfig({
 		emptyOutDir: true,
 		outDir: './build',
 		chunkSizeWarningLimit: 1000,
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					vendor: ['react', 'react-dom', 'react-router-dom'],
+					ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-select', '@radix-ui/react-tabs'],
+					utils: ['axios', '@tanstack/react-query', 'react-hook-form', 'zod'],
+				},
+			},
+		},
 	},
 	server: {
 		host: true,

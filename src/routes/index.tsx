@@ -1,18 +1,23 @@
-import ProtectedPage from '../components/page/protected-page'
-import Login from '../pages/login'
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Thanks from '../pages/thanks'
-import NotFound from '../pages/not-found';
-import Home from '@app/pages/public/home'
-import Config from '@app/pages/private'
-import About from '@app/pages/public/about'
-import Skills from '@app/pages/public/skill';
-import Projects from '@app/pages/public/project';
-import Contact from '@app/pages/public/contact';
+
+const ProtectedPage = lazy(() => import('../components/page/protected-page'))
+const Login = lazy(() => import('../pages/login'))
+const Thanks = lazy(() => import('../pages/thanks'))
+const NotFound = lazy(() => import('../pages/not-found'))
+const Home = lazy(() => import('@app/pages/public/home'))
+const Config = lazy(() => import('@app/pages/private'))
+const About = lazy(() => import('@app/pages/public/about'))
+const Skills = lazy(() => import('@app/pages/public/skill'))
+const Projects = lazy(() => import('@app/pages/public/project'))
+const Contact = lazy(() => import('@app/pages/public/contact'))
+
+const LoadingFallback = lazy(() => import('../components/common/loading'))
 
 export default function App() {
 	return (
-		<Routes>
+		<Suspense fallback={<LoadingFallback />}>
+			<Routes>
 			<Route path="/login" element={<Login />} />
 			<Route path="/config" element={<Config />} />
 			<Route path="/thanks" element={<Thanks />} />
@@ -26,6 +31,7 @@ export default function App() {
 				<Route path="projects" element={<Projects />} />
 				<Route path="contact" element={<Contact />} />
 			</Route>
-		</Routes>
+			</Routes>
+		</Suspense>
 	)
 }
